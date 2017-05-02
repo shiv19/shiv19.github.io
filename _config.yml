@@ -19,17 +19,17 @@ avatar: https://avatars.githubusercontent.com/shiv19
 footer-links:
   dribbble:
   email: contact@shivaprasad.me
-  facebook: fb.com/shivgamer007
+  facebook: shivgamer007
   flickr:
   github: shiv19
-  instagram: https://www.instagram.com/shivgamer007/
-  linkedin: https://www.linkedin.com/in/multishiv19/
+  instagram: shivgamer007
+  linkedin: multishiv19
   pinterest:
-  rss: rssFeed# just type anything here for a working RSS icon
+  rss: rssFeed
   twitter: MultiShiv19
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
-  youtube: user/multishiv19# channel/<your_long_string> or user/<user-name>
-  googleplus: +ShivaPrasad19# anything in your profile username that comes after plus.google.com/
+  youtube: user/multishiv19
+  googleplus: +ShivaPrasad19
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
