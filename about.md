@@ -2,14 +2,15 @@
 layout: page
 title: About
 permalink: /about/
+published: true
 ---
 
-Some information about you!
+Hi! I'm Shiva Prasad, A Tech Enthusiast from India.
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
+I'm Studying 8th Semester in Computer Science and Engineering at Acharya Institute of Technology, Bangalore.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[contact@shivaprasad.me](mailto:contact@shivaprasad.me)
