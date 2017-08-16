@@ -2,7 +2,7 @@
 layout: post
 title: Guess the Word Game
 date: 2015-11-15 14:06
-author: sp@multishiv19
+author: multishiv19
 comments: true
 categories: [Guessing, PC game, Projects, PyGame, Python]
 ---

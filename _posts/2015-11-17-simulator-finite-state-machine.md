@@ -2,7 +2,7 @@
 layout: post
 title: Finite State Machine Simulator
 date: 2015-11-17 20:19
-author: sp@multishiv19
+author: multishiv19
 comments: true
 categories: [finite state machine, Projects, simulator]
 ---

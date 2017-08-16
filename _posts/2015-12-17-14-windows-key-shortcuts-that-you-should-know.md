@@ -2,7 +2,7 @@
 layout: post
 title: 14 Windows Key Shortcuts That You Should Know
 date: 2015-12-17 08:16
-author: sp@multishiv19
+author: multishiv19
 comments: true
 categories: [keyboard, keyboard language, lock computer, magnifier, minimize maximize, on-screen keyboard, Projection Settings, shortcuts, Super Menu, system info, Tips, Windows]
 ---

@@ -2,7 +2,7 @@
 layout: post
 title: BattleShip Game
 date: 2015-11-15 05:09
-author: sp@multishiv19
+author: multishiv19
 comments: true
 categories: [Online Game, Projects, PyGame, Python]
 ---

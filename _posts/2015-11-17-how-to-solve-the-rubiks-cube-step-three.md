@@ -2,7 +2,7 @@
 layout: post
 title: How to Solve the Rubiks Cube - Step Three
 date: 2015-11-17 11:49
-author: sp@multishiv19
+author: multishiv19
 comments: true
 categories: [How to, Rubik's Cube, SpeedCubing, Youtube]
 ---
