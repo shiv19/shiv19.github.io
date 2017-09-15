@@ -7,7 +7,7 @@ comments: true
 categories: [nativescript, nativescript-google-maps-sdk, workaround]
 ---
 
-Note: This is a workaround, not a fix
+Learn how to fix the app crash caused by using map view of nativescript-google-maps-sdk inside a TabView
 
 https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048
 
