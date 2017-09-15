@@ -19,6 +19,7 @@ The following instructions assume that you have installed nativescript-google-ma
 and you are using it in a tab view, and because of this, when you resume your app from recents tab on android, and navigate to the tab containing the map, the app crashes.
 
 Step 1: Install nativescript-accordion
+
 `tns plugin add nativescript-accordion`
 
 Step 2: In the xml file where you are using the map make sure these 2 xml namespaces are present
