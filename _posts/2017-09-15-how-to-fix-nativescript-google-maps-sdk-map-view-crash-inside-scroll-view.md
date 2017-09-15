@@ -13,7 +13,7 @@ https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048
 
 After seeing this comment, I tried to fork the nativescript-google-maps-sdk plugin and fix the issue, but even after following it, I faced the same error.
 
-Luckily, I came up with a workaroud, I'm sharing it here so that it'll be useful for someone someday,
+Luckily, I came up with a workaround, I'm sharing it here so that it'll be useful for someone someday,
 
 The following instructions assume that you have installed nativescript-google-maps-sdk,
 and you are using it in a tab view, and because of this, when you resume your app from recents tab on android, and navigate to the tab containing the map, the app crashes.
