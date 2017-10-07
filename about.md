@@ -9,7 +9,7 @@ Hi! I'm Shiva Prasad, A Tech Enthusiast from India.
 
 ### More Information
 
-I'm Studying 8th Semester in Computer Science and Engineering at Acharya Institute of Technology, Bangalore.
+I'm currently working as Lead Software Developer at Bfit Technologies, and Technology and Product Lead at Jyopal Technologies.
 
 ### Contact me
 
