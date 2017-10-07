@@ -9,7 +9,7 @@ categories: [nativescript, nativescript-google-maps-sdk, workaround]
 
 Learn how to fix the app crash caused by using map view of nativescript-google-maps-sdk inside a TabView
 
-https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048
+[https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048](https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048)
 
 After seeing this comment, I tried to fork the nativescript-google-maps-sdk plugin and fix the issue, but even after following it, I faced the same error.
 
@@ -92,6 +92,5 @@ only now, it doesn't crash the same way.
 
 Screen shot: 
 
-![sample](https://user-images.githubusercontent.com/9407019/30485183-47c8926c-9a4a-11e7-9480-e6848f0cebfd.jpeg)
-
+<img src="https://user-images.githubusercontent.com/9407019/30485183-47c8926c-9a4a-11e7-9480-e6848f0cebfd.jpeg" height="320" >
 
