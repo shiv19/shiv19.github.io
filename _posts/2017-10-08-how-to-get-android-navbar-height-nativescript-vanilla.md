@@ -14,8 +14,9 @@ Android provides many different form factors. Of which, some devices come with o
 Now, the problem with that is when you want to programmatically setup some absolute layout in code, you need to 
 find out the height of the on screen navigation bar (if present), and sometimes also height or action bar and status bar.
 
-With NativeScript, this code -> `android.view.ViewConfiguration.get(ad.getApplicationContext()).hasPermanentMenuKey()` 
-returns `false` on devices like _Samsung Galaxy Note5_, and _Galaxy J7_ (both having permanent menu key). 
+With NativeScript, this code -> 
+`android.view.ViewConfiguration.get(ad.getApplicationContext()).hasPermanentMenuKey()` 
+returns `false` on devices like _Samsung Galaxy Note5_, and _Galaxy J7_ (both having permanent menu key).
 I haven't tested this code on devices from other manufacturers who have permanent menu key.
 
 So, with a little help from [this](https://stackoverflow.com/questions/28983621/detect-soft-navigation-bar-availability-in-android-device-progmatically) StackOver flow question, I came up with this set of code, which is working correctly on all the devices that I've tested it with so far i.e., _note5_, _j7_ and _nexus6 on emulator_.
