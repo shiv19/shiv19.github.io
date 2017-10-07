@@ -15,7 +15,9 @@ Now, the problem with that is when you want to programmatically setup some absol
 find out the height of the on screen navigation bar (if present), and sometimes also height or action bar and status bar.
 
 With NativeScript, this code -> 
-`android.view.ViewConfiguration.get(ad.getApplicationContext()).hasPermanentMenuKey()` 
+```javascript
+android.view.ViewConfiguration.get(ad.getApplicationContext()).hasPermanentMenuKey()
+```
 returns `false` on devices like _Samsung Galaxy Note5_, and _Galaxy J7_ (both having permanent menu key).
 I haven't tested this code on devices from other manufacturers who have permanent menu key.
 
