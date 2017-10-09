@@ -65,4 +65,7 @@ function getNavBarHeight() {
 }
 ```
 
+Give it a try on playground!
+[Click Here](https://play.nativescript.org/?template=play-js&id=fm0tzR4yf00jiNG2txIC0)
+
 What are your thoughts on this method? Any suggestions to improve this code? Please comment below :smile:
