@@ -1,0 +1,734 @@
+<html>
+<head>
+<title>Battle Ship</title>
+<script src="embedskulptor.js"></script>
+</head>
+<body>
+<script>
+(function() {
+var options = {
+	"gui": {
+		"show": true
+	},
+	"console": {
+		"show": false
+	},
+	"code": {
+		"show": false
+	}
+};
+
+embedSkulptor(options,(function () {/*
+####################################################################################################
+# PASTE YOUR PYTHON CODE BELOW
+####################################################################################################
+# BATTLE SHIP
+# by Shiva Prasad
+# version : 1.0 (Stable)
+# last modified - 11:13 AM IST, 26/10/2014
+# SFX from SoundJay.com
+# Images hosted on BlogSpot
+###############################################################################################
+##This was all possible thanks to an anonymous commenter (wkm) who motivated me in the forums##
+###############################################################################################
+# link to forum post : https://class.coursera.org/interactivepython-005/forum/thread?thread_id=3646
+# link to console version :  http://www.codeskulptor.org/#user38_2TrgWS3bJS_10.py
+
+import simplegui
+from random import randint
+
+aud_tog = "on"
+sfx_tog = "on"
+def new_game():
+    if aud_tog == "on":
+        audio.play()
+    global state, opponent, exposed, exposed2, f_end_var, lplay1, lplay2, p1_ship_left, p2_ship_left
+    global friends, p1_pos, p2_pos, key_state, playing, sea, sea2, winner, flag, winflag, emptysea, emptylist
+    global p1_ships, p2_ships
+    winner = "none"
+    p1_ship_left = 0
+    p2_ship_left = 0
+    flag = False
+    winflag = 0
+    f_end_var = True
+    state = 0
+    key_state = 1
+    lplay1 = True
+    lplay2 = False
+    opponent = "Computer"
+    playing = 1
+    p1_ships = []
+    p2_ships = []
+    emptylist = []
+    p1_pos = [0, 0]
+    p2_pos = [0, 0]
+    friends = False
+    sea = []
+    sea2 = []
+    emptysea = []
+    for x in range(25):
+        sea.append(0)
+        sea2.append(0)
+        emptysea.append(0)
+    exposed = [False for num in range(0, 25)]   
+    exposed2 = [False for num in range(0, 25)] 
+       
+# Helper func for marking a location
+def mark(sea, ship_row, ship_col):
+    if ship_row == 1:
+        sea[ship_col - 1] = 'x'
+    elif ship_row == 2:
+        sea[4 + ship_col] = 'x'
+    elif ship_row == 3:
+        sea[9 + ship_col] = 'x'
+    elif ship_row == 4:
+        sea[14 + ship_col] = 'x'
+    else:
+        sea[19 + ship_col] = 'x'      
+        
+# Helper for opponent chooser
+def op_ret():
+    global opponent
+    if opponent == "Computer":
+       return computer_n
+    elif opponent == "Scott Rixner":
+       return s_r_n
+    elif opponent == "Joe Warren":
+       return j_w_n
+    elif opponent == "John Greiner":
+       return j_g_n
+    
+# Helper for winner img
+def op_win():
+    global winner
+    if winner == "Computer":
+       return computer_w
+    elif winner == "Scott Rixner":
+       return s_r_w
+    elif winner == "Joe Warren":
+       return j_w_w
+    elif winner == "John Greiner":
+       return j_g_w
+    elif winner == "You":
+       return you_w
+    elif winner == "Player 1":
+        return p1_w
+    elif winner == "Player 2":
+        return p2_w       
+    
+# Timer Handlers
+def front_end():
+    global f_end_var, lplay1, lplay2
+    if f_end_var:
+        lplay1 = True
+        lplay2 = False
+        f_end_var = False
+    else:
+        lplay1 = False
+        lplay2 = True
+        f_end_var = True       
+def ai_choice():
+    global flag, exposed2, sea2, winner, opponent, playing, friends, winflag, opponent, p1_ship_left
+    if flag:
+       if playing == 2 and not friends and winflag == 0:
+                         while True:
+                            click = randint(0, 24)
+                            if exposed2[click] == False:
+                                    exposed2[click] = True
+                                    if sea2[click] == "x":
+                                        p1_ship_left -= 1  
+                                        if p1_ship_left == 0:
+                                            winflag = 3
+                                        if sfx_tog == "on":
+                                            gun_fire2.play()
+                                    else:
+                                        if sfx_tog == "on":
+                                            no_ship.play()
+                                    playing = 1 
+                                    flag = False
+                                    break 
+def is_winner():
+    global winflag, winner, friends
+    if winflag == 1 and friends:
+        if sfx_tog == "on":
+            victory.play()
+        winner = "Player 1"
+    elif winflag == 1:
+        if sfx_tog == "on":
+            victory.play()
+        winner = "You"
+    elif winflag == 2:
+        if sfx_tog == "on":
+            victory.play()
+        winner = "Player 2"
+    elif winflag == 3:
+        if sfx_tog == "on":
+            victory.play()
+        winner = opponent
+        
+# Handler for mouse click
+def mouseclick(pos):
+    global playing, state, friends, opponent, exposed, exposed2, winner, emptysea, p2_ships, p1_ships
+    global sea2, p1_pos, p2_pos, sea, sea2, flag, winflag, p1_ship_left, p2_ship_left, sfx_tog, emptylist
+    if state == 0:
+        if sfx_tog == "on":
+            b1_a.play()
+        state = 1
+    elif state == 1:
+        if pos[0] in range(522, 556)\
+            and pos[1] in range(353 , 383):
+                if sfx_tog == "on":
+                    b2_a.play()
+                    state = 0
+        if pos[0] in range(125, 225) and pos[1] in range(50, 150):
+            #Marking Computer's Choice
+            while True:
+                a = randint(1, 5)
+                b = randint(1, 5)
+                if [a, b] not in p2_ships:
+                    p2_ships.append(list([a, b]))
+                    p2_ship_left += 1
+                if p2_ship_left == 3:
+                        break
+            opponent = "Computer"
+            p1_ship_left = 0
+            if sfx_tog == "on":
+                    b2_a.play()
+            state = 6
+        elif pos[0] in range(375, 450) and pos[1] in range(50, 150):
+            opponent = "Multi Player"
+            if sfx_tog == "on":
+                    b2_a.play()
+            friends = True
+            p2_ship_left = 0
+            p1_ship_left = 0
+            p2_ships = list(emptylist)
+            p1_ships = list(emptylist)
+            sea = list(emptysea)
+            sea2 = list(emptysea)
+            state = 2
+        elif pos[0] in range(100, 200) and pos[1] in range(250, 350):
+            #Marking Scott Rixner's Choice
+            while True:
+                a = randint(1, 5)
+                b = randint(1, 5)
+                if [a, b] not in p2_ships:
+                    p2_ships.append(list([a, b]))
+                    p2_ship_left += 1
+                if p2_ship_left == 3:
+                        break
+            opponent = "Scott Rixner"
+            p1_ship_left = 0
+            if sfx_tog == "on":
+                    b2_a.play()
+            state = 6
+        elif pos[0] in range(250, 350) and pos[1] in range(250, 350):
+            #Marking Joe Warren's Choice
+            while True:
+                a = randint(1, 5)
+                b = randint(1, 5)
+                if [a, b] not in p2_ships:
+                    p2_ships.append(list([a, b]))
+                    p2_ship_left += 1
+                if p2_ship_left == 3:
+                        break
+            opponent = "Joe Warren"
+            p1_ship_left = 0
+            if sfx_tog == "on":
+                    b2_a.play()
+            state = 6
+        elif pos[0] in range(400, 500) and pos[1] in range(250, 350):
+            #Marking John Greiner's Choice
+            while True:
+                a = randint(1, 5)
+                b = randint(1, 5)
+                if [a, b] not in p2_ships:
+                    p2_ships.append(list([a, b]))
+                    p2_ship_left += 1
+                if p2_ship_left == 3:
+                        break
+            opponent = "John Greiner"
+            p1_ship_left = 0
+            if sfx_tog == "on":
+                    b2_a.play()
+            state = 6    
+    elif state == 2:
+        if sfx_tog == "on":
+            b1_a.play()
+        state = 3
+    elif state == 3:
+        if pos[0] in range(490, 548)\
+            and pos[1] in range(34 ,64):
+                if sfx_tog == "on":
+                    b2_a.play()
+                exposed = [False for num in range(0, 25)]   
+                exposed2 = [False for num in range(0, 25)] 
+                p1_ships = []
+                p2_ships = []
+                p1_ship_left = 0
+                p2_ship_left = 0
+                friends = False
+                state = 1
+    elif state == 4:
+        if pos[0] in range(490, 548)\
+            and pos[1] in range(34 , 64):
+                if sfx_tog == "on":
+                    b2_a.play()
+                state = 3 
+                p1_ships = []
+                p2_ships = []
+                p1_ship_left = 0
+                p2_ship_left = 0
+    elif state == 5:
+        if pos[0] in range(490, 548)\
+            and pos[1] in range(354 , 383):
+                if sfx_tog == "on":
+                    b2_a.play()
+                    exposed = [False for num in range(0, 25)]   
+                    exposed2 = [False for num in range(0, 25)] 
+                    p1_ships = []
+                    p2_ships = []
+                    p1_ship_left = 0
+                    p2_ship_left = 0
+                    friends = False
+                    state = 1
+        if playing == 1 and winflag == 0:
+            width = 50
+            height = 50
+            for num in range(25):
+                    if num == 5 or num == 10 or\
+                    num == 15 or num == 20:
+                            height += 50
+                            width = 50
+                    if pos[0] in range(width, width+50) and pos[1] in range(height, height+50):
+                        if exposed[num] != True:
+                            exposed[num] = True 
+                            playing = 2
+                            if sea[num] == "x":
+                                p2_ship_left -= 1
+                                if p2_ship_left == 0:
+                                    winflag = 1
+                                if sfx_tog == "on":
+                                    gun_fire1.play()
+                            else:
+                                if sfx_tog == "on":
+                                    no_ship.play()
+                    width += 50
+                    flag = True  
+        elif playing == 2 and friends and winflag == 0:
+            width = 300
+            height = 50
+            for num in range(25):
+                    if num == 5 or num == 10 or\
+                    num == 15 or num == 20:
+                            height += 50
+                            width = 300
+                    if pos[0] in range(width, width+50) and pos[1] in range(height, height+50):
+                        if exposed2[num] != True:
+                            exposed2[num] = True 
+                            playing = 1
+                            if sea2[num] == "x":
+                                p1_ship_left -= 1
+                                if p1_ship_left == 0:
+                                    winflag = 2
+                                if sfx_tog == "on":
+                                    gun_fire2.play()
+                            else:
+                                if sfx_tog == "on":
+                                    no_ship.play()
+                    width += 50	
+    elif state == 6:
+            mark(sea, p2_ships[0][0], p2_ships[0][1])   
+            mark(sea, p2_ships[1][0], p2_ships[1][1])
+            mark(sea, p2_ships[2][0], p2_ships[2][1])
+            width = 300
+            height = 50
+            if pos[0] in range(490, 548)\
+            and pos[1] in range(334 , 363):
+                if sfx_tog == "on":
+                    b2_a.play()
+                    state = 1
+                    exposed = [False for num in range(0, 25)]   
+                    exposed2 = [False for num in range(0, 25)] 
+                    p1_ships = []
+                    p2_ships = []
+                    p1_ship_left = 0
+                    p2_ship_left = 0
+                    friends = False
+            if pos[0] in range(175 - (408/2), 230)\
+            and pos[1] in range(140 , 160):
+                sea2 = list(emptysea)  
+                p1_ship_left = 0
+                exposed2 = [False for num in range(0, 25)]
+                if sfx_tog == "on":
+                    b2_a.play()
+                
+            elif pos[0] in range(130, 215)\
+            and pos[1] in range(199 , 215) and p1_ship_left == 3:
+                exposed2 = [False for num in range(0, 25)]
+                if sfx_tog == "on":
+                    b1_a.play()
+                state = 5
+                
+            for num in range(25):
+                    if num == 5 or num == 10 or\
+                    num == 15 or num == 20:
+                            height += 50
+                            width = 300
+                    if pos[0] in range(width, width+50) and pos[1] in range(height, height+50):
+                            if exposed2[num] != True:
+                                if p1_ship_left < 3:
+                                    p1_ship_left += 1
+                                    sea2[num] = 'x'
+                                    exposed2[num] = True
+                                    ship_place.play()
+                    width += 50
+    if winner != "none" and pos[0] in range(59, 532) and pos[1] in range(13, 33):
+        new_game()
+                                                                     
+# Handler for key press                    
+def key_press(key):
+    global state, p1_pos, p2_pos, key_state, friends, sea, sea2, emptysea, p1_ship_left, p2_ship_left
+    global p1_ships, p2_ships
+    if state == 3:
+        count = 0
+        if key == simplegui.KEY_MAP['r']:
+            sea2 = list(emptysea)
+            p1_ships = []
+            p1_ship_left = 0
+        if key == simplegui.KEY_MAP['space'] and p1_ship_left == 3:
+            state = 4
+        if key_state == 1 and p1_ship_left < 3:
+            p1_pos[0] = key - 48
+            if p1_pos[0] in range(1, 6):
+                key_state = 2
+        elif key_state == 2 and p1_ship_left < 3:
+            p1_pos[1] = key - 48
+            if p1_pos[1] in range(1, 6) and p1_pos not in p1_ships:
+                p1_ships.append(list(p1_pos))
+                mark(sea2, p1_pos[0], p1_pos[1]) 
+                p1_ship_left += 1
+                key_state = 1
+            else:
+                key_state = 1
+       
+    elif state == 4:
+        count = 0
+        if key == simplegui.KEY_MAP['r']:
+            sea = list(emptysea)
+            p2_ships = []
+            p2_ship_left = 0
+        if key == simplegui.KEY_MAP['space'] and p2_ship_left == 3:
+            state = 5
+        if key_state == 1 and p2_ship_left < 3:
+            p2_pos[0] = key - 48
+            if p2_pos[0] in range(1, 6):
+                key_state = 2
+        elif key_state == 2 and p2_ship_left < 3:
+            p2_pos[1] = key - 48
+            if p2_pos[1] in range(1, 6) and p2_pos not in p2_ships:
+                p2_ships.append(list(p2_pos))          
+                mark(sea, p2_pos[0], p2_pos[1]) 
+                p2_ship_left += 1
+                key_state = 1
+
+# Handler for audio toggle and sfx toggle
+def toggle():
+    global aud_tog, audio
+    if aud_tog == "on":
+        audio.pause()
+        aud_tog = "off"
+    elif aud_tog == "off":
+        audio.play()
+        aud_tog = "on" 
+def toggle2():
+    global sfx_tog
+    if sfx_tog == "on":
+        aud_tog = "off"
+    elif sfx_tog == "off":
+        aud_tog = "on"         
+
+# Board Drawer
+def board(exposed, sea, init_width, init_height, close_cord, cc1, cc2, c, card_play):
+        global playing
+        for num in range(25):
+                    if exposed[num] == True:
+                        if str(sea[num]) == '0':
+                            img_draw(water, init_width, init_height, 0, 0, c)
+                        else:
+                            if init_width < 300:                
+                                img_draw(b_ship_l, init_width, init_height, 0, 0, c)
+                            else:
+                                img_draw(b_ship_r, init_width, init_height, 0, 0, c)
+                        init_width += 50
+                        for card in close_cord:
+                            card[0] += 50 
+                        if num == 4 or num == 9 or num == 14 or num == 19 or num == 24:
+                            init_height += 50
+                            init_width = cc1 + 25
+                            close_cord[0][0] = close_cord[3][0] =  cc1
+                            close_cord[1][0] = close_cord[2][0] =  cc2
+                            close_cord[0][1] += 50
+                            close_cord[1][1] += 50
+                            close_cord[2][1] += 50
+                            close_cord[3][1] += 50
+                            
+                    else:
+                        if card_play == 1:                
+                             img_draw(red_card, init_width, init_height, 0, 0, c)
+                        elif card_play == 2:
+                             img_draw(blue_card, init_width, init_height, 0, 0, c)
+                        init_width += 50
+                        for card in close_cord:
+                            card[0] += 50 
+                        if num == 4 or num == 9 or num == 14 or num == 19 or num == 24:
+                            init_height += 50
+                            init_width = cc1 + 25
+                            close_cord[0][0] = close_cord[3][0] =  cc1
+                            close_cord[1][0] = close_cord[2][0] =  cc2
+                            close_cord[0][1] += 50
+                            close_cord[1][1] += 50
+                            close_cord[2][1] += 50
+                            close_cord[3][1] += 50
+                            
+# Image Drawer
+def img_draw(img, cx, cy, dw, dh, c):
+    c.draw_image(img,(img.get_width()/2, img.get_height()/2), (img.get_width(), img.get_height()), (cx, cy), (img.get_width()-dw, img.get_height()-dh))                  
+    
+# Handler to draw on canvas
+def draw(c):
+    global state, opponent, exposed, exposed2, sea, sea2, winner, winflag
+    global lplay1, lplay2, p1_ship_left, p2_ship_left
+    c.draw_image(tank, (730 / 2, 410 / 2), (730, 410), (300, 200), (600, 400))
+    init_width = 75
+    init_height = 75
+    init_width2 = 325
+    close_cord = [[50, 50], [100, 50], [100, 100], [50, 100]]
+    close_cord2 = [[300, 50], [350, 50], [350, 100], [300, 100]]
+    if winner == "none":
+        if state == 0:
+            c.draw_image(frontend, (600 / 2, 345 / 2), (600, 345), (300, 200), (500, 300))
+            if lplay1:
+                c.draw_image(lpb1,(368/2, 76/2), (368, 76), (300, 380), (386, 76))
+                c.draw_image(click_start,(336/2, 59/2), (336, 59), (310, 30), (336, 59))
+            elif lplay2:
+                c.draw_image(lpb2,(368/2, 76/2), (368, 76), (300, 380), (386, 76))                        
+        if state == 1:
+            img_draw(choose_ai, 310, 30, 50, 15, c)
+            c.draw_image(bonus_options,(408/2, 64/2), (408, 64),(310, 220), (300, 47))
+            c.draw_image(computer, (500 / 2, 500 / 2), (500, 500), (175, 100), (100, 100))
+            img_draw(home, 540, 370, 0, 0, c)
+            
+            # img_draw function made my life easy <Made it on my own!>
+            img_draw(computer_n, 175, 155, 50, 15, c)
+            c.draw_image(multi, (225 / 2, 225 / 2), (225, 225), (425, 100), (100, 100))
+            img_draw(m_play, 425, 155, 50, 15, c)
+            c.draw_image(scott, (125 / 2, 150 / 2), (125, 150), (150, 300), (100, 100))
+            img_draw(s_r_n, 149, 350, 100, 20, c)
+            c.draw_image(joe, (174 / 2, 193 / 2), (174, 193), (300, 300), (100, 100))
+            img_draw(j_w_n, 300, 350, 80, 20, c)
+            c.draw_image(john, (180 / 2, 180 / 2), (180, 180), (450, 300), (100, 100))
+            img_draw(j_g_n, 450, 350, 100, 20, c)
+        if state == 2:
+            if opponent == "Computer":
+                img_draw(p_v_c, 310, 220, 0, 0, c)
+                img_draw(click_conti, 310, 260, 90, 30, c)
+            elif opponent == "Scott Rixner":
+                img_draw(p_v_sr, 310, 220, 0, 0, c)
+                img_draw(click_conti, 310, 260, 90, 30, c)
+            elif opponent == "Joe Warren":
+                img_draw(p_v_jw, 310, 220, 0, 0, c)
+                img_draw(click_conti, 310, 260, 90, 30, c)
+            elif opponent == "John Greiner":
+                img_draw(p_v_jg, 310, 220, 0, 0, c)
+                img_draw(click_conti, 310, 260, 90, 30, c)
+            elif opponent == "Multi Player":
+                img_draw(p_v_p, 310, 220, 0, 0, c)
+                img_draw(click_conti, 310, 260, 90, 30, c)
+        if state == 3:
+             img_draw(back_button, 520, 50, 320, 120, c)
+             img_draw(enter_p1, 305, 220, 340, 60, c)
+             img_draw(num_in_range, 305, 300, 270, 15, c)
+             img_draw(r_c_button, 500, 350, 50, 20, c)
+             if p1_ship_left == 1:
+                   img_draw(b_ship_r, 100, 370, 0, 0, c)
+             elif p1_ship_left == 2:
+                   img_draw(b_ship_r, 100, 370, 0, 0, c)
+                   img_draw(b_ship_r, 150, 370, 0, 0, c)
+             elif p1_ship_left == 3:
+                   img_draw(b_ship_r, 100, 370, 0, 0, c)
+                   img_draw(b_ship_r, 150, 370, 0, 0, c)
+                   img_draw(b_ship_r, 200, 370, 0, 0, c)
+                   img_draw(space_conti, 500, 370, 50, 20, c)           
+        if state == 4:
+            img_draw(back_button, 520, 50, 320, 120, c)
+            img_draw(enter_p2, 305, 220, 340, 60, c)
+            img_draw(num_in_range, 305, 300, 270, 15, c)
+            img_draw(r_c_button, 500, 350, 50, 20, c)
+            if p2_ship_left == 1:
+                   img_draw(b_ship_l, 100, 370, 0, 0, c)
+            elif p2_ship_left == 2:
+                   img_draw(b_ship_l, 100, 370, 0, 0, c)
+                   img_draw(b_ship_l, 150, 370, 0, 0, c)
+            elif p2_ship_left == 3:
+                   img_draw(b_ship_l, 100, 370, 0, 0, c)
+                   img_draw(b_ship_l, 150, 370, 0, 0, c)
+                   img_draw(b_ship_l, 200, 370, 0, 0, c)
+                   img_draw(space_conti, 500, 370, 0, 0, c) 
+        if state == 5:
+                if playing == 1 and not friends and winflag == 0:
+                    img_draw(you_n, 80, 30, 20, 20, c)
+                    img_draw(playing_1, 180, 35, 110, 35, c)
+                elif not friends and winflag == 0: 
+                    img_draw(you_n, 80, 30, 20, 20, c)
+                if playing == 1 and friends and winflag == 0:
+                    img_draw(p1_n, 100, 30, 40, 25, c)
+                    img_draw(playing_1, 200, 30, 110, 35, c)
+                elif friends and winflag == 0: 
+                    img_draw(p1_n, 100, 30, 40, 25, c)
+                board(exposed, sea, init_width, init_height, close_cord, 50, 100, c, 1)
+                if friends and playing == 2 and winflag == 0:
+                    img_draw(p2_n, 500, 30, 20, 20, c)
+                    img_draw(playing_2, 380, 35, 110, 35, c)
+                elif friends and winflag == 0:
+                    img_draw(p2_n, 500, 30, 20, 20, c)
+                if not friends and playing == 2 and winflag == 0:
+                    img_draw(op_ret(), 500, 30, 80, 20, c)
+                    img_draw(playing_2, 380, 35, 110, 35, c)
+                elif not friends and winflag == 0:
+                    img_draw(op_ret(), 500, 30, 80, 20, c)
+                init_height = 75
+                board(exposed2, sea2, init_width2, init_height, close_cord2, 300, 350, c, 2)
+                c.draw_text("Ships remaining(p1) : " + str(p1_ship_left), (50, 320), 20, "White")
+                c.draw_text("Ships remaining(p2) : " + str(p2_ship_left), (360, 320), 20, "White")
+                if p1_ship_left == 0:
+                    c.draw_text("You sank all my Battle Ships! :(", (50, 350), 18, "White")
+                elif p2_ship_left == 0 and friends:
+                    c.draw_text("You sank all my Battle Ships! :(", (300, 350), 18, "White")
+                if p1_ship_left == 0 and opponent == "Scott Rixner":
+                    c.draw_text("My Lucky tie did the trick! :)", (360, 350), 16, "White")
+                elif p1_ship_left == 0 and opponent == "Joe Warren":
+                    c.draw_text("I just love this game! :)", (360, 350), 18, "White")
+                elif p1_ship_left == 0 and opponent == "John Greiner":
+                    c.draw_text("Yeah! I win, good game! :)", (360, 350), 18, "White")
+                elif p1_ship_left == 0 and opponent == "Computer":
+                    c.draw_text("Better luck next time! :)", (360, 350), 18, "White")    
+                img_draw(back_button, 520, 370, 320, 120, c)
+        if state == 6:
+                board(exposed2, sea2, init_width2, init_height, close_cord2, 300, 350, c, 2)
+                img_draw(clear_entry, 175, 155, 0, 0, c)
+                c.draw_text("Ships left : " + str(3-p1_ship_left), (444, 320), 20, "White")
+                img_draw(back_button, 520, 350, 320, 120, c)
+                if p1_ship_left == 3:
+                    img_draw(continue_b, 175, 210, 0, 0, c)
+                if lplay1:
+                    img_draw(place_ships, 300, 30, 80, 20, c)
+                
+                    
+    else:
+        if lplay1:
+            img_draw(click_rest, 300, 25, 50, 15, c) 
+            img_draw(op_win(), 300, 380, 20, 10, c)
+        else:
+            img_draw(op_win(), 300, 380, 40, 20, c)    
+        c.draw_image(frontend, (600 / 2, 345 / 2), (600, 345), (300, 200), (500, 300))
+        
+# Create a frame and assign callbacks to event handlers
+frame = simplegui.create_frame("Battle Ship", 600, 400)
+frame.set_draw_handler(draw)
+frame.set_mouseclick_handler(mouseclick)
+frame.set_keydown_handler(key_press)
+
+# timers
+f_end = simplegui.create_timer(500, front_end)
+ai_timer = simplegui.create_timer(2000, ai_choice)
+win_timer = simplegui.create_timer(3000, is_winner)
+
+# buttons and labels
+b1 = frame.add_button("Music Toggle", toggle, 100)
+frame.add_label("")
+b2 = frame.add_button("SFX Toggle", toggle2, 100)
+frame.add_label("")
+frame.add_label("Created by Shiva Prasad")
+
+# Images, conditional statement was used to enable code folding.
+if 1 == 1:
+    frontend = simplegui.load_image('http://img3.wikia.nocookie.net/__cb20120303020432/battleship/images/f/fd/Battleship-1.jpg')
+    computer = simplegui.load_image('http://online-passport.info/compbas/wp-content/uploads/2012/07/500px-Gnome-computer.svg_.png')
+    multi = simplegui.load_image('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRRNBFMB82HszdJkVekQNjzmnfC4sNFy_IrwbAEk4V3h38NNds1Iw')
+    scott = simplegui.load_image('http://news.rice.edu/wp-content/uploads/2012/12/1214_COURSERA-mug.jpg')
+    joe = simplegui.load_image('http://4.bp.blogspot.com/-Maznnt8wLD4/UNKH_zkc78I/AAAAAAAAACs/j_BUPztVYsY/s1600/Joe.png')
+    john = simplegui.load_image('http://2.bp.blogspot.com/-XTSQOcKXsfE/VErbduo8B7I/AAAAAAAAALk/vzsc-OfnEKo/s1600/John-Greiner.jpg')
+    tank = simplegui.load_image('http://4.bp.blogspot.com/-SJg-CcHQ-As/VErbpfOZZLI/AAAAAAAAAOw/DoNafCWvXW4/s1600/games-glamorous-games-high-quality-picture-world-of-tanks-game-hd-imagery-wallpaper-desktop-world-of-tanks-gameplay-2013-world-of-tanks-game-world-of-tanks-gameplay-world-of-tanks-gam.jpg')                         
+    b_ship_l = simplegui.load_image('http://2.bp.blogspot.com/-0lg4mqhoI3s/VEyJSXyZhlI/AAAAAAAAAP4/cfG7GJBPn-4/s1600/Battleship%2BL2.png')
+    b_ship_r = simplegui.load_image('http://4.bp.blogspot.com/-iZhUTNJrSR4/VEyJSe2MEoI/AAAAAAAAAP0/fdu6t7QI8xs/s1600/Battleship%2BR2.png')
+    blue_card = simplegui.load_image('http://3.bp.blogspot.com/-P1mZmacHaj4/VErbWAZCfcI/AAAAAAAAAJs/RMTsqBVNhCg/s1600/Blue%2Bcard.jpg')
+    red_card = simplegui.load_image('http://2.bp.blogspot.com/-gi6vPeqAfzo/VErbkCykPLI/AAAAAAAAANU/CuxZU7d8KqA/s1600/Red%2BCard.jpg')
+    water = simplegui.load_image('http://4.bp.blogspot.com/-x6rLJI5uwVc/VErbp6fbIAI/AAAAAAAAAO4/BEX3XUmHjwM/s1600/water%2Btile.jpg') 
+    bonus_options = simplegui.load_image('http://3.bp.blogspot.com/-FJQ8BeRnCEo/VErbeagZAMI/AAAAAAAAAL8/v26ZtzQsHXE/s1600/Bonus-Options.png')
+    num_in_range = simplegui.load_image('http://2.bp.blogspot.com/-2jzbscG29Ew/VErbXPKoJEI/AAAAAAAAAJ4/qr9Gyg4lC3U/s1600/Both-numbers-should-be-.png')
+    choose_ai = simplegui.load_image('http://4.bp.blogspot.com/-Lc67Ebtj26s/VErbXe361AI/AAAAAAAAAKA/zxViQRAzvbU/s1600/Choose-Your-Opponent.png')
+    clear_entry = simplegui.load_image('http://3.bp.blogspot.com/-7cAdzTJyQsw/VErbX9axjTI/AAAAAAAAAKI/1v8YLcoZyJM/s1600/Clear-Entry.png')
+    click_start = simplegui.load_image('http://1.bp.blogspot.com/-G2jjrnFdz8c/VErbY2gHzXI/AAAAAAAAAKc/es8fXlOIDQE/s1600/Click-anywhere-to-Start.png')
+    click_conti = simplegui.load_image('http://2.bp.blogspot.com/-zvssQEQ4n6c/VErbY1P5tnI/AAAAAAAAAKY/3Wb-iXHT66E/s1600/Click-To-Continue.png')
+    click_rest = simplegui.load_image('http://1.bp.blogspot.com/-BvLkHFnVMMs/VErbZbZMT4I/AAAAAAAAAKk/kTq-HpZ7N7A/s1600/Click-here-to-Play-Again.png')
+    continue_b = simplegui.load_image('http://2.bp.blogspot.com/-x3FN4nY3ko8/VErbamL4i0I/AAAAAAAAAK0/Lfx3xtpyM6k/s1600/Continue.png')
+    computer_n = simplegui.load_image('http://3.bp.blogspot.com/-ZbAhW8HhxZo/VErbZ7CHr3I/AAAAAAAAAKo/2w91t74UerY/s1600/Computer%2B(1).png')
+    computer_w = simplegui.load_image('http://2.bp.blogspot.com/-LHL62mOQt_U/VErbaWBixTI/AAAAAAAAAKw/Eg_ATMVvwFw/s1600/Computer-Wins%2B(1).png')
+    enter_p1 = simplegui.load_image('http://4.bp.blogspot.com/-EC2KqGKo4uI/VErbbE7V5uI/AAAAAAAAAK8/viJIpTEDHOI/s1600/Enter-Player-1s-Ships-.png')
+    enter_p2 = simplegui.load_image('http://1.bp.blogspot.com/-NA7__kyCQp8/VErbbazIN6I/AAAAAAAAALE/inX3XZPs7wI/s1600/Enter-Player-2s-Ships-.png')
+    j_w_n = simplegui.load_image('http://1.bp.blogspot.com/-jr0194fnRsU/VErbcWYYSBI/AAAAAAAAALc/nY3BprbKI5M/s1600/Joe-Warren.png')
+    j_w_w = simplegui.load_image('http://3.bp.blogspot.com/-ch1LIuryFqs/VErbb3I5tfI/AAAAAAAAALI/QQTlqtDIiLk/s1600/Joe-Warren-Wins.png')
+    j_g_n = simplegui.load_image('http://3.bp.blogspot.com/-e09vCByLp3Y/VErbd0Vp2PI/AAAAAAAAALo/GH30Jdu655Q/s1600/John-Greiner.png')
+    j_g_w = simplegui.load_image('http://1.bp.blogspot.com/-WTPSmyZ1d5I/VErbcslNBdI/AAAAAAAAALY/Mho7WmuJRCk/s1600/John-Greiner-Wins.png')
+    s_r_n = simplegui.load_image('http://3.bp.blogspot.com/-FeGkgraCNEg/VErbkyflTqI/AAAAAAAAANk/U7Ia5-Hh00k/s1600/Scott-Rixner.png')
+    s_r_w = simplegui.load_image('http://4.bp.blogspot.com/-1Iu5KW0X-eQ/VErbkuIP32I/AAAAAAAAANc/Utmmr4SBQ3M/s1600/Scott-Rixner-Wins.png')                             
+    lpb1 = simplegui.load_image('http://4.bp.blogspot.com/-lvGoZtaTEao/VErbem0hIgI/AAAAAAAAAL0/SgehloVC5bM/s1600/Lets-Play-BattleShip.png')
+    lpb2 = simplegui.load_image('http://4.bp.blogspot.com/--lObNnQUSss/VErbeaWM4-I/AAAAAAAAAMY/sql-hkbE2k4/s1600/Lets-Play-BattleShip%2B(1).png')
+    place_ships = simplegui.load_image('http://1.bp.blogspot.com/-NlhyuC27Jhw/VErbgDrFCOI/AAAAAAAAAMQ/coLnz_XMxSc/s1600/Place-3-Battle-Ships.png')
+    p1_n = simplegui.load_image('http://2.bp.blogspot.com/-rIkGFBcwXyU/VErbhTp8z-I/AAAAAAAAAMs/Hz_6d1nbT1w/s1600/Player-1.png')
+    p1_w = simplegui.load_image('http://3.bp.blogspot.com/-WnKWIP_CjqU/VErboaoIaJI/AAAAAAAAAOg/WcmQIczINcI/s1600/Player-1-Wins-D.png')
+    p2_n = simplegui.load_image('http://1.bp.blogspot.com/-_CwBaPif_YU/VErbiPyWizI/AAAAAAAAAM0/zyNJW8nWGp8/s1600/Player-2.png')
+    p2_w = simplegui.load_image('http://2.bp.blogspot.com/-BAmWBq7nBL0/VErbhYPvE6I/AAAAAAAAAMk/tGOt0Neqfos/s1600/Player-2-Wins-D.png')
+    playing_1 = simplegui.load_image('http://4.bp.blogspot.com/-B-5VShJ_-Ck/VErbi1nEANI/AAAAAAAAANE/YdPZ4nL_GKI/s1600/Playing.png')
+    playing_2 = simplegui.load_image('http://3.bp.blogspot.com/-_J4zmQE_LNo/VErbiqBb_VI/AAAAAAAAAM8/oSmPZ7nCCdY/s1600/Playing%2B2.png')
+    r_c_button = simplegui.load_image('http://2.bp.blogspot.com/-6PZXdZ7f4v8/VErbj5K3sRI/AAAAAAAAANQ/-Wsx-GJpXbU/s1600/R---Clear.png')
+    space_conti = simplegui.load_image('http://2.bp.blogspot.com/-grwmlgcqMUo/VErblbQ9AJI/AAAAAAAAANo/XvRJZT--tDU/s1600/Space-Conti.png')
+    p_v_c = simplegui.load_image('http://3.bp.blogspot.com/-1kHDHXK6ob4/VErbl4hS-pI/AAAAAAAAAN4/H5E2bboASco/s1600/You-Vs-Computer.png')
+    p_v_p = simplegui.load_image('http://2.bp.blogspot.com/-paktYpsZlTU/VErbgRJp4ZI/AAAAAAAAAMU/ugFK4AwKfyw/s1600/Player-1-Vs-Player-2.png')
+    p_v_jw = simplegui.load_image('http://3.bp.blogspot.com/-IaQHgdwJcXw/VErbmH6mcAI/AAAAAAAAAN8/bEhbyz0czbs/s1600/You-Vs-Joe-Warren.png')
+    p_v_jg = simplegui.load_image('http://1.bp.blogspot.com/-2SkKXS-ce8g/VErbm-NzFUI/AAAAAAAAAOI/ODxO6p7tecw/s1600/You-Vs-John-Greiner.png')
+    p_v_sr = simplegui.load_image('http://2.bp.blogspot.com/-9DBSNXCbw7g/VErbnAkcLAI/AAAAAAAAAOM/eLh8_s3gt4o/s1600/You-Vs-Scott-Rixner.png')
+    you_n = simplegui.load_image('http://3.bp.blogspot.com/-Zh50hllhFzI/VErbo0F_yoI/AAAAAAAAAOo/egIbpXYQnrY/s1600/You.png')                          
+    you_w = simplegui.load_image('http://2.bp.blogspot.com/-e-_vVsUMls8/VErboeRRAwI/AAAAAAAAAPA/lwgbqlhcZKI/s1600/You-Win.png')
+    m_play = simplegui.load_image('http://3.bp.blogspot.com/-U7FoUh5N36g/VErbftHV9bI/AAAAAAAAAMA/BvEV5Ewtmro/s1600/Multiplayer.png')
+    back_button = simplegui.load_image('http://autoadditions.net/wp-content/uploads/2013/04/back-button.png')
+    home = simplegui.load_image('http://www.bwwebsites.co.uk/bwfashion/images/wht-btn-icons/wht-bw-fashion-buttons-01.png')
+    
+# Music
+audio = simplegui.load_sound('http://www.soundjay.com/free-music/sounds/cautious-path-01.mp3')
+audio.set_volume(0.5)
+
+# SFX
+gun_fire1 = simplegui.load_sound('http://www.soundjay.com/mechanical/sounds/gun-gunshot-01.mp3')
+gun_fire2 = simplegui.load_sound('http://www.soundjay.com/mechanical/sounds/gun-gunshot-02.mp3')
+b1_a = simplegui.load_sound('http://www.soundjay.com/button/sounds/button-14.mp3')
+b2_a = simplegui.load_sound('http://www.soundjay.com/button/sounds/button-20.mp3')
+no_ship = simplegui.load_sound('http://www.soundjay.com/button/sounds/button-17.mp3')
+ship_place = simplegui.load_sound('http://www.soundjay.com/button/sounds/button-18.mp3')
+victory = simplegui.load_sound('http://www.soundjay.com/button/sounds/button-5.mp3')
+
+# Start the frame animation and timers
+f_end.start()
+ai_timer.start()
+win_timer.start()
+frame.start()
+new_game()
+####################################################################################################
+# PASTE YOUR PYTHON CODE ABOVE
+####################################################################################################
+*/}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1]);
+})();
+</script>
+
+</body>
