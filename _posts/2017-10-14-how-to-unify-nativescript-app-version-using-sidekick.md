@@ -4,7 +4,8 @@ title: How to unify NativeScript app version using SideKick
 date: 2017-10-14 00:03
 author: multishiv19
 comments: true
-categories: [nativescript]
+category: [nativescript]
+tags: [nativescript]
 ---
 
 Easiest way to unify NativeScript app version using SideKick

@@ -4,7 +4,8 @@ title: Guess the Word Game
 date: 2015-11-15 14:06
 author: multishiv19
 comments: true
-categories: [Guessing, PC game, Projects, PyGame, Python]
+category: [Project]
+tags: [Guessing, PC game, Projects, PyGame, Python]
 ---
 
 A fun to play game that I built using PyGame

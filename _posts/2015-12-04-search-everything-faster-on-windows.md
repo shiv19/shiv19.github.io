@@ -4,7 +4,8 @@ title: Search Everything Faster on Windows!
 date: 2015-12-04 13:24
 author: multishiv19
 comments: true
-categories: [Search, Software, Utility, Windows]
+category: [Tips]
+tags: [Search, Software, Utility, Windows]
 ---
 
 After this, you will no longer have to wait for that windows search to complete!

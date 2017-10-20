@@ -4,7 +4,8 @@ title: How to make Bowl Maggi!
 date: 2015-12-19 12:54
 author: multishiv19
 comments: true
-categories: [Bowl, Bowl Maggi, Cook, Fast Food, Food, Life Hacks, Maggi, Recipe]
+category: [LifeHacks]
+tags: [Bowl, Bowl Maggi, Cook, Fast Food, Food, Life Hacks, Maggi, Recipe]
 ---
 
 Easiest way to make Maggi in a Bowl!

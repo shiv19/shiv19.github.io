@@ -4,7 +4,8 @@ title: How to get android navbar height on NativeScript vanilla
 date: 2017-10-08 02:26
 author: multishiv19
 comments: true
-categories: [nativescript]
+category: [nativescript]
+tags: [nativescript]
 ---
 
 Sure fire way to get the on screen navigation bar height (is present) on android, in NativeScript

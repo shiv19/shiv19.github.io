@@ -4,7 +4,8 @@ title: Finite State Machine Simulator
 date: 2015-11-17 20:19
 author: multishiv19
 comments: true
-categories: [finite state machine, Projects, simulator]
+category: [Project]
+tags: [finite state machine, Projects, simulator]
 ---
 
 A Simple command line based Finite State Machine Simulator that I wrote using C++

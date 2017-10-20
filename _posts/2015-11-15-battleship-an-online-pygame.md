@@ -4,7 +4,8 @@ title: BattleShip Game
 date: 2015-11-15 05:09
 author: multishiv19
 comments: true
-categories: [Online Game, Projects, PyGame, Python]
+category: [Project]
+tags: [Online Game, Projects, PyGame, Python]
 ---
 
 I revived this classic old game using code skulptor

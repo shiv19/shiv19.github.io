@@ -4,7 +4,8 @@ title: How to Solve the Rubiks Cube - Step One
 date: 2015-11-17 01:08
 author: multishiv19
 comments: true
-categories: [How to, Rubik's Cube, SpeedCubing, Youtube]
+category: [RubiksCube]
+tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 ---
 
 Make the white cross!

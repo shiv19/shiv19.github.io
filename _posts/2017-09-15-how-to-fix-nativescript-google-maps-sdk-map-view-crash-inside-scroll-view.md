@@ -4,7 +4,8 @@ title: How to fix nativescript-google-maps-sdk map view crash inside scroll view
 date: 2017-09-15 19:23
 author: multishiv19
 comments: true
-categories: [nativescript, nativescript-google-maps-sdk, workaround]
+category: [nativescript]
+tags: [nativescript-google-maps-sdk]
 ---
 
 Learn how to fix the app crash caused by using map view of nativescript-google-maps-sdk inside a TabView
