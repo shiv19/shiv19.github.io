@@ -19,7 +19,7 @@ avatar: https://avatars.githubusercontent.com/shiv19
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email:
+  email: sp@shiv19.com
   facebook: shivgamer007
   flickr:
   github: shiv19
@@ -28,9 +28,9 @@ footer-links:
   pinterest:
   rss:
   twitter: MultiShiv19
-  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  stackoverflow: users/3970346/shiva-prasad
   youtube: user/multishiv19
-  googleplus: +ShivaPrasad19
+  googleplus:
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
@@ -42,7 +42,7 @@ google_analytics:
 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
-url: http://shiv19.github.io
+url: https://shiv19.com
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
