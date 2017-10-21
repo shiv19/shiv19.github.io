@@ -13,4 +13,4 @@ I'm currently working as Lead Software Developer at Bfit Technologies, and Techn
 
 ### Contact me
 
-[contact@shivaprasad.me](mailto:contact@shivaprasad.me)
+[sp@shiv19.com](mailto:sp@shiv19.com)
