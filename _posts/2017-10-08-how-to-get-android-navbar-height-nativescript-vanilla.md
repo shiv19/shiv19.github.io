@@ -22,7 +22,7 @@ android.view.ViewConfiguration.get(ad.getApplicationContext()).hasPermanentMenuK
 returns `false` on devices like _Samsung Galaxy Note5_, and _Galaxy J7_ (both having permanent menu key).
 I haven't tested this code on devices from other manufacturers who have permanent menu key.
 
-So, with a little help from [this](https://stackoverflow.com/questions/28983621/detect-soft-navigation-bar-availability-in-android-device-progmatically) StackOver flow question, I came up with this set of code, which is working correctly on all the devices that I've tested it with so far i.e., _note5_, _j7_ and _nexus6 on emulator_.
+So, with a little help from <a href="https://stackoverflow.com/questions/28983621/detect-soft-navigation-bar-availability-in-android-device-progmatically" target="_blank">this</a> StackOver flow question, I came up with this set of code, which is working correctly on all the devices that I've tested it with so far i.e., _note5_, _j7_ and _nexus6 on emulator_.
 
 ## Finding out height of Android On Screen Navigation Bar
 
@@ -67,6 +67,6 @@ function getNavBarHeight() {
 ```
 
 Give it a try on playground!
-[Click Here](https://play.nativescript.org/?template=play-js&id=fm0tzR4yf00jiNG2txIC0)
+<a href="https://play.nativescript.org/?template=play-js&id=fm0tzR4yf00jiNG2txIC0" target="_blank">Click Here</a>
 
 What are your thoughts on this method? Any suggestions to improve this code? Please comment below :smile:

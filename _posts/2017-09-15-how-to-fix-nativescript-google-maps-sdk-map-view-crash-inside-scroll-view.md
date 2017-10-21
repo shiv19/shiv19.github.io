@@ -10,7 +10,7 @@ tags: [nativescript-google-maps-sdk]
 
 Learn how to fix the app crash caused by using map view of nativescript-google-maps-sdk inside a TabView
 
-[https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048](https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048)
+<a href="https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048" target="_blank">https://github.com/NativeScript/NativeScript/issues/3960#issuecomment-324662048</a>
 
 After seeing this comment, I tried to fork the nativescript-google-maps-sdk plugin and fix the issue, but even after following it, I faced the same error.
 

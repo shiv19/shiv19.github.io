@@ -17,13 +17,13 @@ By Unifying app version for android and iOS, you can control the application ver
 
 Install NS Sidekick
 
-[Download Link](https://www.nativescript.org/nativescript-sidekick) 
+<a href="https://www.nativescript.org/nativescript-sidekick" target="_blank">Download Link</a>
 
 ### Step 2:
 
 Use this convenient JS Bin to generate app version
 
-[JS Bin Link](https://jsbin.com/fewuliw/1/edit?js,output)
+<a href="https://jsbin.com/fewuliw/1/edit?js,output" target="_blank">JS Bin Link</a>
 
 ### Step 3:
 
@@ -37,6 +37,6 @@ step, in the respective input fields.
 
 
 Still unsure how to do it? I made this video which let's you follow along,
-<iframe src="https://www.youtube.com/embed/Prct2VW9rio" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+<iframe src="https://www.youtube.com/embed/Prct2VW9rio" width="100%" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 
 What are your thoughts on this method? Any suggestions to improve? Please comment below :smile:

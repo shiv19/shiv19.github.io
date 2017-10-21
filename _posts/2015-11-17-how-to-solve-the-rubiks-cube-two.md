@@ -10,7 +10,7 @@ tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 
 Solve that Middle Layer!
 
-<p><br/><img class="aligncenter size-large wp-image-218" src="{{ site.baseurl }}/assets/img/rb2/Rubiks-Step-2-1024x307.png" alt="Rubik's Step 2" width="1024" height="307" /><br/></p>
+<p><br/><img src="{{ site.baseurl }}/assets/img/rb2/Rubiks-Step-2-1024x307.png" alt="Rubik's Step 2" width="100%" height="307" /><br/></p>
 <p>This post will guide you through the Step Two in How to Solve the Rubiks Cube.
     If you are here after reading the Step One then please read along. Else <a href="{{ site.baseurl }}/how-to-solve-the-rubiks-cube/">CLICK HERE</a> to goto Step One. Assuming you mastered Step One, you should now be able solve the First Layer of the cube. Now your cube should look something like this:
     <a href="{{ site.baseurl }}/assets/img/rb2/After-Step-One.png"><br/><img class="aligncenter size-full wp-image-123" src="{{ site.baseurl }}/assets/img/rb2/After-Step-One.png" alt="After Step One" width="226" height="236" /><br/></a> Now let's move on to the next step on How to Solve the Rubiks Cube.</p>
@@ -43,7 +43,7 @@ Solve that Middle Layer!
 <p>If you have carefully followed the above steps, you should be able to solve the middle layer. If you have done so, then you are ready to move to the next step.</p>
 <p>However, if you are facing any difficulty, you can refer to my video tutorial which covers the same thing.</p>
 <p>
-    <iframe src="https://www.youtube.com/embed/TKHu99iLjgY" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+    <iframe src="https://www.youtube.com/embed/TKHu99iLjgY" width="100%" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 </p>
 <p>Got any doubts? Ask it in the comments section down below.</p>
 <h3>Quick Links to other posts in this series:</h3>

@@ -10,7 +10,7 @@ tags: [finite state machine, Projects, simulator]
 
 A Simple command line based Finite State Machine Simulator that I wrote using C++
 
-<p><img class="aligncenter size-large wp-image-230" src="{{ site.baseurl }}/assets/img/fsm/fsm-sim-3-1024x269.png" alt="fsm sim" width="1024" height="269" /></p>
+<p><img src="{{ site.baseurl }}/assets/img/fsm/fsm-sim-3-1024x269.png" alt="fsm sim" width="100%" height="269" /></p>
 <br/>
 <p>This is a simple program that I built to simulate a user created finite state machine. 
 <br/>

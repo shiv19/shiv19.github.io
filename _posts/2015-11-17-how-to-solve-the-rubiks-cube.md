@@ -11,7 +11,7 @@ tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 Make the white cross!
 
 <p>&nbsp;</p>
-<h2><br/><img class="aligncenter size-large wp-image-216" src="{{ site.baseurl }}/assets/img/rb1/Rubiks-Step-1-1024x307.png" alt="Rubik's Step 1" width="1024" height="307" /><br/></h2>
+<h2><br/><img src="{{ site.baseurl }}/assets/img/rb1/Rubiks-Step-1-1024x307.png" alt="Rubik's Step 1" width="100%" height="307" /><br/></h2>
 <h2>Hey there!</h2>
 <p>Welcome to the "Rubiks Cube Solution Guide", I'm sure that you are very excited to learn to solve the Rubik's Cube on your own.
     Rubiks Cube is a very fun puzzle to solve. It involves rotating the faces of the cube either clockwise or anticlockwise while try to make the cube look like the one in the image above.</p>
@@ -66,7 +66,7 @@ Make the white cross!
 <p>Since solving the first layer can be done just by intuition and without memorizing any algorithm, I recommend that you learn to solve it by watching the video below.</p>
 <p><strong>Follow the video tutorial below to learn to solve the first layer.</strong></p>
 <p>
-    <iframe src="https://www.youtube.com/embed/m_CD804omfU?rel=0" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+    <iframe src="https://www.youtube.com/embed/m_CD804omfU?rel=0" width="100%" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 </p>
 <p>Got any doubts? Ask it in the comments section down below.  </p>
 <h3>Quick Links to other posts in this series:</h3>

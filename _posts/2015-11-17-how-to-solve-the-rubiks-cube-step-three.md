@@ -10,7 +10,7 @@ tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 
 Orientate the last layer!
 
-<p><img class="aligncenter size-large wp-image-220" src="{{ site.baseurl }}/assets/img/rb3/Rubiks-Step-3-1024x307.png" alt="Rubik's Step 3" width="1024" height="307" /></p>
+<p><img src="{{ site.baseurl }}/assets/img/rb3/Rubiks-Step-3-1024x307.png" alt="Rubik's Step 3" width="100%" height="307" /></p>
 <p>This post will guide you through the Step Three in How to Solve the Rubiks Cube.
     If you are here after reading the Step Two then please read along. Else <a href="{{ site.baseurl }}/how-to-solve-the-rubiks-cube/">CLICK HERE</a> to goto Step One. Assuming you mastered Step Two, you should now be able to solve the First Layer of the cube. Now your cube should look something like this:<br/> <img class="aligncenter wp-image-134 size-full" src="{{ site.baseurl }}/assets/img/rb3/After-Step-Two.png" alt="After Step Two" width="223" height="232" /><br/> Now let's move on to the next step on How to Solve the Rubiks Cube.</p>
 <h1>STEP 3: Orientation of Last Layer</h1>
@@ -25,7 +25,7 @@ Orientate the last layer!
 <p><strong>State 1: </strong>If <strong>No Corner </strong>Cubes are Yellow on the top (U) face, you must have Yellow <b>Left </b>Corner on the Left face as shown below and do the algorithm above. <br/><img class="aligncenter size-full wp-image-145" src="{{ site.baseurl }}/assets/img/rb3/State-1-phase-2.png" alt="State 1 phase 2" width="220" height="153" /><br/> <strong>State 2: </strong>If <strong>One Corner </strong>Cube is Yellow, match your top (U) face as shown and do the algorithm above. <br/><img class="aligncenter size-full wp-image-146" src="{{ site.baseurl }}/assets/img/rb3/State-2-phase-2.png" alt="State 2 phase 2" width="167" height="165" /><br/> <strong>State 3: </strong>If Any <strong>Two Corner </strong>Cubes are Yellow don't worry about their position. You <strong>MUST</strong> match the front (F) face with a Yellow Left Corner as shown. <br/><img class="aligncenter size-full wp-image-147" src="{{ site.baseurl }}/assets/img/rb3/State-3-phase-2.png" alt="State 3 phase 2" width="195" height="185" /><br/>   If you have carefully followed the above steps, you should be able to make the Yellow top. If you have done so, then you are ready to move to the next step.</p>
 <p>However, if you are facing any difficulty, you can refer to my video tutorial which covers the same thing.</p>
 <p>
-    <iframe src="https://www.youtube.com/embed/jJyuz7Dy2rc" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+    <iframe src="https://www.youtube.com/embed/jJyuz7Dy2rc" width="100%" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 </p>
 <p>Got any doubts? Ask it in the comments section down below.  </p>
 <h3>Quick Links to other posts in this series:</h3>

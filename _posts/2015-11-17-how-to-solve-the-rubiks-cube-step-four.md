@@ -10,7 +10,7 @@ tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 
 Solve the last layer!
 
-<p><img class="aligncenter size-large wp-image-223" src="{{ site.baseurl }}/assets/img/rb4/Rubiks-Step-4-1024x381.png" alt="Rubik's Step 4" width="1024" height="381" /></p>
+<p><img src="{{ site.baseurl }}/assets/img/rb4/Rubiks-Step-4-1024x381.png" alt="Rubik's Step 4" width="100%" height="381" /></p>
 <p>
    This post will guide you through the Step Four in How to Solve the Rubiks Cube.
 </p>
@@ -53,7 +53,7 @@ F F Ui L Ri F F Li R Ui F F<br/>
 
 <p>However, if you are facing any difficulty, you can refer to my video tutorial which covers the same thing.</p>
 
-<p>  <iframe src="https://www.youtube.com/embed/j5Ny_NNEXfw" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>  </p>
+<p>  <iframe src="https://www.youtube.com/embed/j5Ny_NNEXfw" width="100%" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>  </p>
 
 <h1>Congratulations! :D you have learnt to solve the Rubiks Cube.</h1>
 

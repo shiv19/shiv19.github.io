@@ -53,50 +53,50 @@ Indexing NTFS volumes requires the Everything service or running "Everything" as
 
 <p><strong>[Default language: English]</strong>
     <br /> For a 32-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x86-Setup.exe">
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x86-Setup.exe">
         <img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
     </a>    <strong>- Recommended</strong>
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x86-Setup.exe">
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x86-Setup.exe">
         <br /> </a>
     <br /> For a 64-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x64-Setup.exe">
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x64-Setup.exe">
         <img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
     </a>
     <br />
     <br />
     <br /> <strong>[Multilingual]</strong>
     <br /> For a 32-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x86.Multilingual-Setup.exe"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x86.Multilingual-Setup.exe"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
         <br /> </a>
     <br /> For a 64-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x64.Multilingual-Setup.exe"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x64.Multilingual-Setup.exe"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
         <br />
         <br /> </a>
 </p>
 <p><strong>[Portable]</strong>
     <br /> For a 32-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x86.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x86.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
         <br /> </a>
     <br /> For a 64-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x64.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x64.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
         <br />
         <br /> </a>
 </p>
 <p><strong>[Portable + Multilingual]</strong>
     <br /> For a 32-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x86.Multilingual.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x86.Multilingual.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" />
         <br /> </a>
     <br /> For a 64-bit Machine:
-    <a href="http://www.voidtools.com/Everything-1.3.4.686.x64.Multilingual.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" /></a>
+    <a target="_blank" href="http://www.voidtools.com/Everything-1.3.4.686.x64.Multilingual.zip"><img height="20" width="72" style="position:relative;top:5px" src="{{ site.baseurl }}/assets/img/everything-download.png" /></a>
 </p>
 <p><strong>For advanced users:</strong>
     <br /> You can use wildcards, boolean, filters and file extensions in the search query.
     <br /> You can take this software anywhere you want by downloading the portable version of the software.
     <br /> You can index a mapped network drive too.
     <br /> Not just that, this software can also be used as a FTP client as well as a ETP (Everything Transfer Protocol) or a HTTP server too.
-    <br /> If you want any more details about this software or if you are interested in using the free SDK, you may visit <a href="http://www.voidtools.com/support/everything/">Support page</a> of Void Tools website.</p>
+    <br /> If you want any more details about this software or if you are interested in using the free SDK, you may visit <a target="_blank" href="http://www.voidtools.com/support/everything/">Support page</a> of Void Tools website.</p>
 <p>&nbsp;</p>
-<p><strong>Video Tutorial:<br /> <br /> <iframe src="https://www.youtube.com/embed/sdcNIRvSW58" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe> </strong></p>
+<p><strong>Video Tutorial:<br /> <br /> <iframe src="https://www.youtube.com/embed/sdcNIRvSW58" width="100%" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe> </strong></p>
 <p>&nbsp;</p>
 <p><strong>Screenshots:</strong></p>
 
