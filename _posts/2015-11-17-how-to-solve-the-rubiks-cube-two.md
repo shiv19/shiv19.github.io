@@ -4,7 +4,7 @@ title: How to Solve the Rubiks Cube - Step Two
 date: 2015-11-17 11:04
 author: multishiv19
 comments: true
-category: [RubiksCube]
+category: [rubiks]
 tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 ---
 

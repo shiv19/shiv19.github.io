@@ -4,7 +4,7 @@ title: BattleShip Game
 date: 2015-11-15 05:09
 author: multishiv19
 comments: true
-category: [Project]
+category: [projects]
 tags: [Online Game, Projects, PyGame, Python]
 ---
 

@@ -4,7 +4,7 @@ title: Search Everything Faster on Windows!
 date: 2015-12-04 13:24
 author: multishiv19
 comments: true
-category: [Tips]
+category: [tips]
 tags: [Search, Software, Utility, Windows]
 ---
 

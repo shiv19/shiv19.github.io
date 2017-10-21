@@ -1,0 +1,130 @@
+<style>
+ul#dropdown-menu-freebie { display: inline-block; list-style: none; margin: 0 auto; padding: 0; }
+ul#dropdown-menu-freebie > li:last-child { margin-right: 0; }
+ul.dropdown-menu li ul
+{
+	display: none;
+	list-style: none;
+	text-align: left;
+}
+
+ul.dropdown-menu li:hover ul
+{
+	display: table;
+    margin: 0 auto;
+    position: absolute;
+    z-index: 1000;
+}
+
+ul.dropdown-menu
+{
+	padding: 0 20px;
+	border-radius: 10px;
+	list-style: none;
+	position: relative;
+	padding: 0;
+	margin: 0;
+}
+
+ul.dropdown-menu::after
+{
+	content: "";
+	display: table;
+	margin: 0 auto;
+}
+
+ul.dropdown-menu li a
+{
+	display: block;
+    text-decoration: none;
+}
+
+ul.dropdown-menu > li
+{
+	border-radius: 8px;
+}
+
+ul.dropdown-menu > li > a
+{	
+	position: relative;
+	z-index: 5;
+}
+
+ul.dropdown-menu ul
+{
+	border-radius: 0px;
+	padding: 0;
+}
+
+ul.dropdown-menu ul li
+{
+	float: none; 
+	position: relative;
+	border-bottom: 1px solid transparent;
+}
+
+ul.dropdown-menu ul li a
+{
+	font-size: 13px;
+	padding: 10px;
+    width: 120px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+ul.dropdown-menu ul li a:hover
+{
+	background: rgb(231, 231, 231);
+}
+
+ul.dropdown-menu ul li:last-child:hover
+{
+	border-bottom: none;
+}
+.current {
+    text-decoration: underline;
+}
+</style>
+{% for entry in site.data.navigation %}
+{% capture fullurl %}{{ site.baseurl }}{{ entry.url }}{% endcapture %}
+    {% if fullurl == page.url %}
+        {% assign current_page = fullurl %}
+        {% break %}
+    {% elsif page.url contains fullurl %}
+        {% assign current_page = fullurl %}
+    {% endif %}
+{% endfor %}
+
+<nav>
+    {% for entry in site.data.navigation %}
+        {% if entry.url == current_page %}
+        {% assign current = ' class="current"' %}
+        {% else %}
+            <!-- We have to declare it 'null' to ensure it doesn't propagate. -->
+            {% assign current = null %}
+        {% endif %}
+        {% assign sublinks = entry.sublinks %}
+        {% if sublinks %}
+        {% else %}
+            <a{{ current }} href="{{ site.baseurl }}{{ entry.url }}">{{ entry.title }}</a>
+        {% endif %}
+        <ul id="dropdown-menu-freebie">
+            <li>
+                {% if sublinks %}
+                <ul class="dropdown-menu">
+                    <li{{ current }}>
+                        <a href="javascript:void(0)">{{ entry.title }}</a>
+                        <ul>
+                            {% for sublink in sublinks %}
+                            <li><a href="{{ site.baseurl }}{{ sublink.url }}">{{ sublink.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+                {% endif %}
+                
+            </li>
+        </ul>
+    {% endfor %}
+</nav>

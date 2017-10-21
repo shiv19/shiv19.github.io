@@ -1,0 +1,23 @@
+# Belongs at: /_data/navigation.yml
+
+- title: Home
+  url: /
+
+- title: About
+  url: /about
+
+- title: Categories
+  url: /category/
+  sublinks:
+    - title: NativeScript
+      url: /category/nativescript
+    - title: Projects
+      url: /category/projects
+    - title: Rubiks Cube
+      url: /category/rubiks
+    - title: Tips
+      url: /category/tips
+    - title: Tricks
+      url: /category/tricks
+    - title: Life Hacks
+      url: /category/lifehacks

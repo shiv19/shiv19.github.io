@@ -4,7 +4,7 @@ title: Create a Matrix Rain Effect on Command Prompt
 date: 2015-12-09 17:28
 author: multishiv19
 comments: true
-category: [Tricks]
+category: [tricks]
 tags: [Command Prompt, Effect, Matrix, Matrix Rain, Matrix Rain Effect, Rain, Tricks, Tricks, Windows]
 ---
 

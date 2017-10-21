@@ -4,7 +4,7 @@ title: Finite State Machine Simulator
 date: 2015-11-17 20:19
 author: multishiv19
 comments: true
-category: [Project]
+category: [projects]
 tags: [finite state machine, Projects, simulator]
 ---
 
