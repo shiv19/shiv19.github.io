@@ -6,6 +6,7 @@ author: multishiv19
 comments: true
 category: [nativescript]
 tags: [nativescript-google-maps-sdk]
+description: Learn how to fix the app crash caused by using map view of nativescript-google-maps-sdk inside a TabView
 ---
 
 Learn how to fix the app crash caused by using map view of nativescript-google-maps-sdk inside a TabView

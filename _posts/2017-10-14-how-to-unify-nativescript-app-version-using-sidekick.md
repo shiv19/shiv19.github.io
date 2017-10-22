@@ -6,6 +6,7 @@ author: multishiv19
 comments: true
 category: [nativescript]
 tags: [nativescript]
+description: Easiest way to unify NativeScript app version using SideKick
 ---
 
 Easiest way to unify NativeScript app version using SideKick
