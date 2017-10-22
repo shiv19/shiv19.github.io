@@ -13,7 +13,7 @@ layout:
         <item>
             <title>{{ post.title | xml_escape }}</title>
             <description>{{ post.description | xml_escape }}</description>
-            <pubDate>{{ post.date | date: "%a, %d %b %Y" }}</pubDate>
+            <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
             <link>{{ site.url }}/{{ post.url }}</link>
             <category>{{ post.category | xml_escape }}</category>
             <guid isPermaLink="true">{{ site.url }}/{{ post.url }}</guid>
