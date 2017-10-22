@@ -62,6 +62,7 @@ defaults:
     values:
       layout: "category"
 
+timezone: Asia/Kolkata
 #
 # !! You don't need to change any of the configuration flags below !!
 #
