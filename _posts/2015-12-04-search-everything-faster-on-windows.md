@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [tips]
 tags: [Search, Software, Utility, Windows]
+description: After this, you will no longer have to wait for that windows search to complete!
 ---
-
-After this, you will no longer have to wait for that windows search to complete!
 
 ![Post Header Image]({{ site.baseurl }}/assets/img/search-everything-header.png "Search Everything Faster on Windows!")
 ### Have you ever been in a position where you know that you have that file on your computer, but you don't remember where it is on your computer?

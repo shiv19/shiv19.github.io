@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [rubiks]
 tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
+description: Solve the last layer!
 ---
-
-Solve the last layer!
 
 <p><img src="{{ site.baseurl }}/assets/img/rb4/Rubiks-Step-4-1024x381.png" alt="Rubik's Step 4" width="100%" height="381" /></p>
 <p>

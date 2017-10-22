@@ -9,8 +9,6 @@ tags: [nativescript]
 description: Easiest way to unify NativeScript app version using SideKick
 ---
 
-Easiest way to unify NativeScript app version using SideKick
-
 By Unifying app version for android and iOS, you can control the application version from 1 quick setting in NativeScript Sidekick
 
 ## Unifying app version

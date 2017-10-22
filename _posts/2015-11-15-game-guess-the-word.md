@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [projects]
 tags: [Guessing, PC game, Projects, PyGame, Python]
+description: A fun to play game that I built using PyGame
 ---
-
-A fun to play game that I built using PyGame
 
 ![Post Header Image]({{ site.baseurl }}/assets/img/gtw/Guess-the-Word-1024x307.png "Guess the Word")
 <p>Guess the Word is a simple game where the user has to guess the word, 1 letter at a time.

@@ -9,8 +9,6 @@ tags: [nativescript]
 description: Sure fire way to get the on screen navigation bar height (is present) on android, in NativeScript
 ---
 
-Sure fire way to get the on screen navigation bar height (is present) on android, in NativeScript
-
 ## Story
 Android provides many different form factors. Of which, some devices come with on screen navigation bar and some don't.
 Now, the problem with that is when you want to programmatically setup some absolute layout in code, you need to 

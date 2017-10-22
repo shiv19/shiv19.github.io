@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [tricks]
 tags: [Command Prompt, Effect, Matrix, Matrix Rain, Matrix Rain Effect, Rain, Tricks, Tricks, Windows]
+description: Impress your friends with this cool trick
 ---
-
-Impress your friends with this cool trick
 
 ![Post Header Image]({{ site.baseurl }}/assets/img/mat-rain-1.png "Create a Matrix Rain Effect on Command Prompt")
 Hi, in this tutorial I'll guide you through the process of creating a simple and cool effect called the **Matrix Rain Effect** that you can easily make and show off to your friends.

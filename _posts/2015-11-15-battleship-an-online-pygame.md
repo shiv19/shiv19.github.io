@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [projects]
 tags: [Online Game, Projects, PyGame, Python]
+description: I revived this classic old game using code skulptor
 ---
-
-I revived this classic old game using code skulptor
 
 ![Post Header Image]({{ site.baseurl }}/assets/img/battleship/BattleShip-1024x307.png "BattleShip")
 <p>BattleShip is a simple game where the player gets to find and sink all 3 battleships of his/her opponent. This game depends on the luck of the player as it is purely a guessing game.

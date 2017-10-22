@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [lifehacks]
 tags: [Bowl, Bowl Maggi, Cook, Fast Food, Food, Life Hacks, Maggi, Recipe]
+description: Easiest way to make Maggi in a Bowl!
 ---
-
-Easiest way to make Maggi in a Bowl!
 
 ![Post Header Image]({{ site.baseurl }}/assets/img/bmaggi/Headder-Image2-1024x267.png "14 Windows Key Shortcuts That You Should Know")
 

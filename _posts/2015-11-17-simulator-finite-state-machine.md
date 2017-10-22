@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [projects]
 tags: [finite state machine, Projects, simulator]
+description: A Simple command line based Finite State Machine Simulator that I wrote using C++
 ---
-
-A Simple command line based Finite State Machine Simulator that I wrote using C++
 
 <p><img src="{{ site.baseurl }}/assets/img/fsm/fsm-sim-3-1024x269.png" alt="fsm sim" width="100%" height="269" /></p>
 <br/>

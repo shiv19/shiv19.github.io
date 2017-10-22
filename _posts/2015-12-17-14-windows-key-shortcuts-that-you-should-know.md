@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [tips]
 tags: [keyboard, keyboard language, lock computer, magnifier, minimize maximize, on-screen keyboard, Projection Settings, shortcuts, Super Menu, system info, Windows]
+description: Do you think you know them all? Think again.
 ---
-
-Do you think you know them all? Think again.
 
 ![Post Header Image]({{ site.baseurl }}/assets/img/windows-shortcuts-header.png "14 Windows Key Shortcuts That You Should Know")
 Keyboard shortcuts help you do common tasks faster on your computer. Not just that, it makes you look like you are a pro at what you do  :wink: . Knowing how to get the job done using shortcuts can save you a lot of time in the long run. Because it takes time to switch between typing and moving your mouse.

@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [rubiks]
 tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
+description: Solve that Middle Layer!
 ---
-
-Solve that Middle Layer!
 
 <p><br/><img src="{{ site.baseurl }}/assets/img/rb2/Rubiks-Step-2-1024x307.png" alt="Rubik's Step 2" width="100%" height="307" /><br/></p>
 <p>This post will guide you through the Step Two in How to Solve the Rubiks Cube.

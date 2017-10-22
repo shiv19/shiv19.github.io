@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [rubiks]
 tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
+description: Make the white cross!
 ---
-
-Make the white cross!
 
 <p>&nbsp;</p>
 <h2><br/><img src="{{ site.baseurl }}/assets/img/rb1/Rubiks-Step-1-1024x307.png" alt="Rubik's Step 1" width="100%" height="307" /><br/></h2>

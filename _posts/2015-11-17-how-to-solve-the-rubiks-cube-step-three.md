@@ -6,9 +6,8 @@ author: multishiv19
 comments: true
 category: [rubiks]
 tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
+description: Orientate the last layer!
 ---
-
-Orientate the last layer!
 
 <p><img src="{{ site.baseurl }}/assets/img/rb3/Rubiks-Step-3-1024x307.png" alt="Rubik's Step 3" width="100%" height="307" /></p>
 <p>This post will guide you through the Step Three in How to Solve the Rubiks Cube.
