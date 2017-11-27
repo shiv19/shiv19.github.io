@@ -26,7 +26,7 @@ so, let's say you write something like this
         col="0"
         stretch="aspectFill"
         height="180"
-        src=""
+        src="url to some image"
         id="userIcon" />
     <StackLayout
         padding="10"
