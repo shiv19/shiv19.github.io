@@ -7,10 +7,16 @@ published: true
 
 Hi! I'm Shiva Prasad, A Tech Enthusiast from India.
 
-### More Information
+I'm currently working as Lead Software Developer at Bfit Technologies, and
+Technology and Product Lead at Jyopal Technologies.
 
-I'm currently working as Lead Software Developer at Bfit Technologies, and Technology and Product Lead at Jyopal Technologies.
-
-### Contact me
+### You can hire me for consultation regarding NativeScript
 
 [sp@shiv19.com](mailto:sp@shiv19.com)
+
+## Testimonials
+
+> “It was great working with Shiva. He did some Nativescript consultation for me
+> and he solve every single one of my doubts/problems. He really knows what he’s
+> talking about and he expresses it with the right words. I will happily work
+> with him again!” -Miguel Cabral. Co-founder Pequeño Cuervo
