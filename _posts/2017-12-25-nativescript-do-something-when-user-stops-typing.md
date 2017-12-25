@@ -56,6 +56,9 @@ Demo:
 <img style="box-shadow: 2px 2px 5px lightgray;"
     src="{{ site.baseurl }}/assets/img/stopsTyping/typing-detection.gif" alt="Visibility Demo" width="250" />
 
+This article was derived from <a target="_blank" href="https://schier.co/blog/2014/12/08/wait-for-user-to-stop-typing-using-javascript.html">this</a> blog post.
+
+
 Have fun!, Happy NativeScripting.
 
 Be sure to let me know your thoughts in the comment section below.

@@ -12,7 +12,7 @@ description: Here's why you might not need that extra variable anymore
 I've seen that most people manage the toggling of content visibility using a variable
 in the code behind file. Although this works fine, there's a better way to do it.
 
-When reading the API Docs, I came across the `isCollapsed` Read Only property, that is
+When reading the <a target="_blank" href="https://docs.nativescript.org/api-reference/classes/_ui_core_view_base_.viewbase#iscollapsed">API Docs</a>, I came across the `isCollapsed` Read Only property, that is
 present on every view. Using this property we can easily maintain the visibility of
 content in our layouts, without the need for creating a new variable for it.
 
