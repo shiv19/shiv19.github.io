@@ -91,7 +91,7 @@ see the playground app)
 
 Here's a Playground app that I made to show all the above tips &amp; tricks:
 
-<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=Hhiggq&v=4">https://play.nativescript.org/?template=play-js&id=Hhiggq&v=4</a>
+<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=Hhiggq&v=5">https://play.nativescript.org/?template=play-js&id=Hhiggq&v=5</a>
 
 Hungry for more?
 Go through the docs if you haven't already => 
