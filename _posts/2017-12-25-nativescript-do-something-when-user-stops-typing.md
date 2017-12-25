@@ -49,7 +49,7 @@ function HomeViewModel() {
 
 You may play around with it further, in this playground app.
 
-<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=ATKDmw&v=3">https://play.nativescript.org/?template=play-js&id=ATKDmw&v=3</a>
+<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=ATKDmw&v=4">https://play.nativescript.org/?template=play-js&id=ATKDmw&v=4</a>
 
 Demo:
 
