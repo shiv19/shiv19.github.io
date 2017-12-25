@@ -33,6 +33,7 @@ function HomeViewModel() {
     if (propertyChangeData.propertyName === "textFieldValue") {
       clearInterval(myTimer);
       myTimer = setTimeout(() => {
+        // Make your API Calls here
         const frameModule = require("ui/frame");
         frameModule.topmost().getViewById("msg").visibility = "visible";
         if (propertyChangeData.value === "") {
@@ -48,7 +49,7 @@ function HomeViewModel() {
 
 You may play around with it further, in this playground app.
 
-<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=ATKDmw&v=2">https://play.nativescript.org/?template=play-js&id=ATKDmw&v=2</a>
+<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=ATKDmw&v=3">https://play.nativescript.org/?template=play-js&id=ATKDmw&v=3</a>
 
 Demo:
 
