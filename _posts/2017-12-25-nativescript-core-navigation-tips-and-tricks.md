@@ -72,12 +72,15 @@ This is because page B was not added to back stack.
 
 ### 4. Avoid the default iOS back button from showing up when you navigate
 
-The way I like to do this is by passing `clearHistory: true` when I navigate. By doing that, iOS default back navigation doesn't show up.
+Hiding the back button requires getting an instance of the UIViewController’s navigation item, and invoking the `setHidesBackButtonAnimated` method.
 ```js
-   ‎page.frame.navigate({
-         moduleName: routes.somePage, 
-         ‎clearHistory: true
-   });
+  const controller = frameModule.topmost().ios.controller;
+
+  // get the view controller navigation item
+  const navigationItem = controller.visibleViewController.navigationItem;
+
+  // hide back button
+  navigationItem.setHidesBackButtonAnimated(true, false);
 ```
 
 ### 5. Give navigation the highest priority when possible 
