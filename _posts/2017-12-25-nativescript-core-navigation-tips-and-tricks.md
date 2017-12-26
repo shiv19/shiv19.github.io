@@ -43,9 +43,9 @@ Every page variable has a frame variable in it. And you can use that to perform 
 Let's see how that would work during a button click, 
 
 ```js
+const routes = require("~/shared/routes.json");
 exports.buttonTapped(args) {
    const page = args.object.page; // Yes! args.object.page is a thing. 
-   ‎const routes = require("~/shared/routes.json");
    ‎page.frame.navigate(routes.home);
 } 
 ```
@@ -82,6 +82,9 @@ This can be done in the loaded event of the page to which you navigated to.
 
   // hide back button
   navigationItem.setHidesBackButtonAnimated(true, false);
+
+  // Disable swipe gesture to go back
+  page.enabeSwipeBackNavigation = false;
 ```
 
 ### 5. Give navigation the highest priority when possible 
