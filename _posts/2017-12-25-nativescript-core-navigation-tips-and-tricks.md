@@ -73,8 +73,9 @@ This is because page B was not added to back stack.
 ### 4. Avoid the default iOS back button from showing up when you navigate
 
 Hiding the back button requires getting an instance of the UIViewController’s navigation item, and invoking the `setHidesBackButtonAnimated` method.
+This can be done in the loaded event of the page to which you navigated to.
 ```js
-  const controller = frameModule.topmost().ios.controller;
+  const controller = page.ios.controller;
 
   // get the view controller navigation item
   const navigationItem = controller.visibleViewController.navigationItem;
