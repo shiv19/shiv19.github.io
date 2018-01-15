@@ -70,7 +70,7 @@ We will be taken to page A.
 
 This is because page B was not added to back stack.
 
-### 4. Avoid the default iOS back button from showing up when you navigate
+### 4. Disable iOS back button and swipe gesture when you navigate
 
 Hiding the back button requires getting an instance of the UIViewController’s navigation item, and invoking the `setHidesBackButtonAnimated` method.
 This can be done in the loaded event of the page to which you navigated to.
@@ -98,7 +98,7 @@ see the playground app)
 
 Here's a Playground app that I made to show all the above tips &amp; tricks:
 
-<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=Hhiggq&v=6">https://play.nativescript.org/?template=play-js&id=Hhiggq&v=6</a>
+<a target="_blank" href="https://play.nativescript.org/?template=play-js&id=Hhiggq&v=7">https://play.nativescript.org/?template=play-js&id=Hhiggq&v=7</a>
 
 Hungry for more?
 Go through the docs if you haven't already => 
