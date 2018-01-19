@@ -75,7 +75,7 @@ This is because page B was not added to back stack.
 Hiding the back button requires getting an instance of the UIViewController’s navigation item, and invoking the `setHidesBackButtonAnimated` method.
 This can be done in the loaded event of the page to which you navigated to.
 ```js
-  const controller = page.ios.controller;
+  const controller = frameModule.topmost().ios.controller;
 
   // get the view controller navigation item
   const navigationItem = controller.visibleViewController.navigationItem;
