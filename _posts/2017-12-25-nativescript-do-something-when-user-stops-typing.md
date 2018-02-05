@@ -1,12 +1,16 @@
 ---
 layout: post
 title: NativeScript do something when user stops typing
-date: 2017-12-25 12:30
+date: '2017-12-25 12:30'
 author: multishiv19
 comments: true
-category: [nativescript]
-tags: [nativescript, optimization]
+category:
+  - nativescript
+tags:
+  - nativescript
+  - optimization
 description: Neat technique to use when making calls to search API
+published: true
 ---
 
 Let's assume you have a search feature on your app that you want to live-update while the user types. The naive solution would be to execute a search query on every keystroke. This falls apart, however, because the user can usually type faster than how fast your server can respond. This makes for a poor user experience and an overloaded server.
@@ -62,3 +66,5 @@ This article was derived from <a target="_blank" href="https://schier.co/blog/20
 Have fun!, Happy NativeScripting.
 
 Be sure to let me know your thoughts in the comment section below.
+
+
