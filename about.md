@@ -8,7 +8,7 @@ published: true
 Hi! I'm Shiva Prasad, A Tech Enthusiast from India.
 
 I'm currently working as Lead Software Developer at Bfit Technologies, and
-Technology and Product Lead at Jyopal Technologies.
+as a Partner at [nStudio](https://nstudio.io).
 
 ### You can hire me for consultation or remote code debugging for NativeScript
 
