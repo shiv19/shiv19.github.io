@@ -1,6 +1,6 @@
 ---
-layout: redirectnsdevtheory
-title: NativeScript - Dev Theory
-permalink: /nsdevtheory/
+layout: redirecttrivandrum
+title: NativeScript - Intro
+permalink: /shortcut2native/
 published: true
 ---
