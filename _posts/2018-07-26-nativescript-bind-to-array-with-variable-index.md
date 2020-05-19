@@ -114,7 +114,7 @@ Did you manage to do it? If yes, well done! If no, read on!
 # Solution
 
 The intuitive approach here would be to bind the `text` property to
-`{{ text[index] }}` and bind the `src` property to `{{ src[index] }}`
+{% raw %}`{{ text[index] }}`{% endraw %} and bind the `src` property to {% raw %}`{{ src[index] }}`{% endraw %}
 
 However, using multiple variables in an expression like that is not supported
 in NativeScript. So the way we bind is by specifying the different variables that
