@@ -121,8 +121,8 @@ in NativeScript. So the way we bind is by specifying the different variables tha
 we will be using, before using them in an expression.
 
 So the correct way to bind it is,
-`text="\{\{ text index, text[index] \}\}"` for the label\\
-`src="\{\{ images index, images[index] \}\}"` for the image\\
+{% raw %}`text="{{ text index, text[index] }}"`{% endraw %} for the label\\
+{% raw %}`src="{{  images index, images[index]  }}"`{% endraw %} for the image\\
 (Note: The order in which you specify the variables does not matter)
 
 Here is the link to the completed code: [https://play.nativescript.org/?template=play-js&id=LG7lHa](https://play.nativescript.org/?template=play-js&id=LG7lHa)
