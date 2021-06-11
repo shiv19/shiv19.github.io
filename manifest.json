@@ -1,18 +1,28 @@
 {
-    "name": "",
+    "dir": "ltr",
+    "lang": "en",
+    "name": "Shiv19 – A Full Stack Developer",
+    "short_name": "Shiv19 ",
+    "scope": "/",
+    "display": "browser",
+    "start_url": "https://shiv19.com/",
+    "background_color": "#000000",
+    "theme_color": "transparent",
+    "description": "A Full Stack Developer",
+    "orientation": "any",
+    "related_applications": [],
+    "prefer_related_applications": "false",
     "icons": [
-        {
-            "src": "/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
+      {
+        "src": "/favicon.ico",
+        "sizes": "48x48 32x32 16x16"
+      },
+      {
+        "sizes": "150x150",
+        "src": "/mstile-150x150.png",
+        "type": "image/png"
+      }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display": "standalone"
-}
+    "url": "https://shiv19.com",
+    "screenshots": []
+  }
