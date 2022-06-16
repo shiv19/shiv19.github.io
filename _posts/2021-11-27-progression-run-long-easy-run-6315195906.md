@@ -7,10 +7,14 @@ comments: true
 category: [runs]
 tags: [Run]
 description: |
-    
+    Gear: Brooks Adrenaline<br/>Higher temp than usual 🥵
 ---
 
+## Gear
+Brooks Adrenaline
 
+## Activity Description
+Higher temp than usual 🥵
 
 
 <div width='100%' class='strava-embed-placeholder' data-embed-type='activity' data-embed-id='6315195906'></div>

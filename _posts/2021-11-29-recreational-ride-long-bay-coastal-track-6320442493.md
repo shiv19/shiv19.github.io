@@ -7,9 +7,11 @@ comments: true
 category: [rides]
 tags: [EBikeRide]
 description: |
-    
+    Gear: Trek Powerfly 5<br/>
 ---
 
+## Gear
+Trek Powerfly 5
 
 
 
