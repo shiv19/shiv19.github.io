@@ -7,10 +7,14 @@ comments: true
 category: [runs]
 tags: [Run]
 description: |
-    
+    Gear: ASICS Gel-Kayano Lite 2<br/>I pushed to 19km today to make the weekly total reach 50kms
 ---
 
+## Gear
+ASICS Gel-Kayano Lite 2
 
+## Activity Description
+I pushed to 19km today to make the weekly total reach 50kms
 
 
 <div width='100%' class='strava-embed-placeholder' data-embed-type='activity' data-embed-id='5945633844'></div>

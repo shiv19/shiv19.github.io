@@ -7,9 +7,11 @@ comments: true
 category: [walks]
 tags: [Walk]
 description: |
-    
+    Gear: Skechers Go Walk 4<br/>
 ---
 
+## Gear
+Skechers Go Walk 4
 
 
 

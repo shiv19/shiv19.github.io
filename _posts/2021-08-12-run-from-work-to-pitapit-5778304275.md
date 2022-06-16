@@ -7,10 +7,14 @@ comments: true
 category: [runs]
 tags: [Run]
 description: |
-    
+    Gear: ASICS Gel-Kayano Lite 2<br/>A short run before my lunch
 ---
 
+## Gear
+ASICS Gel-Kayano Lite 2
 
+## Activity Description
+A short run before my lunch
 
 
 <div width='100%' class='strava-embed-placeholder' data-embed-type='activity' data-embed-id='5778304275'></div>

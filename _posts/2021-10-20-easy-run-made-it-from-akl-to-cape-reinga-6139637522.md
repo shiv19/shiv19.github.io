@@ -7,10 +7,14 @@ comments: true
 category: [runs]
 tags: [Run]
 description: |
-    
+    Gear: ASICS Gel-Kayano Lite 2<br/>Progress from Aug 12th to today :) 
 ---
 
+## Gear
+ASICS Gel-Kayano Lite 2
 
+## Activity Description
+Progress from Aug 12th to today :) 
 
 
 <div width='100%' class='strava-embed-placeholder' data-embed-type='activity' data-embed-id='6139637522'></div>

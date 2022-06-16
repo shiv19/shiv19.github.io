@@ -7,9 +7,14 @@ comments: true
 category: [runs]
 tags: [Run]
 description: |
-    
+    Gear: ASICS Gel-Kayano Lite 2<br/>Starting off at smaller distance and slowly building stamina<br/>
 ---
 
+## Gear
+ASICS Gel-Kayano Lite 2
+
+## Activity Description
+Starting off at smaller distance and slowly building stamina
 
 
 
