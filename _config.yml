@@ -6,7 +6,7 @@
 name: Shiv19
 
 # Short bio or description (displayed in the header)
-description: A Full Stack Developer
+description: 'Training for a sub 3:15 marathon.<br/>Running since August 2021.'
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://avatars.githubusercontent.com/shiv19
@@ -31,6 +31,7 @@ footer-links:
   stackoverflow: users/3970346/shiva-prasad
   youtube: user/multishiv19
   googleplus:
+  strava: shiv19
 
 
 # Enter your Disqus shortname (not your username) to enable commenting on posts
@@ -67,8 +68,7 @@ timezone: Asia/Kolkata
 # !! You don't need to change any of the configuration flags below !!
 #
 
-permalink: /:title/
-
+permalink: "/:title"
 paginate: 6
 paginate_path: "/page:num/"
 
@@ -84,7 +84,7 @@ kramdown:
 
 # Set the Sass partials directory, as we're using @imports
 sass:
-  style: :compressed # You might prefer to minify using :compressed
+  style: "compressed" # You might prefer to minify using :compressed
 
 # Use the following plug-ins
 plugins:

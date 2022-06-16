@@ -21,6 +21,16 @@
       url: /category/tricks
     - title: Life Hacks
       url: /category/lifehacks
+    - title: Runs
+      url: /category/runs
+    - title: Rides
+      url: /category/rides
+    - title: Swims
+      url: /category/swims
+    - title: Walks
+      url: /category/walks
+    - title: Workouts
+      url: /category/workouts
 
 - title: Donate
   url: https://paypal.me/shiva19
