@@ -6,8 +6,16 @@ author: multishiv19
 comments: true
 category: [runs]
 tags: [Run]
-description: 
+description: |
+    Gear: Nike Pegasus 38<br/>This run also rounds off my mileage for this week to 90km :) 
 ---
+
+## Gear
+Nike Pegasus 38
+
+## Activity Description
+This run also rounds off my mileage for this week to 90km :) 
+
 
 <div width='100%' class='strava-embed-placeholder' data-embed-type='activity' data-embed-id='7105088658'></div>
 <script src='https://strava-embeds.com/embed.js'></script>
