@@ -63,7 +63,7 @@ defaults:
     values:
       layout: "category"
 
-timezone: Asia/Kolkata
+timezone: Pacific/Auckland
 #
 # !! You don't need to change any of the configuration flags below !!
 #
