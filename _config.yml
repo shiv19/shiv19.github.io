@@ -71,6 +71,7 @@ timezone: Pacific/Auckland
 permalink: "/:title"
 paginate: 10
 paginate_path: "/page:num/"
+future: true
 
 # Jekyll 3 now only supports Kramdown for Markdown
 kramdown:
