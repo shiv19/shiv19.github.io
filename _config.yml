@@ -72,6 +72,7 @@ permalink: "/:title"
 paginate: 10
 paginate_path: "/page:num/"
 future: true
+strict_front_matter: true
 
 # Jekyll 3 now only supports Kramdown for Markdown
 kramdown:
