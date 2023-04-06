@@ -20,7 +20,7 @@
     </form>
     <div class="text-center text-gray-800 font-bold text-2xl mt-6 mb-2" id="result"></div>
     <div class="text-center text-gray-800 italic mb-6" id="quote"></div>
-    <img class="mx-auto w-1/2" id="gif" src="https://source.unsplash.com/featured/?running">
+    <img class="mx-auto w-1/2" id="gif" src="https://source.unsplash.com/featured/?quotes">
   </div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
@@ -63,22 +63,11 @@
         <div >Distance per hour: ${distancePerHour} km</div>
       `;
 
-      try {
-        const response = await axios.get('https://www.literallyanything.io/api/integrations/giphy', {
-          params: {
-            q: 'running quotes',
-            limit: 1,
-            rating: 'g'
-          }
-        });
-
-        const quote = response.data.data[0].title.split(' - ')[0];
-        quoteDiv.innerText = quote;
-        const gifUrl = response.data.data[0].images.original.url;
-        gifImg.src = gifUrl;
-      } catch (error) {
-        console.log(error);
-      }
+      // Reload the Unsplash image with a cache-busting query parameter
+      const currentUrl = gifImg.src;
+      const baseUrl = currentUrl.split('?')[0];
+      const newUrl = `${baseUrl}?${new Date().getTime()}&quotes`;
+      gifImg.src = newUrl;
     }
   </script>
 </body>
