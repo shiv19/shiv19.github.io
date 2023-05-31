@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Running Distance Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto max-w-lg p-6 bg-white rounded-xl shadow-md mt-10">
+    <h1 class="text-center text-3xl font-bold text-gray-800 mb-6">Running Distance Calculator</h1>
+    <form>
+      <div class="mb-4">
+        <label for="pace" class="block text-gray-800 font-bold mb-2">Pace per Kilometer (in mm:ss)</label>
+        <input type="text" title="mm:ss For example: 3:45" pattern="\d*[:]?(\d{1,2})?(:\d{1,2})?" class="bg-gray-100 border-2 border-gray-300 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500" id="pace" placeholder="For eg: 4:15" required>
+      </div>
+      <div class="mb-4">
+        <label for="duration" class="block text-gray-800 font-bold mb-2">Duration (in hh:mm:ss or mm:ss) - Optional</label>
+        <input type="text" title="hh:mm:ss or mm:ss For example: 1:24:00 or 30:24" pattern="\d*[:]?(\d{1,2})?(:\d{1,2})?" class="bg-gray-100 border-2 border-gray-300 rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500" id="duration" placeholder="For eg: 20:25">
+      </div>
+      <button type="submit" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:bg-blue-600">Calculate</button>
+    </form>
+    <div class="text-center text-gray-800 font-bold text-2xl mt-6 mb-2" id="result"></div>
+    <div class="text-center text-gray-800 italic mb-6" id="quote"></div>
+    <img class="mx-auto w-1/2" id="gif" src="https://source.unsplash.com/featured/?quotes">
+  </div>
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', handleFormSubmit);
+
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+      const paceInput = document.querySelector('#pace');
+      const durationInput = document.querySelector('#duration');
+      const resultDiv = document.querySelector('#result');
+      const quoteDiv = document.querySelector('#quote');
+      const gifImg = document.querySelector('#gif');
+
+      function timeToDecimal(timeString) {
+        const timeParts = timeString.split(':').map(Number);
+        let decimalTime = 0;
+
+        if (timeParts.length === 3) {
+          decimalTime += timeParts[0] * 60; // Hours to minutes
+        }
+
+        if (timeParts.length >= 2) {
+          decimalTime += timeParts[timeParts.length - 2]; // Minutes
+        }
+
+        if (timeParts.length >= 1) {
+          decimalTime += timeParts[timeParts.length - 1] / 60; // Seconds to minutes
+        }
+
+        return decimalTime;
+      }
+
+      const pace = timeToDecimal(paceInput.value);
+      const duration = timeToDecimal(durationInput.value);
+      const distance = (duration / pace).toFixed(2);
+      const distancePerHour = (60 / pace).toFixed(2);
+      resultDiv.innerHTML = `
+        ${duration ? `<div>${distance} km</div>` : ''}
+        <div >Distance per hour: ${distancePerHour} km</div>
+      `;
+
+      // Reload the Unsplash image with a cache-busting query parameter
+      const currentUrl = gifImg.src;
+      const baseUrl = currentUrl.split('?')[0];
+      const newUrl = `${baseUrl}?${new Date().getTime()}&quotes`;
+      gifImg.src = newUrl;
+    }
+  </script>
+</body>
+</html>
