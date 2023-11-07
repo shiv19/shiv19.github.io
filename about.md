@@ -6,14 +6,12 @@ published: true
 ---
 
 Hi! I'm Shiva Prasad, A Tech Enthusiast from India.
+I'm based in Auckland, New Zealand since November 2018.
 
-I'm currently working as Software Engineer at Bevie, and
+I'm currently working as Senior Software Engineer at Bevie and
 as a Partner at [nStudio](https://nstudio.io). And I'm a Developer Expert for NativeScript.
 Previously I've worked as Lead Software Developer at Bfit Technologies and
 Technology and Product Lead for JyoPal Technologies.
-
-Lately I've been a lot into Running.
-[My Strava](https://www.strava.com/athletes/shiv19)
 
 ### You can hire me for consultation or remote code debugging for NativeScript
 
