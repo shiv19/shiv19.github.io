@@ -1,0 +1,26 @@
+{
+  "theme_color": "#3b82f6",
+  "background_color": "#212121",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "assets/icon/icon512_maskable.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "assets/icon/icon512_rounded.png",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "en-NZ",
+  "name": "StrideMate",
+  "start_url": "/assets/stridemate/",
+  "scope": "/assets/stridemate/",
+  "description": "Pace calculator for runners"
+}
