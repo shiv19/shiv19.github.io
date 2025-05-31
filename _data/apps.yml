@@ -1,0 +1,86 @@
+apps:
+  - name: "Agile Poker"
+    description: "Planning poker tool for agile teams to estimate story points collaboratively"
+    url: "https://agilepoker.shiv19.com"
+    icon: "casino"
+    category: "productivity"
+
+  - name: "Scrumlr Board"
+    description: "Digital retrospective board for agile teams and workshops"
+    url: "https://scrumlr.shiv19.com"
+    icon: "view_kanban"
+    category: "productivity"
+
+  - name: "Scribble Together"
+    description: "Collaborative drawing and sketching board for teams"
+    url: "https://scribble.shiv19.com"
+    icon: "draw"
+    category: "creative"
+
+  - name: "IT Tools"
+    description: "Collection of useful developer and IT tools in one place"
+    url: "https://it-tools.shiv19.com"
+    icon: "build"
+    category: "developer"
+
+  - name: "PairDrop"
+    description: "Instant file sharing between devices on the same network"
+    url: "https://pairdrop.shiv19.com"
+    icon: "share"
+    category: "utility"
+
+  - name: "PrivateBin"
+    description: "Secure, encrypted pastebin for sharing sensitive text"
+    url: "https://privatebin.shiv19.com"
+    icon: "lock"
+    category: "utility"
+
+  - name: "Redlib"
+    description: "Privacy-focused Reddit frontend with no tracking"
+    url: "https://redlib.shiv19.com"
+    icon: "reddit"
+    category: "social"
+
+  - name: "StrideMate"
+    description: "Running pace calculator and training companion"
+    url: "https://shiv19.com/stridemate"
+    icon: "directions_run"
+    category: "fitness"
+
+  - name: "Baby Learning"
+    description: "Educational games and activities for young children"
+    url: "https://shiv19.com/baby-learning"
+    icon: "child_care"
+    category: "education"
+
+  - name: "Space Survival"
+    description: "Survive in an asteroid field as a spaceship in this thrilling arcade game"
+    url: "https://shiv19.com/spacesurvival"
+    icon: "rocket_launch"
+    category: "games"
+
+categories:
+  productivity:
+    name: "Productivity"
+    color: "blue"
+  creative:
+    name: "Creative"
+    color: "purple"
+  developer:
+    name: "Developer"
+    color: "green"
+  utility:
+    name: "Utility"
+    color: "gray"
+  social:
+    name: "Social"
+    color: "pink"
+  fitness:
+    name: "Fitness"
+    color: "orange"
+  education:
+    name: "Education"
+    color: "indigo"
+  games:
+    name: "Games"
+    color: "red"

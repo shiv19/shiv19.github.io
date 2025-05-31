@@ -6,6 +6,9 @@
 - title: About
   url: /about
 
+- title: Apps
+  url: /apps
+
 - title: Categories
   url: /category/
   sublinks:
