@@ -216,6 +216,15 @@ class AppStatusChecker {
     const appData = this.apps.get(url);
     const startTime = Date.now();
 
+    // Skip status checking for apps hosted directly on shiv19.com with paths (always online)
+    // These are: stridemate, baby-learning, spacesurvival
+    if (url.startsWith('https://shiv19.com/')) {
+      appData.status = 'online';
+      this.updateAppUI(appData.element, 'online', 'Always Online', 0);
+      this.loadFavicon(url, appData.element);
+      return;
+    }
+
     this.updateAppUI(appData.element, 'checking', 'Checking...');
 
     try {
