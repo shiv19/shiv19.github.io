@@ -19,7 +19,7 @@ apps:
 
   - name: "IT Tools"
     description: "Collection of useful developer and IT tools in one place"
-    url: "https://it-tools.shiv19.com"
+    url: "https://ittools.shiv19.com"
     icon: "build"
     category: "developer"
 
