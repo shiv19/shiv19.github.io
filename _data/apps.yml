@@ -47,6 +47,12 @@ apps:
     icon: "directions_run"
     category: "fitness"
 
+  - name: "Code Snippets"
+    description: "A local only snippets manager for developers"
+    url: "https://shiv19.com/code-snippets"
+    icon: "code"
+    category: "utility"
+
   - name: "Baby Learning"
     description: "Educational games and activities for young children"
     url: "https://shiv19.com/baby-learning"
