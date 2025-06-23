@@ -5,12 +5,6 @@ apps:
     icon: "casino"
     category: "productivity"
 
-  - name: "Scrumlr Board"
-    description: "Digital retrospective board for agile teams and workshops"
-    url: "https://scrumlr.shiv19.com"
-    icon: "view_kanban"
-    category: "productivity"
-
   - name: "Scribble Together"
     description: "Collaborative drawing and sketching board for teams"
     url: "https://scribble.shiv19.com"
