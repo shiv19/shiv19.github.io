@@ -22,5 +22,5 @@
   "name": "StrideMate",
   "start_url": "/assets/stridemate/",
   "scope": "/assets/stridemate/",
-  "description": "Pace calculator for runners"
+  "description": "Fast, offline pace calculator for runners. Convert between km/mi paces, calculate race times, and generate splits."
 }
