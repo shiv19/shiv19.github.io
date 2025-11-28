@@ -34,6 +34,11 @@
   --navbar-bg: rgba(255, 255, 255, 0.86);
   --navbar-shadow: 0 12px 32px rgba(17, 17, 17, 0.08);
 
+  --dropdown-bg: #ffffff;
+  --dropdown-hover-bg: #f0f0f0;
+  --dropdown-border: rgba(17, 17, 17, 0.08);
+  --dropdown-shadow: 0 18px 36px rgba(17, 17, 17, 0.12);
+
   /* Syntax Highlighting - Light Mode (GitHub Light optimized) */
   --sh-comment: #6a737d;
   --sh-keyword: #d73a49;
@@ -71,6 +76,11 @@
 
   --navbar-bg: rgba(26, 32, 44, 0.92);
   --navbar-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+
+  --dropdown-bg: #1f2634;
+  --dropdown-hover-bg: #2a3244;
+  --dropdown-border: rgba(255, 255, 255, 0.06);
+  --dropdown-shadow: 0 22px 46px rgba(0, 0, 0, 0.75);
 
   --bg-accent-1: #12131d;
   --bg-accent-2: #1e2533;
@@ -127,6 +137,11 @@ html[data-theme="light"] {
   --bg-accent-1: #fff9fb;
   --bg-accent-2: #f2f8ff;
   --bg-pattern: rgba(65, 131, 196, 0.08);
+
+  --dropdown-bg: #ffffff;
+  --dropdown-hover-bg: #f0f0f0;
+  --dropdown-border: rgba(17, 17, 17, 0.08);
+  --dropdown-shadow: 0 18px 36px rgba(17, 17, 17, 0.12);
 }
 
 /**************/
@@ -432,7 +447,7 @@ nav {
   a {
     margin-left: 20px;
     color: $darkGray;
-    text-align: right;
+    text-align: left;
     font-weight: 300;
     letter-spacing: 1px;
 
