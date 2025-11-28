@@ -1,0 +1,16 @@
+# General crawlers can index everything
+User-agent: *
+Disallow:
+
+# Block known AI-focused crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ChatGPT
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
