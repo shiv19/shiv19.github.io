@@ -39,4 +39,8 @@ so, let's say you write something like this
 </GridLayout>
 ```
 
+<img src="/assets/img/nativescript-layer-items.png" alt="Result" width="390" />
+
+You will get a layered effect, see how the stackLayout got overLayed on top. :)
+
 Hope this helps ^_^
