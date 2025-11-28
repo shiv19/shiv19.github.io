@@ -59,6 +59,12 @@ apps:
     icon: "rocket_launch"
     category: "games"
 
+  - name: "Dragster"
+    description: "Drag the hersheys chocolate bar to the drop zone as quickly as you companion"
+    url: "https://shiv19.com/assets/dragster/"
+    icon: "rocket_launch"
+    category: "games"
+
 categories:
   productivity:
     name: "Productivity"
