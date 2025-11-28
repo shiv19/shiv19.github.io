@@ -1,11 +1,23 @@
 
 pre.highlight {
   background-color: var(--color-code-bg);
-  padding: 1em;
-  border-radius: 8px;
-  margin: 1.5em 0;
+  padding: 1.25em;
+  border-radius: 14px;
+  margin: 1.75em 0;
   overflow: auto;
   color: var(--color-text-primary);
+  border: 1px solid var(--code-border);
+  box-shadow: 0 22px 55px var(--code-shadow);
+  position: relative;
+  isolation: isolate;
+}
+
+html[data-theme="light"] pre.highlight {
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(232, 28, 79, 0.08), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(65, 131, 196, 0.12), transparent 45%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(253, 251, 255, 0.85));
+  background-blend-mode: screen;
 }
 
 pre.highlight > code {
@@ -19,7 +31,7 @@ code {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* 
+/*
    Syntax Highlighting using CSS Variables
    Adapts to Light/Dark mode automatically
 */

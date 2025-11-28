@@ -19,11 +19,17 @@ description: "Discover and access my collection of hosted applications and tools
           A collection of useful applications and tools hosted on my domain. Click any app to access it instantly.
         </p>
 
+        <p class="mt-4 text-base">
+          <a href="{{ site.baseurl }}/" class="text-primary-600 hover:text-primary-700 font-semibold inline-flex items-center">
+            ← Back to home
+          </a>
+        </p>
+
         <!-- Self-hosted Notice -->
         <div class="mt-6 max-w-3xl mx-auto">
           <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <div class="flex items-start">
-              <div class="flex-shrink-0">
+              <div class="shrink-0">
                 <span class="material-symbols-outlined text-blue-500 text-xl">info</span>
               </div>
               <div class="ml-3">
