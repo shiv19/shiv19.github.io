@@ -38,6 +38,8 @@
   --dropdown-hover-bg: #f0f0f0;
   --dropdown-border: rgba(17, 17, 17, 0.08);
   --dropdown-shadow: 0 18px 36px rgba(17, 17, 17, 0.12);
+  --micro-card-bg: rgba(255, 255, 255, 0.86);
+  --micro-link-bg: rgba(255, 255, 255, 0.35);
 
   /* Syntax Highlighting - Light Mode (GitHub Light optimized) */
   --sh-comment: #6a737d;
@@ -81,10 +83,12 @@
   --dropdown-hover-bg: #2a3244;
   --dropdown-border: rgba(255, 255, 255, 0.06);
   --dropdown-shadow: 0 22px 46px rgba(0, 0, 0, 0.75);
+  --micro-card-bg: rgba(26, 32, 44, 0.92);
 
   --bg-accent-1: #12131d;
   --bg-accent-2: #1e2533;
   --bg-pattern: rgba(99, 179, 237, 0.06);
+  --micro-link-bg: rgba(255, 255, 255, 0.04);
 
   /* Syntax Highlighting - Dark Mode (VS Code Dark+ inspired) */
   --sh-comment: #6a9955;
@@ -142,6 +146,8 @@ html[data-theme="light"] {
   --dropdown-hover-bg: #f0f0f0;
   --dropdown-border: rgba(17, 17, 17, 0.08);
   --dropdown-shadow: 0 18px 36px rgba(17, 17, 17, 0.12);
+  --micro-card-bg: rgba(255, 255, 255, 0.86);
+  --micro-link-bg: rgba(255, 255, 255, 0.35);
 }
 
 /**************/
@@ -862,6 +868,157 @@ footer {
   color: var(--color-text-body);
   line-height: 1.6;
   margin: 0;
+}
+
+// Micro Notes
+.micro-entry {
+  padding: 1.75rem 1.75rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--micro-card-bg, rgba(255, 255, 255, 0.72));
+  box-shadow: 0 12px 28px rgba(17, 17, 17, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(6px);
+
+  @include mobile {
+    padding: 1.25rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 34px rgba(17, 17, 17, 0.09);
+  }
+}
+
+.micro-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.micro-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  display: inline-flex;
+}
+
+.micro-permalink {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-blue);
+  text-transform: none;
+  letter-spacing: normal;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.micro-title {
+  font-size: 1.3rem;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.micro-content {
+  font-size: 1rem;
+  color: var(--color-text-body);
+  line-height: 1.6;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.micro-link-card {
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px dashed var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  color: var(--color-text-primary);
+  background: var(--micro-link-bg);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-blue);
+    transform: translateY(-1px);
+  }
+}
+
+.micro-link-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.micro-link-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.micro-link-main {
+  font-weight: 600;
+}
+
+.micro-link-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.micro-link-icon {
+  font-size: 0.9rem;
+}
+
+.micro-container {
+  padding-top: 3rem;
+}
+
+.micro-article {
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  background: var(--micro-card-bg, rgba(255, 255, 255, 0.86));
+  box-shadow: 0 20px 40px rgba(17, 17, 17, 0.08);
+
+  @include mobile {
+    padding: 1.5rem;
+  }
+}
+
+.micro-page-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.micro-page-title {
+  margin: 0.5rem 0 0;
+}
+
+.micro-page-content {
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+.micro-page-footer {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.micro-back {
+  font-weight: 600;
+  color: var(--color-blue);
 }
 
 // Clean Pagination overrides

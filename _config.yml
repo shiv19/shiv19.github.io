@@ -54,6 +54,9 @@ baseurl: ""
 collections:
   category:
     output: true
+  micros:
+    output: true
+    permalink: /micro/:path/
 
 defaults:
   -
@@ -62,6 +65,13 @@ defaults:
       type: category
     values:
       layout: "category"
+  -
+    scope:
+      path: ""
+      type: micros
+    values:
+      layout: "micro"
+      permalink: /micro/:path/
 
 timezone: Pacific/Auckland
 #

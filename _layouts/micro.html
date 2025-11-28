@@ -1,0 +1,34 @@
+---
+layout: default
+---
+
+<div class="post-container micro-container">
+  <article class="micro-article">
+    <header class="micro-page-header">
+      <p class="micro-date">{{ page.date | date: "%b %d, %Y" }}</p>
+      {% if page.title %}
+      <h1 class="micro-page-title">{{ page.title }}</h1>
+      {% endif %}
+    </header>
+    {% if page.link %}
+    {% assign page_link_host = page.link | replace: 'https://', '' | replace: 'http://', '' | split: '/' | first %}
+    {% assign page_link_text = page.link_title | default: page_link_host %}
+    <a class="micro-link-card" href="{{ page.link }}" target="_blank" rel="noopener noreferrer">
+      <div class="micro-link-text">
+        <span class="micro-link-label">Shared link</span>
+        <span class="micro-link-main">{{ page_link_text }}</span>
+        {% if page.link_title %}
+        <span class="micro-link-meta">{{ page_link_host }}</span>
+        {% endif %}
+      </div>
+      <span class="micro-link-icon" aria-hidden="true">↗</span>
+    </a>
+    {% endif %}
+    <div class="micro-page-content">
+      {{ content }}
+    </div>
+    <footer class="micro-page-footer">
+      <a class="micro-back" href="{{ '/' | relative_url }}">&larr; Back to the timeline</a>
+    </footer>
+  </article>
+</div>
