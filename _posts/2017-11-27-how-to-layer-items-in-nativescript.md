@@ -36,11 +36,7 @@ so, let's say you write something like this
         <Label class="fa" color="#FFFFFF" id="userName" text="" />
         <Label class="footnote" id="userEmail" text="" />
     </StackLayout>
-</GridLayout>;
+</GridLayout>
 ```
-
-<img src="https://discourse-cdn-sjc2.com/standard14/uploads/nativescript/original/2X/e/eaba6ed9929f9dee1c2f8796e64660e0cba57970.jpeg" alt="Result" width="390" />
-
-You will get a layered effect, see how the stackLayout got overLayed on top. :)
 
 Hope this helps ^_^
