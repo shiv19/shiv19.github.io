@@ -17,22 +17,26 @@ layout: default
 }
 </style>
 <div class="blog list">
-    <h1>Filed Under <small>#{{ page.category }}</small></h1>
+    <h1 style="margin-bottom: 2em;">Filed Under <small>#{{ page.category }}</small></h1>
 
     <div class="posts">
-    {% for post in site.categories[page.category] %}
-        <a href="{{ site.baseurl }}{{ post.url }}">
-            <article class="post card-1">
-        
-              <h1>{{ post.title }}</h1>
-              <span class="text-muted">{{ post.date | date: "%B %e, %Y" }}</span>
-        
-              <div class="entry" style="margin-bottom: 1.5em">
-                {{ post.description }}
+      <ul class="post-list-minimal">
+        {% for item in site.categories[page.category] %}
+          <li class="post-item-minimal">
+            <a href="{{ site.baseurl }}{{ item.url }}" class="post-link-minimal">
+              <div class="post-meta">
+                <span class="post-date">{{ item.date | date: "%b %d, %Y" }}</span>
+                {% if item.categories %}
+                <span class="post-category">&bull; {{ item.categories | first }}</span>
+                {% endif %}
               </div>
-        
-            </article>
-          </a>
-    {% endfor %}
+              <h2 class="post-title">{{ item.title }}</h2>
+              {% if item.description %}
+              <p class="post-desc">{{ item.description }}</p>
+              {% endif %}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
 </div>

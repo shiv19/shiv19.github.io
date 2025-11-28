@@ -1,6 +1,5 @@
 ---
 layout: page
-title: About
 permalink: /about/
 published: true
 ---
@@ -73,7 +72,12 @@ published: true
 {% assign son_age_years = son_age_months | divided_by: 12 | floor %}
 {% assign son_age_remaining_months = son_age_months | modulo: 12 %}
 
-Kia ora! I'm Shiva Prasad, a {{ age }}-year-old New Zealand-based mobile technologist who loves turning ambitious product ideas into reliable apps. I grew up in Karnataka, India, and now call Auckland home. Over the past decade I've led cross-platform teams, shipped consumer apps that scale globally, and obsessed over the details that make mobile experiences fast, accessible, and delightful.
+<div class="hero">
+  <h1 class="hero-title">About Me</h1>
+  <p class="hero-text">
+    Kia ora! I'm Shiva Prasad, a {{ age }}-year-old New Zealand-based mobile technologist who loves turning ambitious product ideas into reliable apps. I grew up in Karnataka, India, and now call Auckland home. Over the past decade I've led cross-platform teams, shipped consumer apps that scale globally, and obsessed over the details that make mobile experiences fast, accessible, and delightful.
+  </p>
+</div>
 
 ### Quick Facts
 
