@@ -5,10 +5,11 @@
 // IMPORTS
 //
 
-@import "reset";
-@import "variables";
+@use "reset";
+@use "variables" as *;
+@use "highlights";
+@use "svg-icons";
 @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
-// Syntax highlighting @import is at the bottom of this file
 
 /**************/
 /* BASE RULES */
@@ -396,8 +397,3 @@ footer {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-
-// Settled on moving the import of syntax highlighting to the bottom of the CSS
-// ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
-@import "highlights";
-@import "svg-icons";
