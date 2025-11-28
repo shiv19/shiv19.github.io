@@ -9,7 +9,7 @@ tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 description: Solve that Middle Layer!
 ---
 
-<p><br/><img src="{{ site.baseurl }}/assets/img/rb2/Rubiks-Step-2-1024x307.png" alt="Rubik's Step 2" width="100%" height="307" /><br/></p>
+<p><br/><img src="{{ site.baseurl }}/assets/img/rb2/Rubiks-Step-2-1024x307.png" alt="Rubik's Step 2" width="100%" height="auto" /><br/></p>
 <p>This post will guide you through the Step Two in How to Solve the Rubiks Cube.
     If you are here after reading the Step One then please read along. Else <a href="{{ site.baseurl }}/how-to-solve-the-rubiks-cube/">CLICK HERE</a> to goto Step One. Assuming you mastered Step One, you should now be able solve the First Layer of the cube. Now your cube should look something like this:
     <a href="{{ site.baseurl }}/assets/img/rb2/After-Step-One.png"><br/><img class="aligncenter size-full wp-image-123" src="{{ site.baseurl }}/assets/img/rb2/After-Step-One.png" alt="After Step One" width="226" height="236" /><br/></a> Now let's move on to the next step on How to Solve the Rubiks Cube.</p>

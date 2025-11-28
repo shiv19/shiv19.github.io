@@ -9,11 +9,11 @@ tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 description: Solve the last layer!
 ---
 
-<p><img src="{{ site.baseurl }}/assets/img/rb4/Rubiks-Step-4-1024x381.png" alt="Rubik's Step 4" width="100%" height="381" /></p>
+<p><img src="{{ site.baseurl }}/assets/img/rb4/Rubiks-Step-4-1024x381.png" alt="Rubik's Step 4" width="100%" height="auto" /></p>
 <p>
    This post will guide you through the Step Four in How to Solve the Rubiks Cube.
 </p>
-<p>If you are here after reading the Step Three then please read along. Else 
+<p>If you are here after reading the Step Three then please read along. Else
 <a href="{{ site.baseurl }}/how-to-solve-the-rubiks-cube/">CLICK HERE</a> to goto Step One.</p>
 
 <p>Assuming you mastered Step Three, you should now be able to make the Yellow top. Now your cube should look something like this: <br/>

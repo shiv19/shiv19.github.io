@@ -2,29 +2,55 @@
 layout: default
 ---
 
-<article class="post">
-  <h1>{{ page.title }}</h1>
-  <div class="tags">
-      <span class="tag">
-          Category: <a href="/category/{{ page.category }}">#{{ page.category }}</a>
-          <hr/>
+<article class="post-container">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%B %d, %Y" }}
+      </time>
+      <span class="separator">•</span>
+      <span class="reading-time">
+        {% assign words = content | number_of_words %}
+        {% if words < 360 %}
+          1 min read
+        {% else %}
+          {{ words | divided_by: 180 }} min read
+        {% endif %}
       </span>
-  </div>
+    </div>
+    
+    {% if page.tags.size > 0 %}
+    <div class="post-tags">
+      {% for tag in page.tags %}
+        <a href="{{ site.baseurl }}/category/{{ tag }}" class="tag-pill">#{{ tag }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
 
-  <div class="entry">
+  <div class="post-content entry">
     {{ content }}
   </div>
 
-  <div class="date">
-    Written on {{ page.date | date: "%B %e, %Y" }}
-  </div>
-  <div class="pagination" style="display: block;">  
-	  {% if page.previous.url %}  
-	    <a class="prev" title="{{page.previous.title}}" href="{{page.previous.url}}">&laquo; Read previous</a>  
-	  {% endif %}  
-	  {% if page.next.url %}  
-	    <a class="next" title="{{page.next.title}}" href="{{page.next.url}}">Read next &raquo;</a>  
-	  {% endif %}  
+  <div class="post-navigation">
+    {% if page.previous.url %}
+      <a class="nav-link prev" href="{{ page.previous.url }}">
+        <span class="nav-label">Previous</span>
+        <span class="nav-title">{{ page.previous.title }}</span>
+      </a>
+    {% else %}
+      <div class="nav-link prev disabled"></div>
+    {% endif %}
+
+    {% if page.next.url %}
+      <a class="nav-link next" href="{{ page.next.url }}">
+        <span class="nav-label">Next</span>
+        <span class="nav-title">{{ page.next.title }}</span>
+      </a>
+    {% else %}
+      <div class="nav-link next disabled"></div>
+    {% endif %}
   </div>
 
   {% include disqus.html %}

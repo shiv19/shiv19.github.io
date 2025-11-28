@@ -36,7 +36,7 @@ GEM
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
     forwardable-extended (2.6.0)
-    gemoji (3.0.1)
+    gemoji (4.1.0)
     google-protobuf (4.33.1)
       bigdecimal
       rake (>= 13)
@@ -83,7 +83,7 @@ GEM
       safe_yaml (~> 1.0)
       terminal-table (>= 1.8, < 4.0)
       webrick (~> 1.7)
-    jekyll-feed (0.16.0)
+    jekyll-feed (0.17.0)
       jekyll (>= 3.7, < 5.0)
     jekyll-paginate (1.1.0)
     jekyll-sass-converter (3.1.0)
@@ -92,8 +92,8 @@ GEM
       jekyll (>= 3.7, < 5.0)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
-    jemoji (0.12.0)
-      gemoji (~> 3.0)
+    jemoji (0.13.0)
+      gemoji (>= 3, < 5)
       html-pipeline (~> 2.2)
       jekyll (>= 3.0, < 5.0)
     json (2.16.0)
@@ -173,11 +173,12 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  jekyll
-  jekyll-feed (~> 0.16.0)
-  jekyll-paginate (~> 1.1)
-  jekyll-sitemap (~> 1.4)
-  jemoji (~> 0.12.0)
+  jekyll (~> 4.3)
+  jekyll-feed
+  jekyll-paginate
+  jekyll-sitemap
+  jemoji
+  webrick
 
 BUNDLED WITH
    2.7.2

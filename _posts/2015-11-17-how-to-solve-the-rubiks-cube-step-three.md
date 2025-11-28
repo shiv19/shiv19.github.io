@@ -9,7 +9,7 @@ tags: [How to, Rubik's Cube, SpeedCubing, Youtube]
 description: Orientate the last layer!
 ---
 
-<p><img src="{{ site.baseurl }}/assets/img/rb3/Rubiks-Step-3-1024x307.png" alt="Rubik's Step 3" width="100%" height="307" /></p>
+<p><img src="{{ site.baseurl }}/assets/img/rb3/Rubiks-Step-3-1024x307.png" alt="Rubik's Step 3" width="100%" height="auto" /></p>
 <p>This post will guide you through the Step Three in How to Solve the Rubiks Cube.
     If you are here after reading the Step Two then please read along. Else <a href="{{ site.baseurl }}/how-to-solve-the-rubiks-cube/">CLICK HERE</a> to goto Step One. Assuming you mastered Step Two, you should now be able to solve the First Layer of the cube. Now your cube should look something like this:<br/> <img class="aligncenter wp-image-134 size-full" src="{{ site.baseurl }}/assets/img/rb3/After-Step-Two.png" alt="After Step Two" width="223" height="232" /><br/> Now let's move on to the next step on How to Solve the Rubiks Cube.</p>
 <h1>STEP 3: Orientation of Last Layer</h1>

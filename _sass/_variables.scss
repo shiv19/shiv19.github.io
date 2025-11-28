@@ -1,28 +1,28 @@
-
 //
 // VARIABLES
 //
 
-// Colors
-$blue: #4183C4;
-$rose: #e81c4f;
-$roseLight: #ffcccc;
+// CSS Variable Mappings
+$blue: var(--color-blue);
+$rose: var(--color-accent);
+$roseLight: var(--color-accent-light);
 
-// Grays
-$black: #000;
-$darkerGray: #222;
-$darkGray: #555;
-$gray: #666;
-$lightGray: #eee;
-$white: #fdfdfd;
-$deepGray: #333;
-$bodyColor: #566b78;
+// Grays & Text
+$black: var(--color-text-primary);
+$darkerGray: var(--color-text-primary);
+$darkGray: var(--color-text-secondary);
+$gray: var(--color-text-muted);
+$lightGray: var(--color-border);
+$white: var(--color-bg);
+$deepGray: var(--color-text-primary);
+$bodyColor: var(--color-text-body);
 
 // Font stacks
-$helvetica: Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$system: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+$helvetica: $system;
+$helveticaNeue: $system;
 $georgia: Georgia, serif;
-$roboto: "Roboto", "Helvetica", "Arial", sans-serif;
+$roboto: $system;
 
 // Mobile breakpoints
 @mixin mobile {
