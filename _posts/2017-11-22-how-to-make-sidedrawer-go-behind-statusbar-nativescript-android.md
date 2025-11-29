@@ -9,7 +9,8 @@ tags: [nativescript, android]
 description: This is a quick tutorial
 ---
 
-## Here's how to go from sidebar below status bar to sidebar behind status bar
+Here's how to go from sidebar below status bar to sidebar behind status bar
+
 <img src="{{ site.baseurl }}/assets/img/sideDrawerSB/before.png" alt="Before" width="250" /> => <img src="{{ site.baseurl }}/assets/img/sideDrawerSB/after.png" alt="After" width="250" />
 
 Just follow these 3 simple steps
