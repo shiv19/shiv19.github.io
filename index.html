@@ -14,12 +14,9 @@ layout: default
 <div class="posts">
   <ul class="post-list-minimal">
     {% assign timeline = paginator.posts %}
-    {% if site.micros %}
-      {% assign timeline = timeline | concat: site.micros %}
-    {% endif %}
     {% assign timeline = timeline | sort: 'date' | reverse %}
     {% for item in timeline limit: 15 %}
-      {% if item.collection == 'micros' %}
+      {% if item.layout == 'micro' %}
       <li class="micro-entry post-item-minimal">
         <div class="micro-meta">
           <span class="micro-dot" aria-hidden="true"></span>

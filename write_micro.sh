@@ -21,7 +21,7 @@ RAW_DATETIME=$(TZ="Pacific/Auckland" date +"%Y-%m-%d %H:%M:%S %z")
 DATETIME=$(echo "$RAW_DATETIME" | sed 's/\([+-][0-9][0-9]\)\([0-9][0-9]\)$/\1:\2/')
 
 # Create filename
-FILENAME="_micros/${DATE}-${POST_SLUG}.md"
+FILENAME="_posts/${DATE}-${POST_SLUG}.md"
 
 # Check if file already exists
 if [ -f "$FILENAME" ]; then
@@ -34,6 +34,7 @@ cat > "$FILENAME" << EOF
 ---
 title: ""
 date: ${DATETIME}
+layout: micro
 ---
 
 EOF
