@@ -1,0 +1,61 @@
+prose:
+  rooturl: '_posts'
+  siteurl: 'https://shiv19.com'
+  media: 'assets/img'
+  metadata:
+    _posts:
+      - name: "layout"
+        field:
+          element: "select"
+          label: "Layout Type"
+          placeholder: "Choose layout"
+          options:
+            - name: "Micro"
+              value: "micro"
+            - name: "Regular Post"
+              value: "post"
+      - name: "title"
+        field:
+          element: "text"
+          label: "Post Title"
+          placeholder: "Enter post title"
+      - name: "date"
+        field:
+          element: "text"
+          label: "Date"
+          placeholder: "YYYY-MM-DD HH:MM:SS +13:00"
+      - name: "published"
+        field:
+          element: "checkbox"
+          label: "Published"
+          value: "true"
+      - name: "author"
+        field:
+          element: "text"
+          label: "Author"
+          value: "multishiv19"
+      - name: "tags"
+        field:
+          element: "multiselect"
+          label: "Tags"
+          placeholder: "Add tags"
+      - name: "categories"
+        field:
+          element: "multiselect"
+          label: "Categories"
+          placeholder: "Add categories"
+      - name: "description"
+        field:
+          element: "text"
+          label: "Description"
+          placeholder: "Post description for meta tags"
+      - name: "link"
+        field:
+          element: "text"
+          label: "Link URL"
+          placeholder: "https://example.com"
+      - name: "link_title"
+        field:
+          element: "text"
+          label: "Link Title"
+          placeholder: "Link title for micro posts"
