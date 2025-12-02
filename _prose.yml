@@ -36,6 +36,7 @@ prose:
           label: "Author"
           value: "multishiv19"
       - name: "tags"
+        alterable: true
         field:
           element: "multiselect"
           label: "Tags"
@@ -45,6 +46,19 @@ prose:
           element: "multiselect"
           label: "Category"
           placeholder: "Add categories"
+          options:
+            - name: "nativescript"
+              value: "nativescript"
+            - name: "projects"
+              value: "projects"
+            - name: "rubiks"
+              value: "rubiks"
+            - name: "tips"
+              value: "tips"
+            - name: "tricks"
+              value: "tricks"
+            - name: "lifehacks"
+              value: "lifehacks"
       - name: "description"
         field:
           element: "text"
