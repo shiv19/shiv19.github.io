@@ -46,6 +46,7 @@ prose:
           element: "multiselect"
           label: "Category"
           placeholder: "Add categories"
+          alterable: true
           options:
             - name: "nativescript"
               value: "nativescript"
