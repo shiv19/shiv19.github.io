@@ -16,7 +16,7 @@ layout: default
     {% assign timeline = paginator.posts %}
     {% assign timeline = timeline | sort: 'date' | reverse %}
     {% for item in timeline limit: 15 %}
-      {% if item.layout == 'micro' %}
+      {% if item.layout == 'micro' and item.published != false %}
       <li class="micro-entry post-item-minimal">
         <div class="micro-meta">
           <span class="micro-dot" aria-hidden="true"></span>

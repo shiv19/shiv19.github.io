@@ -3,6 +3,7 @@ layout: default
 ---
 
 <div class="post-container micro-container">
+  {% if page.published != false %}
   <article class="micro-article">
     <header class="micro-page-header">
       <p class="micro-date">{{ page.date | date: "%b %d, %Y" }}</p>
@@ -32,3 +33,4 @@ layout: default
     </footer>
   </article>
 </div>
+{% endif %}
