@@ -36,11 +36,11 @@ prose:
           label: "Author"
           value: "multishiv19"
       - name: "tags"
-        alterable: true
         field:
           element: "multiselect"
           label: "Tags"
           placeholder: "Add tags"
+          alterable: true
       - name: "category"
         field:
           element: "multiselect"
