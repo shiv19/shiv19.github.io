@@ -24,6 +24,7 @@ prose:
           element: "text"
           label: "Date"
           placeholder: "YYYY-MM-DD HH:MM:SS +13:00"
+          value: CURRENT_DATETIME
       - name: "published"
         field:
           element: "checkbox"
@@ -39,10 +40,10 @@ prose:
           element: "multiselect"
           label: "Tags"
           placeholder: "Add tags"
-      - name: "categories"
+      - name: "category"
         field:
           element: "multiselect"
-          label: "Categories"
+          label: "Category"
           placeholder: "Add categories"
       - name: "description"
         field:
