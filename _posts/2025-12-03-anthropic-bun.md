@@ -5,6 +5,7 @@ author: multishiv19
 title: Anthropic + Bun
 link: >-
   https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone
+layout: micro
 ---
 Anthropic has acquired Bun, now let them cook!
 They also reached the 1B revenue milestone for Claude Code in just 6 months. Wow!
