@@ -10,5 +10,5 @@ layout: micro
 Anthropic has acquired Bun, now let them cook!
 They also reached the 1B revenue milestone for Claude Code in just 6 months. Wow!
 
-Here's the bun's side of story: [https://bun.com/blog/bun-joins-anthropic](Bun's story)
+Here's the bun's side of story: [Bun's story](https://bun.com/blog/bun-joins-anthropic)
 I found it more interesting.
