@@ -10,30 +10,35 @@ apps:
     url: "https://scribble.shiv19.com"
     icon: "draw"
     category: "creative"
+    selfhosted: true
 
   - name: "IT Tools"
     description: "Collection of useful developer and IT tools in one place"
     url: "https://ittools.shiv19.com"
     icon: "build"
     category: "developer"
+    selfhosted: true
 
   - name: "PairDrop"
     description: "Instant file sharing between devices on the same network"
     url: "https://pairdrop.shiv19.com"
     icon: "share"
     category: "utility"
+    selfhosted: true
 
   - name: "PrivateBin"
     description: "Secure, encrypted pastebin for sharing sensitive text"
     url: "https://privatebin.shiv19.com"
     icon: "lock"
     category: "utility"
+    selfhosted: true
 
   - name: "Redlib"
     description: "Privacy-focused Reddit frontend with no tracking"
     url: "https://redlib.shiv19.com"
     icon: "reddit"
     category: "social"
+    selfhosted: true
 
   - name: "StrideMate"
     description: "Running pace calculator and training companion"

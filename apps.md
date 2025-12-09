@@ -17,8 +17,7 @@ description: "Discover and access my collection of hosted applications and tools
 <section class="apps-lede container">
   <div class="apps-callout">
     <p>
-      These projects run on my own infrastructure, so there might be the occasional reboot window. If something looks down,
-      ping me and I'll nudge it back awake.
+      The projects that are marked self-hosted run on my laptop server on a colima instance. They may be offline occasionally when I'm working on them or my server is down.
     </p>
     <div class="apps-stats">
       <span>{{ site.data.apps.apps | size }} live apps</span>
@@ -51,9 +50,9 @@ description: "Discover and access my collection of hosted applications and tools
     <p class="apps-card-body">{{ app.description }}</p>
     <footer class="apps-card-footer">
       <span class="apps-card-link">{{ app.url | replace: 'https://', '' }}</span>
-      {% unless app.url contains 'shiv19.com/' %}
+      {% if app.selfhosted %}
       <span class="apps-card-badge" title="Runs on my personal server">Self-hosted</span>
-      {% endunless %}
+      {% endif %}
       <button class="apps-card-open" type="button" aria-label="Open {{ app.name }}" onclick="openApp('{{ app.url }}')">
         Launch
       </button>
