@@ -5,7 +5,7 @@ layout: default
 <div class="hero">
   <h1 class="hero-title">Hey, I'm Shiva.</h1>
   <p class="hero-text">
-    This space is my personal timeline again—micro notes, interesting links, and the occasional long-form dive into whatever I'm building or learning.
+    This is my personal timeline—micro notes, interesting links, and the occasional long-form dive into whatever I'm building or learning.
     <br>
     No socials, no algorithm. Just a steady stream of things I find worth remembering.
   </p>
@@ -21,11 +21,14 @@ layout: default
         <div class="micro-meta">
           <span class="micro-dot" aria-hidden="true"></span>
           <span class="micro-date">{{ item.date | date: "%b %d, %Y" }}</span>
-          <a class="micro-permalink" href="{{ item.url | relative_url }}" aria-label="Permalink to micro note">Permalink</a>
+          <button class="micro-permalink" onclick="navigator.clipboard.writeText(window.location.origin + '{{ item.url | relative_url }}').then(() => { this.textContent = 'Copied!'; setTimeout(() => { this.textContent = 'Copy link'; }, 2000); })" aria-label="Copy permalink to clipboard">Copy link</button>
         </div>
         {% if item.title %}
-        <h3 class="micro-title">{{ item.title }}</h3>
+        <h3 class="micro-title"><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
         {% endif %}
+        <div class="micro-content">
+          {{ item.content | markdownify }}
+        </div>
         {% if item.link %}
         {% assign link_host = item.link | replace: 'https://', '' | replace: 'http://', '' | split: '/' | first %}
         {% assign link_text = item.link_title | default: link_host %}
@@ -40,9 +43,6 @@ layout: default
           <span class="micro-link-icon" aria-hidden="true">↗</span>
         </a>
         {% endif %}
-        <div class="micro-content">
-          {{ item.content | markdownify }}
-        </div>
       </li>
       {% else %}
       <li class="post-item-minimal">
