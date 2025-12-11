@@ -10,4 +10,4 @@ link: 'https://media-publications.bcg.com/The-Widening-AI-Value-Gap-October-2025
 
 Just read WIRED’s [*The AI Gap Is Widening*](https://www.wired.com/sponsored/story/the-ai-gap-is-widening/).
 “Success with AI relies 10% on algorithms, 20% on tech, and 70% on people.”
-If leaders don’t internalize that, the gap will only grow.
+A sharp reminder that it is not tooling but human capability that ultimately defines competitive advantage.
