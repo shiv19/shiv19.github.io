@@ -1381,3 +1381,97 @@ html[data-theme="dark"] .icon-sun { display: block !important; }
     background: var(--color-text-muted);
   }
 }
+
+/* ========================================
+   HOLIDAY MODE - Festive snowfall effect
+   ======================================== */
+
+/* Santa cap on site name - positioned on the "9" */
+html.holiday-mode .site-name {
+  position: relative;
+}
+
+html.holiday-mode .site-name::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  right: 190px;
+  width: 32px;
+  height: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 90'%3E%3Cdefs%3E%3ClinearGradient id='capGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23d42426'/%3E%3Cstop offset='50%25' style='stop-color:%23b91c1c'/%3E%3Cstop offset='100%25' style='stop-color:%238b1414'/%3E%3C/linearGradient%3E%3ClinearGradient id='furGrad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffffff'/%3E%3Cstop offset='100%25' style='stop-color:%23e8e8e8'/%3E%3C/linearGradient%3E%3Cfilter id='shadow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='1' dy='2' stdDeviation='2' flood-opacity='0.25'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23shadow)'%3E%3Cpath d='M15,75 Q20,35 45,20 Q55,15 70,25 Q85,40 88,55 Q75,52 60,58 Q40,65 15,75 Z' fill='url(%23capGrad)'/%3E%3Cpath d='M70,25 Q78,18 82,8 Q84,4 88,6 Q92,8 90,14 Q86,24 85,40' fill='url(%23capGrad)'/%3E%3Cellipse cx='90' cy='10' rx='8' ry='7' fill='url(%23furGrad)'/%3E%3Cpath d='M10,78 Q12,70 20,68 Q40,62 60,58 Q78,54 92,58 Q95,65 92,72 Q88,78 80,76 Q55,72 30,78 Q18,82 10,78 Z' fill='url(%23furGrad)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(28deg);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 640px) {
+  html.holiday-mode .site-name::after {
+    right: 120px;
+    top: -8px;
+    width: 28px;
+    height: 24px;
+  }
+}
+
+.snowfall {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -20px;
+  color: rgba(100, 149, 237, 0.8); /* Light mode: cornflower blue */
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+  font-family: 'Arial', sans-serif;
+  animation: snowfall linear infinite;
+  will-change: transform;
+}
+
+/* Dark mode snowflakes - brighter white */
+html[data-theme="dark"] .snowflake {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 5px rgba(173, 216, 230, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .snowflake {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 5px rgba(173, 216, 230, 0.6);
+  }
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: translateY(25vh) rotate(90deg) translateX(15px);
+  }
+  50% {
+    transform: translateY(50vh) rotate(180deg) translateX(-15px);
+  }
+  75% {
+    transform: translateY(75vh) rotate(270deg) translateX(15px);
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg) translateX(0);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .snowflake {
+    animation: none;
+    display: none;
+  }
+}
