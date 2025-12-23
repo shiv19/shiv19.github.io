@@ -851,6 +851,29 @@ footer {
   line-height: 1.6;
 }
 
+.wave-emoji {
+  display: inline-block;
+  -webkit-text-fill-color: initial;
+  animation: wave 5s ease-in-out infinite;
+  transform-origin: 70% 70%;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  5% { transform: rotate(14deg); }
+  10% { transform: rotate(-8deg); }
+  15% { transform: rotate(14deg); }
+  20% { transform: rotate(-4deg); }
+  25% { transform: rotate(10deg); }
+  30%, 100% { transform: rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-emoji {
+    animation: none;
+  }
+}
+
 .hero-subtle {
   background: rgba(255, 255, 255, 0.4);
   border-radius: 28px;
