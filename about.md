@@ -96,7 +96,11 @@ published: true
 
 <ul class="about-timeline">
 	<li>
-		<strong>Technical Lead · Simpro Group (2024—Present)</strong><br>
+		<strong>Engineering Manager · Simpro Group (Dec 2025—Present)</strong><br>
+		Building shared services for the field service platform that powers Simpro's global suite of products. Leading a team of mobile and backend engineers to deliver scalable, high-performance solutions that enhance technician productivity and customer satisfaction.
+	</li>
+	<li>
+		<strong>Technical Lead · Simpro Group (2024—Sep 2025)</strong><br>
 		Guiding a talented crew of mobile engineers as we evolve the Simpro Mobile app. Recent highlights include a new Task Management system, richer asset workflows, Stripe-powered payments, and an attachments refresh that boosted technician productivity.
 	</li>
 	<li>
