@@ -11,15 +11,15 @@
     <![endif]-->
 
   <link rel="manifest" href="{{ '/manifest.json' | prepend: site.baseurl | prepend: site.url }}" />
-  <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/style.css?v={{ site.time | date: '%s' }}" />
   <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml"
   />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/super-search.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/super-search.css?v={{ site.time | date: '%s' }}">
 
   <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
 
-  <script src="{{ site.baseurl }}/assets/js/theme-toggle.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/theme-toggle.js?v={{ site.time | date: '%s' }}"></script>
 
   <script type="module">
     import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
@@ -69,8 +69,8 @@
     </div>
   </div>
 
-  <script src="{{ site.baseurl }}/assets/js/super-search.js"></script>
-  <script src="{{ site.baseurl }}/assets/js/holiday.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/super-search.js?v={{ site.time | date: '%s' }}"></script>
+  <script src="{{ site.baseurl }}/assets/js/holiday.js?v={{ site.time | date: '%s' }}"></script>
   <script>superSearch({
       // Change to your own rss feed file path
       searchFile: '{{ site.baseurl }}/feed.xml',
