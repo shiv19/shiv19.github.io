@@ -75,22 +75,26 @@ published: true
 <div class="hero">
   <h1 class="hero-title">About Me</h1>
   <p class="hero-text">
-    Kia ora! I'm Shiva Prasad, a {{ age }}-year-old New Zealand-based mobile technologist who loves turning ambitious product ideas into reliable apps. I grew up in Karnataka, India, and now call Auckland home. Over the past decade I've led cross-platform teams, shipped consumer apps that scale globally, and obsessed over the details that make mobile experiences fast, accessible, and delightful.
+    Kia ora! I'm Shiva Prasad, a {{ age }}-year-old mobile technologist based in Auckland, New Zealand.
+  </p>
+  <p class="hero-text">
+    I’ve always been a builder at heart. I started out hacking together prototypes and diving deep into NativeScript plugins, driven by the pure joy of making things work. Over the last decade, that journey has taken me from writing code to leading the teams that write it. Today, I focus on the bigger picture: architecting scalable platforms, mentoring engineers, and bridging the gap between ambitious product ideas and rock-solid technical execution.
   </p>
 </div>
 
 ### Quick Facts
 
-- **Where you'll find me:** Auckland, New Zealand (after a childhood in Karnataka, India)
-- **What keeps the lights on:** NativeScript, Angular, Node.js, and the odd backend when no one else volunteers
-- **How long I've been at it:** 8+ years of shipping mobile products for iOS and Android
-- **Favorite job title:** Dad to a December 2024 baby who is currently {% if son_age_years > 0 %}{{ son_age_years }} year{% if son_age_years > 1 %}s{% endif %}{% if son_age_remaining_months > 0 %} and {{ son_age_remaining_months }} month{% if son_age_remaining_months > 1 %}s{% endif %}{% endif %}{% else %}{{ son_age_months }} month{% if son_age_months > 1 %}s{% endif %}{% endif %} old
+- **Current Role:** Engineering Manager at Simpro Group
+- **Home Base:** Auckland, New Zealand (originally from Karnataka, India)
+- **Tech Roots:** NativeScript, Angular, Node.js, and Mobile Architecture
+- **Experience:** 10+ years of shipping apps and solving problems
+- **Favorite Role:** Dad to a December 2024 baby who is currently {% if son_age_years > 0 %}{{ son_age_years }} year{% if son_age_years > 1 %}s{% endif %}{% if son_age_remaining_months > 0 %} and {{ son_age_remaining_months }} month{% if son_age_remaining_months > 1 %}s{% endif %}{% endif %}{% else %}{{ son_age_months }} month{% if son_age_months > 1 %}s{% endif %}{% endif %} old
 
 ## What I Do
 
-- Build and lead cross-functional teams delivering NativeScript, Angular, and Node.js solutions for iOS and Android
-- Architect end-to-end product experiences, from ideation and UX prototyping to deployment and performance tuning
-- Coach teams on automated testing, CI/CD, and pragmatic mobile performance techniques
+- **Empowering Teams:** I don't just manage; I mentor. I help engineers grow from task-completers to product-owners, fostering a culture where technical excellence meets delivery speed.
+- **Building Platforms:** My focus has shifted from individual apps to the shared services and systems that power them, ensuring our tech stack is as scalable as it is maintainable.
+- **Solving the Hard Stuff:** Whether it's a complex UX challenge, a performance bottleneck, or a tricky architectural trade-off, I love diving into the problems that stump others.
 
 ## Career Journey
 
