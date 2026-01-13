@@ -5,7 +5,6 @@ published: true
 description: "A comprehensive sentiment analysis comparing ThoughtSpot, Sigma Computing, and Omni BI from a developer's perspective."
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
