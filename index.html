@@ -17,36 +17,29 @@ layout: default
     {% assign timeline = timeline | sort: 'date' | reverse %}
     {% for item in timeline limit: 15 %}
       {% if item.layout == 'micro' and item.published != false %}
-      <li class="micro-entry post-item-minimal">
-        <div class="micro-meta">
-          <span class="micro-dot" aria-hidden="true"></span>
-          <span class="micro-date">{{ item.date | date: "%b %d, %Y" }}</span>
-          <button class="micro-permalink" onclick="navigator.clipboard.writeText(window.location.origin + '{{ item.url | relative_url }}').then(() => { this.textContent = 'Copied!'; setTimeout(() => { this.textContent = 'Copy link'; }, 2000); })" aria-label="Copy permalink to clipboard">Copy link</button>
+      <li class="post-item-unified micro-item">
+        <div class="post-meta">
+          <span class="post-date">{{ item.date | date: "%b %d, %Y" }}</span>
+          <span class="post-category">micropost</span>
         </div>
         {% if item.title %}
-        <h3 class="micro-title"><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
+        <h3 class="post-title"><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
         {% endif %}
-        <div class="micro-content">
+        <div class="post-content-preview">
           {{ item.content | markdownify }}
         </div>
         {% if item.link %}
         {% assign link_host = item.link | replace: 'https://', '' | replace: 'http://', '' | split: '/' | first %}
         {% assign link_text = item.link_title | default: link_host %}
-        <a class="micro-link-card" href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
-          <div class="micro-link-text">
-            <span class="micro-link-label">Shared link</span>
-            <span class="micro-link-main">{{ link_text }}</span>
-            {% if item.link_title %}
-            <span class="micro-link-meta">{{ link_host }}</span>
-            {% endif %}
-          </div>
-          <span class="micro-link-icon" aria-hidden="true">↗</span>
+        <a class="post-link-external" href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+          <span>{{ link_text }}</span>
+          <span class="post-link-icon" aria-hidden="true">↗</span>
         </a>
         {% endif %}
       </li>
       {% else %}
-      <li class="post-item-minimal">
-        <a href="{{ site.baseurl }}{{ item.url }}" class="post-link-minimal">
+      <li class="post-item-unified">
+        <a href="{{ site.baseurl }}{{ item.url }}" class="post-link-block">
           <div class="post-meta">
             <span class="post-date">{{ item.date | date: "%b %d, %Y" }}</span>
             {% if item.categories %}
