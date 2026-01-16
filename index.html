@@ -39,18 +39,18 @@ layout: default
       </li>
       {% else %}
       <li class="post-item-unified">
-        <a href="{{ site.baseurl }}{{ item.url }}" class="post-link-block">
+        <div class="post-link-block">
           <div class="post-meta">
             <span class="post-date">{{ item.date | date: "%b %d, %Y" }}</span>
             {% if item.categories %}
             <span class="post-category">&bull; {{ item.categories | first }}</span>
             {% endif %}
           </div>
-          <h2 class="post-title">{{ item.title }}</h2>
+          <h2 class="post-title"><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
           {% if item.description %}
           <p class="post-desc">{{ item.description }}</p>
           {% endif %}
-        </a>
+        </div>
       </li>
       {% endif %}
     {% endfor %}
