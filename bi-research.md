@@ -366,7 +366,7 @@ description: "Interactive analysis of BI providers against the Technical Vision 
                                     <div class="w-2 h-2 rounded-full bg-green-500"></div>
                                     <div class="w-2 h-2 rounded-full bg-green-500"></div>
                                     <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                    <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
                                 </div>
                             </div>
                         </div>
@@ -385,7 +385,7 @@ description: "Interactive analysis of BI providers against the Technical Vision 
                             </div>
 
                             <p class="text-slate-600 mb-6 text-sm leading-relaxed">
-                                <strong>Why it fits:</strong> Omni recently acquired Explo, combining Explo's top-tier embedding with Omni's robust, governed semantic layer. This addresses the previous "semantic rigidity" concern, offering a complete package of Governance + Embedding.
+                                <strong>Why it fits:</strong> Omni acquired Explo to bridge the gap between governance and embedding. <span class="bg-yellow-100 text-yellow-800 px-1 rounded">Note:</span> Omni currently uses <strong>Iframe embedding</strong>. Explo's native embedding technology is expected to be integrated into the Omni platform on the roadmap.
                             </p>
 
                             <div class="space-y-3 mb-8">
@@ -397,10 +397,10 @@ description: "Interactive analysis of BI providers against the Technical Vision 
                                     </div>
                                 </div>
                                 <div class="flex items-start">
-                                    <i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0"></i>
+                                    <i data-lucide="arrow-right-circle" class="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0"></i>
                                     <div>
-                                        <span class="block text-sm font-semibold text-slate-800">Explo-Powered Embedding</span>
-                                        <span class="text-xs text-slate-500">Best-in-class developer SDK for DaaS.</span>
+                                        <span class="block text-sm font-semibold text-slate-800">Embedding Transition</span>
+                                        <span class="text-xs text-slate-500">Current: Iframe. Future: Native SDK (Explo migration in ~1 yr).</span>
                                     </div>
                                 </div>
                                 <div class="flex items-start">
@@ -420,7 +420,7 @@ description: "Interactive analysis of BI providers against the Technical Vision 
                                     <div class="w-2 h-2 rounded-full bg-green-500"></div>
                                     <div class="w-2 h-2 rounded-full bg-green-500"></div>
                                     <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                    <div class="w-2 h-2 rounded-full bg-yellow-400"></div> <!-- Slightly lower due to Iframe current state -->
                                 </div>
                             </div>
                         </div>
@@ -543,7 +543,7 @@ description: "Interactive analysis of BI providers against the Technical Vision 
             const ctx = document.getElementById('radarChart').getContext('2d');
 
             // Data derived from the qualitative analysis of the 3 providers against PDF specs
-            // Omni scores updated to reflect stronger semantic layer (5) and explore (4) due to acquisition
+            // Omni scores updated: Embedding SDK lowered to 4 (iframe risk) but potential remains high
             const radarData = {
                 labels: [
                     'Warehouse Native',
@@ -577,7 +577,7 @@ description: "Interactive analysis of BI providers against the Technical Vision 
                     },
                     {
                         label: 'Omni',
-                        data: [4, 4, 5, 5, 4],
+                        data: [4, 4, 5, 4, 4], // Embed SDK lowered to 4 to reflect Iframe status
                         fill: true,
                         backgroundColor: 'rgba(249, 115, 22, 0.2)',
                         borderColor: 'rgb(249, 115, 22)',
