@@ -6,6 +6,7 @@ permalink: /stridemate/privacy/
 
 # Privacy Policy
 
+**Effective date:** November 25, 2024
 **Last updated:** November 25, 2024
 
 ## Overview
