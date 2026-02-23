@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1771850759745,
+  "timestamp": 1771853195873,
   "index": "/assets/stridemate/index.html",
   "assetGroups": [
     {
@@ -15,6 +15,7 @@
         "/assets/stridemate/chunk-3ORAKWS2.js",
         "/assets/stridemate/chunk-42C7ZIID.js",
         "/assets/stridemate/chunk-4U6PRYVA.js",
+        "/assets/stridemate/chunk-5DYULL37.js",
         "/assets/stridemate/chunk-5QXA6RFF.js",
         "/assets/stridemate/chunk-7RW3IWG3.js",
         "/assets/stridemate/chunk-B7MEPI6D.js",
@@ -22,7 +23,6 @@
         "/assets/stridemate/chunk-CSG5OQLY.js",
         "/assets/stridemate/chunk-D66CROZD.js",
         "/assets/stridemate/chunk-E6HTCO4C.js",
-        "/assets/stridemate/chunk-EW2I3HQT.js",
         "/assets/stridemate/chunk-F67JXMIH.js",
         "/assets/stridemate/chunk-FHAZAMUM.js",
         "/assets/stridemate/chunk-FXFZIWDD.js",
@@ -46,9 +46,9 @@
         "/assets/stridemate/chunk-YAUMUHNT.js",
         "/assets/stridemate/chunk-YVPDWZK3.js",
         "/assets/stridemate/index.html",
-        "/assets/stridemate/main-EEGOX2EB.js",
+        "/assets/stridemate/main-VMR5XZCY.js",
         "/assets/stridemate/manifest.webmanifest",
-        "/assets/stridemate/styles-PLXYXSGZ.css"
+        "/assets/stridemate/styles-OJ7ZZ6DV.css"
       ],
       "patterns": []
     },
@@ -90,6 +90,7 @@
     "/assets/stridemate/chunk-3ORAKWS2.js": "a060b4c707e8336e98c99c6f93d972389b0c19b0",
     "/assets/stridemate/chunk-42C7ZIID.js": "9a4312a44cc8ab8573488a48a18c01a6bb352c6b",
     "/assets/stridemate/chunk-4U6PRYVA.js": "9e30195ad097d196c078f554a2965eb758d96e70",
+    "/assets/stridemate/chunk-5DYULL37.js": "cfb7792a2a7a194377dc30421e7c4bd2113875b6",
     "/assets/stridemate/chunk-5QXA6RFF.js": "193569fd1c074f9c136ba736b3b672665a3d2c26",
     "/assets/stridemate/chunk-7RW3IWG3.js": "20e618a4986116ef0f1c3f19d72822a94231c701",
     "/assets/stridemate/chunk-B7MEPI6D.js": "2ad955cb60f8c714ced7f88f4404e55a1eb237db",
@@ -97,7 +98,6 @@
     "/assets/stridemate/chunk-CSG5OQLY.js": "2fdaaefe4a6f7c62a715cacc95f1b182b8447798",
     "/assets/stridemate/chunk-D66CROZD.js": "c232733b119b8407626d1761ef5607bc4a37e089",
     "/assets/stridemate/chunk-E6HTCO4C.js": "6df9bf017b53f256c1a30433bca2832f7d60351f",
-    "/assets/stridemate/chunk-EW2I3HQT.js": "5ece4fa7c6f4c231c24f9ecfc929b9b0ea9aa07c",
     "/assets/stridemate/chunk-F67JXMIH.js": "a3cd18a4ebfc57a75959c49cb8e686d7122c0e51",
     "/assets/stridemate/chunk-FHAZAMUM.js": "642c2fa358a3a5d3bc97a6ddf69b54d3443f3e2c",
     "/assets/stridemate/chunk-FXFZIWDD.js": "8ff7dec3e460898aa22194db11d9d99cf76889df",
@@ -120,10 +120,10 @@
     "/assets/stridemate/chunk-VMHM3MLJ.js": "e89af04010273efff88eef1523837ae925fe0252",
     "/assets/stridemate/chunk-YAUMUHNT.js": "cf0f5bebfbe1a6c4b58ce7be1f98e12d91c693cd",
     "/assets/stridemate/chunk-YVPDWZK3.js": "88fdec556b543f1bcda3a2a9f090d2ddedc2a608",
-    "/assets/stridemate/index.html": "7625253922cd646bdf0bc28b408e20c0c89ea37a",
-    "/assets/stridemate/main-EEGOX2EB.js": "1f4f871ecf95144324301d1c1985b475f46405e3",
+    "/assets/stridemate/index.html": "080fb0f8994f620e4f6804d4236dd5d608bc5f3d",
+    "/assets/stridemate/main-VMR5XZCY.js": "6c80886da682d36e04fae9978d82da3fe6d4adda",
     "/assets/stridemate/manifest.webmanifest": "506cb2b4fc739d50862dd43cc49d28aececfec3e",
-    "/assets/stridemate/styles-PLXYXSGZ.css": "2fab7f2028021562ca8e73024b1c80e2c235d57b"
+    "/assets/stridemate/styles-OJ7ZZ6DV.css": "527d549820ab54ecb1615a505599537e7d6e45bd"
   },
   "navigationUrls": [
     {
