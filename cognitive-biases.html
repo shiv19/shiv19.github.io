@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cognitive Biases Explorer</title>
+<title>Cognitive Biases — Complete Field Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -11,14 +11,10 @@
     --paper: #f5f0e8;
     --cream: #ede7d6;
     --accent: #c8440a;
-    --accent2: #2a6b5e;
-    --gold: #b89b3e;
     --muted: #7a6e5e;
     --card: #faf7f2;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background: var(--paper);
     color: var(--ink);
@@ -26,8 +22,6 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-
-  /* Grain overlay */
   body::before {
     content: '';
     position: fixed;
@@ -37,7 +31,7 @@
     z-index: 9999;
     opacity: 0.4;
   }
-
+  .page-wrap { max-width: 1200px; margin: 0 auto; }
   header {
     padding: 60px 40px 40px;
     border-bottom: 2px solid var(--ink);
@@ -45,10 +39,7 @@
     grid-template-columns: 1fr auto;
     align-items: end;
     gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
   }
-
   h1 {
     font-family: 'Playfair Display', serif;
     font-size: clamp(2.5rem, 6vw, 5rem);
@@ -56,7 +47,6 @@
     letter-spacing: -0.02em;
     font-style: italic;
   }
-
   h1 span {
     display: block;
     color: var(--accent);
@@ -68,7 +58,6 @@
     text-transform: uppercase;
     margin-bottom: 8px;
   }
-
   .tagline {
     font-size: 0.75rem;
     color: var(--muted);
@@ -78,161 +67,143 @@
     max-width: 200px;
     line-height: 1.6;
   }
-
   .controls {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px 40px;
+    padding: 20px 40px;
     display: flex;
-    gap: 12px;
+    gap: 8px;
     flex-wrap: wrap;
     align-items: center;
     border-bottom: 1px solid var(--cream);
   }
-
   .filter-label {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--muted);
     margin-right: 4px;
   }
-
   .filter-btn {
-    padding: 6px 16px;
+    padding: 5px 13px;
     border: 1.5px solid var(--ink);
     background: transparent;
     cursor: pointer;
     font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--ink);
-    transition: all 0.15s;
+    transition: background 0.12s, color 0.12s;
     border-radius: 2px;
+    white-space: nowrap;
   }
-
   .filter-btn:hover { background: var(--cream); }
   .filter-btn.active { background: var(--ink); color: var(--paper); }
-
-  .search-input {
+  .controls-right {
     margin-left: auto;
-    padding: 6px 14px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .search-input {
+    padding: 5px 12px;
     border: 1.5px solid var(--muted);
     background: transparent;
     font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     color: var(--ink);
     outline: none;
     width: 200px;
     border-radius: 2px;
   }
-
   .search-input:focus { border-color: var(--ink); }
   .search-input::placeholder { color: var(--muted); }
-
-  .stats-bar {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 12px 40px;
+  .view-toggle {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .view-btn {
+    padding: 5px 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
     font-size: 0.68rem;
+    color: var(--ink);
+    transition: background 0.12s;
+  }
+  .view-btn + .view-btn { border-left: 1.5px solid var(--ink); }
+  .view-btn.active { background: var(--ink); color: var(--paper); }
+  .stats-bar {
+    padding: 10px 40px;
+    font-size: 0.65rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     border-bottom: 1px solid var(--cream);
   }
 
+  /* GRID VIEW */
   .grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px;
+    padding: 32px 40px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
   }
-
   .card {
     background: var(--card);
     border: 1.5px solid transparent;
     border-radius: 4px;
-    padding: 28px 28px 24px;
+    padding: 24px 24px 20px;
     cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+    transition: border-color 0.2s, transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-
-  .card.animate-in {
-    animation: fadeIn 0.4s ease both;
-  }
-
+  .card.animate-in { animation: fadeIn 0.35s ease both; }
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-
   .card::before {
     content: '';
     position: absolute;
     top: 0; left: 0;
-    width: 4px;
+    width: 3px;
     height: 100%;
     background: var(--card-accent, var(--muted));
   }
-
-  .card:hover {
-    border-color: var(--ink);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  }
-
-  .card.expanded {
-    border-color: var(--ink);
-    grid-column: span 2;
-  }
-
-  @media (max-width: 768px) { .card.expanded { grid-column: span 1; } }
-
+  .card:hover { border-color: var(--ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.09); }
+  .card.expanded { border-color: var(--ink); }
   .card-category {
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--card-accent, var(--muted));
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: 500;
   }
-
   .card-number {
     position: absolute;
-    top: 20px; right: 24px;
-    font-size: 2.2rem;
+    top: 16px; right: 20px;
+    font-size: 1.8rem;
     font-family: 'Playfair Display', serif;
     color: var(--cream);
     font-weight: 700;
     line-height: 1;
     user-select: none;
   }
-
   .card h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 10px;
-    padding-right: 40px;
+    margin-bottom: 8px;
+    padding-right: 36px;
   }
-
-  .card-tagline {
-    font-size: 0.75rem;
-    color: var(--muted);
-    line-height: 1.6;
-    font-style: italic;
-    margin-bottom: 14px;
-    font-family: 'Playfair Display', serif;
-  }
-
   .card-summary {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     line-height: 1.7;
     color: #4a3e30;
     display: -webkit-box;
@@ -240,319 +211,312 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
-  .card.expanded .card-summary {
-    display: block;
-    -webkit-line-clamp: unset;
-  }
-
-  .card-extra {
-    display: none;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--cream);
-  }
-
+  .card.expanded .card-summary { display: block; -webkit-line-clamp: unset; }
+  .card-extra { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--cream); }
   .card.expanded .card-extra { display: block; }
-
   .card-extra h3 {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--muted);
-    margin-bottom: 6px;
-    margin-top: 14px;
+    margin-bottom: 5px;
+    margin-top: 12px;
   }
-
   .card-extra h3:first-child { margin-top: 0; }
-
-  .card-extra p, .card-extra li {
-    font-size: 0.72rem;
-    line-height: 1.7;
-    color: #4a3e30;
-  }
-
-  .card-extra ul { padding-left: 16px; }
-
+  .card-extra p { font-size: 0.7rem; line-height: 1.7; color: #4a3e30; }
   .example-box {
     background: var(--cream);
     border-radius: 3px;
-    padding: 12px 14px;
-    font-size: 0.72rem;
+    padding: 10px 12px;
+    font-size: 0.7rem;
     line-height: 1.7;
     font-style: italic;
     color: var(--ink);
     font-family: 'Playfair Display', serif;
   }
-
-  .expand-hint {
-    margin-top: 14px;
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
-
+  .expand-hint { margin-top: 12px; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
   .card.expanded .expand-hint { display: none; }
 
+  /* LIST VIEW */
+  body.list-view .grid {
+    display: block;
+    padding: 0 40px 40px;
+  }
+  body.list-view .card {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--cream);
+    box-shadow: none;
+    padding: 12px 16px 12px 22px;
+    transform: none !important;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    animation: none !important;
+  }
+  body.list-view .card::before { width: 3px; border-radius: 0; }
+  body.list-view .card:hover { background: var(--cream); border-bottom-color: var(--ink); }
+  body.list-view .card.expanded { background: var(--cream); display: block; padding: 14px 16px 14px 22px; }
+  body.list-view .card-number { display: none; }
+  body.list-view .card h2 {
+    font-size: 0.88rem;
+    padding-right: 0;
+    margin-bottom: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 230px;
+  }
+  body.list-view .card-category {
+    font-size: 0.58rem;
+    margin-bottom: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 90px;
+  }
+  body.list-view .card-summary {
+    -webkit-line-clamp: 1;
+    font-size: 0.67rem;
+    flex: 1;
+    color: var(--muted);
+  }
+  body.list-view .card.expanded h2 { margin-bottom: 6px; }
+  body.list-view .card.expanded .card-category { margin-bottom: 4px; }
+  body.list-view .card.expanded .card-summary { display: block; -webkit-line-clamp: unset; color: #4a3e30; }
+  body.list-view .expand-hint { display: none; }
+
   .no-results {
-    grid-column: 1/-1;
     text-align: center;
     padding: 80px 0;
     color: var(--muted);
     font-size: 0.8rem;
     letter-spacing: 0.05em;
+    grid-column: 1/-1;
   }
-
   footer {
-    max-width: 1200px;
-    margin: 0 auto;
     padding: 40px;
     border-top: 1px solid var(--cream);
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     text-align: center;
+    line-height: 1.8;
   }
 </style>
 </head>
 <body>
-
-<header>
-  <h1><span>A Field Guide to</span>Cognitive<br>Biases</h1>
-  <p class="tagline">How your mind shortcuts reality — for better & worse</p>
-</header>
-
-<div class="controls">
-  <span class="filter-label">Filter:</span>
-  <button class="filter-btn active" data-cat="all">All</button>
-  <button class="filter-btn" data-cat="memory">Memory</button>
-  <button class="filter-btn" data-cat="social">Social</button>
-  <button class="filter-btn" data-cat="decision">Decision-Making</button>
-  <button class="filter-btn" data-cat="belief">Belief</button>
-  <button class="filter-btn" data-cat="perception">Perception</button>
-  <input type="text" class="search-input" placeholder="Search biases..." id="searchInput">
+<div class="page-wrap">
+  <header>
+    <h1><span>Complete Field Guide to</span>Cognitive<br>Biases</h1>
+    <p class="tagline">175+ systematic quirks of the human mind</p>
+  </header>
+  <div class="controls">
+    <span class="filter-label">Category:</span>
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="estimation">Estimation</button>
+    <button class="filter-btn" data-cat="decision">Decision</button>
+    <button class="filter-btn" data-cat="hypothesis">Hypothesis</button>
+    <button class="filter-btn" data-cat="attribution">Attribution</button>
+    <button class="filter-btn" data-cat="memory">Memory</button>
+    <button class="filter-btn" data-cat="social">Social</button>
+    <div class="controls-right">
+      <input type="text" class="search-input" placeholder="Search biases..." id="searchInput">
+      <div class="view-toggle">
+        <button class="view-btn active" id="gridBtn">⊞ Grid</button>
+        <button class="view-btn" id="listBtn">☰ List</button>
+      </div>
+    </div>
+  </div>
+  <div class="stats-bar" id="statsBar">Loading…</div>
+  <div class="grid" id="grid"></div>
+  <footer>
+    Sources: Wikipedia · Kahneman &amp; Tversky (1974) · Buster Benson's Cognitive Bias Codex · The Decision Lab<br>
+    175 documented biases across 6 categories. Click any card to expand.
+  </footer>
 </div>
-
-<div class="stats-bar" id="statsBar">Showing 20 biases — click any card to expand</div>
-
-<div class="grid" id="grid"></div>
-
-<footer>
-  This is a curated selection of well-documented cognitive biases. Click any card to learn more. Research draws from Kahneman, Tversky, and decades of behavioral science.
-</footer>
-
 <script>
-const biases = [
-  {
-    id: 1, category: "decision",
-    name: "Anchoring Bias",
-    tagline: "The first number you hear becomes your north star.",
-    summary: "We rely too heavily on the first piece of information offered when making decisions. Once an anchor is set, all subsequent judgments are made in relation to it — even if the anchor is arbitrary.",
-    example: '"The jacket was originally $500, now $200!" Feels like a deal — even if $200 is still overpriced.',
-    antidote: "Before seeing a price, estimate your own value first. Ask: what would I pay if I hadn't seen that number?",
-    realWorld: ["Salary negotiations", "Real estate pricing", "Legal settlements"],
-    color: "#c8440a"
-  },
-  {
-    id: 2, category: "belief",
-    name: "Confirmation Bias",
-    tagline: "Your brain is a yes-man for your existing beliefs.",
-    summary: "We seek out, interpret, and remember information in a way that confirms what we already believe, while ignoring contradicting evidence.",
-    example: 'A manager who "knows" an employee is unreliable notices every late arrival but forgets the 20 times they stayed late.',
-    antidote: "Actively seek disconfirming evidence. Ask: what would prove me wrong?",
-    realWorld: ["Political news consumption", "Medical self-diagnosis", "Hiring decisions"],
-    color: "#2a6b5e"
-  },
-  {
-    id: 3, category: "social",
-    name: "Dunning-Kruger Effect",
-    tagline: "The less you know, the more confident you feel.",
-    summary: "People with limited knowledge in a domain overestimate their competence. Conversely, true experts often underestimate themselves because they're aware of how much they don't know.",
-    example: "After reading one article about vaccines, someone feels qualified to debate epidemiologists.",
-    antidote: "Chase the \"Mount Stupid\" descent. The discomfort of realizing your ignorance is the beginning of expertise.",
-    realWorld: ["Online debates", "DIY disasters", "Early career overconfidence"],
-    color: "#b89b3e"
-  },
-  {
-    id: 4, category: "decision",
-    name: "Sunk Cost Fallacy",
-    tagline: "Past pain shouldn't drive future decisions — but it does.",
-    summary: "We continue investing in something because of prior investments (money, time, effort), even when the rational choice is to cut losses. The sunk costs are gone regardless of future action.",
-    example: "Sitting through a terrible 2-hour movie because you already paid $15.",
-    antidote: "Ask: if I had no history with this, would I still choose to continue?",
-    realWorld: ["Staying in bad relationships", "Doubling down on failing projects", "Holding losing stocks"],
-    color: "#c8440a"
-  },
-  {
-    id: 5, category: "perception",
-    name: "The Halo Effect",
-    tagline: "One good thing makes everything seem good.",
-    summary: "Our overall impression of a person influences how we perceive their specific traits. Attractiveness, for instance, leads us to assume competence, kindness, and intelligence.",
-    example: "A charismatic speaker's ideas get less scrutiny than the same ideas from someone awkward.",
-    antidote: "Evaluate traits independently. Would you still trust this argument if it came from someone you found annoying?",
-    realWorld: ["Job interviews", "Celebrity endorsements", "Teacher-student ratings"],
-    color: "#2a6b5e"
-  },
-  {
-    id: 6, category: "memory",
-    name: "Availability Heuristic",
-    tagline: "If you can think of it easily, it must be common.",
-    summary: "We judge the probability of events by how easily examples come to mind. Vivid, recent, or emotionally charged events feel more likely than they actually are.",
-    example: "After seeing a plane crash on the news, people drive instead of fly — despite flying being far safer.",
-    antidote: "Ask: how many examples exist in reality, not how easily you can think of one?",
-    realWorld: ["Risk perception", "Shark fear vs. vending machine fear", "Crime rate misjudgments"],
-    color: "#b89b3e"
-  },
-  {
-    id: 7, category: "social",
-    name: "Fundamental Attribution Error",
-    tagline: "Their failure = their fault. My failure = circumstance.",
-    summary: "When judging others' behavior, we overemphasize character and underestimate situational factors. When judging ourselves, we do the reverse.",
-    example: "Someone cuts you off: they're a terrible driver. You cut someone off: you were in a rush.",
-    antidote: "Before judging, ask: what invisible pressures might this person be under?",
-    realWorld: ["Workplace blame", "Political judgments", "Parenting judgments"],
-    color: "#c8440a"
-  },
-  {
-    id: 8, category: "belief",
-    name: "Bandwagon Effect",
-    tagline: "50 million people can't be wrong… can they?",
-    summary: "We adopt beliefs, behaviors, and trends because others do. The popularity of an idea becomes evidence for its correctness in our minds.",
-    example: "Buying a stock because everyone is talking about it, not because of its fundamentals.",
-    antidote: "Ask: would I believe or do this if I were the only one? What's my independent reason?",
-    realWorld: ["Fad diets", "Stock bubbles", "Voting behavior"],
-    color: "#2a6b5e"
-  },
-  {
-    id: 9, category: "decision",
-    name: "Status Quo Bias",
-    tagline: "The default is always tempting, even when it's wrong.",
-    summary: "We prefer the current state of affairs and perceive any change as a loss. Inaction feels safe even when action is clearly better.",
-    example: "Keeping a bad cell phone plan for years rather than spending 30 minutes switching.",
-    antidote: "Reframe: what would I actively choose if I were starting fresh today?",
-    realWorld: ["Organ donation rates by country", "401k enrollment", "Software defaults"],
-    color: "#b89b3e"
-  },
-  {
-    id: 10, category: "memory",
-    name: "Rosy Retrospection",
-    tagline: "The past was better. (It probably wasn't.)",
-    summary: "We remember past events more positively than we experienced them. Negative emotions fade faster than positive ones, leaving a distorted archive.",
-    example: '"High school was the best time of my life" — said by someone who was anxious and awkward for 4 years.',
-    antidote: "Keep a journal. Present-you and future-you will remember things very differently.",
-    realWorld: ["Nostalgia marketing", "Political 'golden ages'", "Relationship reconciliation"],
-    color: "#c8440a"
-  },
-  {
-    id: 11, category: "social",
-    name: "In-group Bias",
-    tagline: "Us vs. them is a feature, not a bug — but it's costly.",
-    summary: "We favor members of our own group over outsiders, evaluating their actions more charitably and attributing good outcomes to their nature rather than luck.",
-    example: "Judging the same policy differently depending on which party proposed it.",
-    antidote: "Identify your tribe. Then deliberately read perspectives from outside it.",
-    realWorld: ["Tribalism", "Nepotism", "Sports rivalries"],
-    color: "#2a6b5e"
-  },
-  {
-    id: 12, category: "belief",
-    name: "Illusory Correlation",
-    tagline: "Two things happened together — must be connected.",
-    summary: "We perceive a relationship between two variables where none exists, often when we expect or want to find one.",
-    example: "It rained every time you washed your car — so washing your car causes rain.",
-    antidote: "Look for base rates. How often does X happen without Y? Without that, correlation is meaningless.",
-    realWorld: ["Superstitions", "Vaccine-autism myths", "Stereotyping"],
-    color: "#b89b3e"
-  },
-  {
-    id: 13, category: "perception",
-    name: "Framing Effect",
-    tagline: "Same facts, different feelings — it's all in the packaging.",
-    summary: "Our decisions are influenced by how information is presented, not just its content. A \"95% survival rate\" feels very different from a \"5% mortality rate.\"",
-    example: '"Ground beef that is 90% fat-free" sells better than "10% fat" — same thing.',
-    antidote: "Rephrase: convert gains to losses and losses to gains. See if your opinion shifts.",
-    realWorld: ["Medical decision-making", "Political messaging", "Marketing"],
-    color: "#c8440a"
-  },
-  {
-    id: 14, category: "decision",
-    name: "Loss Aversion",
-    tagline: "Losing $100 hurts twice as much as gaining $100 feels good.",
-    summary: "We feel losses more intensely than equivalent gains. The psychological pain of losing is roughly twice as powerful as the pleasure of winning the same amount.",
-    example: "Being more motivated to avoid losing $50 than to earn $100.",
-    antidote: "Ask: what would a neutral observer choose? Reframe the same choice as both a gain and a loss.",
-    realWorld: ["Investment decisions", "Insurance overbuying", "Negotiation deadlocks"],
-    color: "#2a6b5e"
-  },
-  {
-    id: 15, category: "belief",
-    name: "Curse of Knowledge",
-    tagline: "Once you know something, you can't imagine not knowing it.",
-    summary: "Once we know something, we find it hard to imagine what it was like not to know it. This makes experts poor teachers and communicators.",
-    example: 'The expert who explains in jargon and is baffled when beginners don\'t "get it."',
-    antidote: "Use the \"5-year-old test.\" Can you explain it simply? If not, you may not understand it yourself.",
-    realWorld: ["Teaching", "Product design", "Technical writing"],
-    color: "#b89b3e"
-  },
-  {
-    id: 16, category: "social",
-    name: "Spotlight Effect",
-    tagline: "Nobody is watching you as closely as you think.",
-    summary: "We overestimate how much others notice our appearance, mistakes, and behaviors. We're the protagonist of our story; in everyone else's, we're a bit player.",
-    example: "Spilling something on your shirt and assuming everyone in the room noticed.",
-    antidote: "Remember: everyone else is also the star of their own movie. You're background.",
-    realWorld: ["Public speaking fear", "Social anxiety", "Performance anxiety"],
-    color: "#c8440a"
-  },
-  {
-    id: 17, category: "memory",
-    name: "The Mandela Effect",
-    tagline: "Your confident memory might be a creative fiction.",
-    summary: "Named for the widespread false memory of Nelson Mandela dying in prison, this describes how groups of people share incorrect memories — demonstrating how reconstructive and malleable memory is.",
-    example: '"The Berenstain Bears" is widely remembered as "Berenstein Bears." It was never spelled that way.',
-    antidote: "Treat confident memories as hypotheses, not facts. Verify before arguing.",
-    realWorld: ["Eyewitness testimony reliability", "Historical revisionism", "False confessions"],
-    color: "#2a6b5e"
-  },
-  {
-    id: 18, category: "perception",
-    name: "Blind Spot Bias",
-    tagline: "You see everyone else's biases clearly — except your own.",
-    summary: "We recognize cognitive biases in others much more readily than in ourselves. This is the meta-bias: the bias that protects all other biases.",
-    example: '"I judge things objectively; it\'s other people who let emotions get in the way."',
-    antidote: "The fact that you don't feel biased is not evidence that you aren't. Look for structural checks, not introspection.",
-    realWorld: ["Overconfident experts", "Partisan media consumption", "Self-assessments"],
-    color: "#b89b3e"
-  },
-  {
-    id: 19, category: "decision",
-    name: "Planning Fallacy",
-    tagline: "Everything will take longer and cost more than you think.",
-    summary: "We underestimate the time, costs, and risks of future actions while overestimating the benefits. We focus on the best-case scenario rather than the realistic distribution of outcomes.",
-    example: "The Sydney Opera House was planned for 6 years. It took 16. Budget: $7M. Actual: $102M.",
-    antidote: "Use the \"outside view\": how long did similar projects actually take?",
-    realWorld: ["Construction projects", "Software development", "Personal goal-setting"],
-    color: "#c8440a"
-  },
-  {
-    id: 20, category: "belief",
-    name: "Baader-Meinhof Phenomenon",
-    tagline: "Notice something once, and suddenly it's everywhere.",
-    summary: "After learning about something for the first time, you start noticing it everywhere — and wrongly conclude it's become more common. It was always there; your attention just switched on.",
-    example: "You learn the word 'sonder' and suddenly see it in three books, two podcasts, and a tweet.",
-    antidote: "Ask: has this actually increased in frequency, or have I just updated my attention filter?",
-    realWorld: ["New car syndrome", "Pregnancy hormones rumors", "Word frequency after learning"],
-    color: "#2a6b5e"
-  }
-];
-
-const categoryColors = {
-  decision: "#c8440a",
-  belief: "#2a6b5e",
-  memory: "#b89b3e",
-  social: "#5c3d8f",
-  perception: "#1a6b8a"
+const CAT_COLORS = {
+  estimation:"#c8440a", decision:"#2a6b5e", hypothesis:"#b89b3e",
+  attribution:"#5c3d8f", memory:"#1a6b8a", social:"#7a4a1e"
 };
+
+const biases = [
+  // ESTIMATION
+  {id:1,cat:"estimation",name:"Anchoring Bias",summary:"Over-relying on the first piece of information encountered when making decisions. All subsequent judgments are made in relation to this initial anchor, even when arbitrary.",example:'A jacket "was $500, now $200" — feels like a deal even if $200 is still overpriced.'},
+  {id:2,cat:"estimation",name:"Availability Heuristic",summary:"Overestimating the likelihood of events that come easily to mind, especially vivid, recent, or emotionally charged ones.",example:"After a plane crash in the news, people drive instead of fly — despite flying being far safer."},
+  {id:3,cat:"estimation",name:"Dunning-Kruger Effect",summary:"People with limited knowledge overestimate their competence; true experts often underestimate theirs because they are acutely aware of how much they don't know.",example:"After reading one article on vaccines, someone feels qualified to debate epidemiologists."},
+  {id:4,cat:"estimation",name:"Base Rate Fallacy",summary:"Ignoring general statistical information in favour of specific information about a particular case, even when the general data is more informative.",example:"Assuming someone is a librarian because they're quiet and bookish, ignoring that there are far more farmers."},
+  {id:5,cat:"estimation",name:"Optimism Bias",summary:"Overestimating the probability of positive outcomes and underestimating the probability of bad ones for oneself.",example:"Most people believe they are less likely than average to get divorced, have an accident, or develop cancer."},
+  {id:6,cat:"estimation",name:"Pessimism Bias",summary:"Overestimating the likelihood of negative events — the counterpart to optimism bias, prevalent in depression.",example:"A depressed person consistently predicts worse outcomes than statistics would suggest for their situation."},
+  {id:7,cat:"estimation",name:"Planning Fallacy",summary:"Underestimating the time, costs, and risks of future actions while overestimating benefits — defaulting to best-case scenarios.",example:"The Sydney Opera House was planned for 6 years, took 16. Budget: $7M. Actual: $102M."},
+  {id:8,cat:"estimation",name:"Impact Bias",summary:"Overestimating the intensity and duration of emotional reactions to future events — we adapt faster than we expect.",example:"People think winning the lottery will make them permanently happy. The hedonic baseline returns quickly."},
+  {id:9,cat:"estimation",name:"Gambler's Fallacy",summary:"Believing past random events affect future independent probabilities. After five heads, tails feels 'due.'",example:"'I've lost five hands in a row, so I must be due for a win.' Each hand is statistically independent."},
+  {id:10,cat:"estimation",name:"Hot-Hand Fallacy",summary:"Believing that a person who succeeded at a random event has a greater chance of future success.",example:"Betting on a basketball player because they've made their last five shots — but shots are largely independent."},
+  {id:11,cat:"estimation",name:"Conjunction Fallacy",summary:"Assuming specific conditions are more probable than a single general condition — mathematically impossible.",example:"'Linda is a bank teller AND a feminist activist' rated more likely than 'Linda is a bank teller.'"},
+  {id:12,cat:"estimation",name:"Insensitivity to Sample Size",summary:"Failing to appreciate that small samples have far more variance than large ones, leading to over-confidence in small-sample results.",example:"A small clinic reports higher rates of boy births than a large hospital — because small samples fluctuate more."},
+  {id:13,cat:"estimation",name:"Hard-Easy Effect",summary:"Overconfidence on easy tasks and under-confidence on hard tasks — systematic miscalibration of subjective difficulty.",example:"People are overconfident answering easy quiz questions and under-confident answering harder ones."},
+  {id:14,cat:"estimation",name:"Unit Bias",summary:"Perceiving the standard suggested amount of consumption as appropriate — consuming a full unit even when it's too much.",example:"Finishing an entire restaurant portion even when full, because the serving size implies it's the right amount."},
+  {id:15,cat:"estimation",name:"Scope Neglect",summary:"Being insensitive to the magnitude of a problem when evaluating it — caring similarly about small and large versions.",example:"Willingness to donate is nearly the same whether 2,000 or 200,000 birds need saving."},
+  {id:16,cat:"estimation",name:"Time-Saving Bias",summary:"Underestimating time saved when increasing from a low speed, overestimating when increasing from a high speed.",example:"Going 25 to 50 mph saves far more time per trip than 75 to 100 mph. Most people get this backwards."},
+  {id:17,cat:"estimation",name:"Weber-Fechner Law",summary:"Difficulty perceiving and comparing small differences in large quantities — our perception is logarithmic, not linear.",example:"The difference between 1 and 2 kg feels much larger than between 50 and 51 kg, though both differ by 1 kg."},
+  {id:18,cat:"estimation",name:"Exaggerated Expectation",summary:"Expecting more extreme outcomes than those that actually occur — both positive and negative predictions overshoot.",example:"Predicting a vacation will be transformative; in reality, life returns to baseline quickly."},
+  {id:19,cat:"estimation",name:"Illusion of Validity",summary:"Overestimating the accuracy of one's judgments, especially when information seems consistent or correlated.",example:"A financial analyst is confident in predictions that are essentially coin flips in aggregate."},
+  {id:20,cat:"estimation",name:"Restraint Bias",summary:"Overestimating one's ability to resist temptation, leading to overexposure to it.",example:"'I can have just one chip' — leading to bringing the whole bag to the couch."},
+  {id:21,cat:"estimation",name:"Hungry Judge Effect",summary:"Bodily states (hunger, fatigue) affecting judgments about unrelated external matters — the interoceptive bias.",example:"Parole judges grant more favorable rulings right after meals; far fewer just before lunch."},
+  {id:22,cat:"estimation",name:"Subadditivity Effect",summary:"Judging the probability of the whole to be less than the sum of its parts.",example:"Judging a set of individual cancer risk factors as more likely than 'some form of cancer' overall."},
+  {id:23,cat:"estimation",name:"Aesthetic-Usability Effect",summary:"Perceiving attractive things as more usable — underestimating flaws in beautiful products.",example:"Users tolerate bugs in beautifully designed apps they wouldn't accept in ugly ones."},
+  {id:24,cat:"estimation",name:"Conservatism Bias",summary:"Insufficiently revising beliefs when new evidence arrives — updating too slowly toward the correct view.",example:"A doctor sticking with an original diagnosis despite accumulating contradictory test results."},
+  {id:25,cat:"estimation",name:"Travis Syndrome",summary:"Overestimating the significance of the present as uniquely important or transformative in history.",example:"Every generation believes it lives at the most pivotal inflection point in human civilization."},
+  {id:26,cat:"estimation",name:"Attribute Substitution",summary:"When facing a complex judgment, unconsciously replacing it with a simpler related one — the engine of all heuristics.",example:"'How much do I trust this person?' is answered by substituting 'How much do I like them?'"},
+  {id:27,cat:"estimation",name:"Worse-Than-Average Effect",summary:"Believing oneself to be worse than average at difficult tasks — the flip side of illusory superiority.",example:"Most people think they are below-average drivers on icy roads, even when actual skill is average."},
+
+  // DECISION
+  {id:28,cat:"decision",name:"Loss Aversion",summary:"The pain of losing is psychologically about twice as powerful as the pleasure of gaining the same amount.",example:"Being more motivated to avoid losing $50 than to gain $100."},
+  {id:29,cat:"decision",name:"Sunk Cost Fallacy",summary:"Continuing an endeavour because of past investment rather than future value. Sunk costs are gone regardless of what you do next.",example:"Sitting through a terrible 2-hour movie because you already paid for the ticket."},
+  {id:30,cat:"decision",name:"Status Quo Bias",summary:"Preferring the current state of affairs — changes from the baseline are perceived as losses, even when change is beneficial.",example:"Most people stick with default options — retirement allocations, organ donation — regardless of merit."},
+  {id:31,cat:"decision",name:"Framing Effect",summary:"Drawing different conclusions from the same information depending on how it is presented.",example:'"Ground beef that is 90% fat-free" sells better than "10% fat" — identical products.'},
+  {id:32,cat:"decision",name:"Hyperbolic Discounting",summary:"Strongly preferring immediate rewards over future ones, even when the future reward is objectively much larger.",example:"74% chose fruit for next week; 70% chose chocolate for today — same people, different timeframe."},
+  {id:33,cat:"decision",name:"Default Effect",summary:"Strongly favouring the default option when given a choice, due to inertia and implicit social endorsement.",example:"Countries with opt-out organ donation have dramatically higher donation rates than opt-in countries."},
+  {id:34,cat:"decision",name:"Decoy Effect",summary:"Preferences between options A and B change when a third dominated option C is introduced.",example:"A streaming service adds a mid-tier plan that makes the premium plan look like a better deal."},
+  {id:35,cat:"decision",name:"Zero-Risk Bias",summary:"Preferring to eliminate one risk entirely rather than achieving a larger overall risk reduction.",example:"People prefer to eliminate a small risk entirely over halving a much larger risk — even when the latter saves more lives."},
+  {id:36,cat:"decision",name:"Endowment Effect",summary:"Valuing things more once you own them — demanding much more to give up an object than you'd pay to acquire it.",example:"People asked to sell a coffee mug demand nearly twice what buyers are willing to pay for the same mug."},
+  {id:37,cat:"decision",name:"Escalation of Commitment",summary:"Increasing investment in a failing decision because of cumulative prior investment, despite evidence it was wrong.",example:"Continuing to fund a failing project because the team has already spent two years on it."},
+  {id:38,cat:"decision",name:"Action Bias",summary:"Acting even when inaction is more effective — discomfort with doing nothing leads to counterproductive intervention.",example:"Soccer goalkeepers dive for penalty kicks even though staying central is statistically optimal."},
+  {id:39,cat:"decision",name:"Ambiguity Effect",summary:"Avoiding options whose probability of a favorable outcome is unknown, even when that option may be better.",example:"People prefer a known 50/50 bet over an ambiguous unknown-probability bet, even if the unknown is likely better."},
+  {id:40,cat:"decision",name:"Denomination Effect",summary:"Spending more money when it is in small denominations (coins, small bills) than when in large bills.",example:"People are less likely to break a $50 bill to buy something than to use loose cash of the same value."},
+  {id:41,cat:"decision",name:"Disposition Effect",summary:"Selling assets that have risen in value too early while holding assets that have fallen, hoping they recover.",example:"Investors lock in gains quickly but hold losers for years — the opposite of rational strategy."},
+  {id:42,cat:"decision",name:"Money Illusion",summary:"Focusing on the nominal face value of money rather than its real inflation-adjusted purchasing power.",example:"A 3% raise feels like a win even when inflation is 4% — real wealth declined."},
+  {id:43,cat:"decision",name:"Normalcy Bias",summary:"Refusing to plan for or react to disasters that haven't happened before — underestimating catastrophic risk.",example:"Residents ignore evacuation orders because 'the storm has never been this bad before.'"},
+  {id:44,cat:"decision",name:"Pseudocertainty Effect",summary:"Making risk-averse choices when expected outcomes are good, but risk-seeking when outcomes look bad.",example:"Gamblers who avoid risk when winning but bet aggressively to try to break even."},
+  {id:45,cat:"decision",name:"Projection Bias",summary:"Overestimating how much one's future self will share current preferences and emotional states.",example:"Shopping hungry leads to buying more food than needed — current hunger is projected into future preferences."},
+  {id:46,cat:"decision",name:"Present Bias",summary:"Giving disproportionately stronger weight to payoffs closer to the present, regardless of their actual value.",example:"Choosing a smaller reward today over a significantly larger one next month."},
+  {id:47,cat:"decision",name:"Reactance",summary:"Doing the opposite of what someone wants as a need to resist perceived constraints on freedom of choice.",example:"A teenager does exactly what a parent forbids, specifically because it was forbidden."},
+  {id:48,cat:"decision",name:"Risk Compensation",summary:"Taking greater risks when safety measures are present, because perceived danger decreases.",example:"Cyclists wearing helmets have been found to take more risks on roads than those without."},
+  {id:49,cat:"decision",name:"Neglect of Probability",summary:"Completely disregarding probability when making decisions under uncertainty — reacting to possibilities not likelihoods.",example:"Being more afraid of a rare shark attack than a daily car commute after watching Jaws."},
+  {id:50,cat:"decision",name:"Compassion Fade",summary:"Acting more compassionately toward a small number of identifiable victims than to a large anonymous group.",example:"One child's photograph raises more donations than statistics about millions in poverty."},
+  {id:51,cat:"decision",name:"Less-is-Better Effect",summary:"Preferring a smaller set to a larger one when evaluated separately, even when the larger is objectively better.",example:"A 24-piece dinnerware set with two broken items is valued less than an intact 16-piece set."},
+  {id:52,cat:"decision",name:"Functional Fixedness",summary:"Using objects only in their traditional way, limiting creative problem-solving.",example:"Failing to use a coin as a screwdriver in an emergency — because a coin is mentally categorized as 'money.'"},
+  {id:53,cat:"decision",name:"Effort Justification",summary:"Attributing greater value to outcomes that required significant effort — the foundation of the IKEA effect.",example:"People value IKEA furniture they assembled themselves more than identical pre-assembled furniture."},
+  {id:54,cat:"decision",name:"Reactive Devaluation",summary:"Devaluing proposals solely because they came from an adversary, regardless of the proposal's actual merit.",example:"A peace proposal is rejected not for its content, but because the other side proposed it."},
+  {id:55,cat:"decision",name:"Distinction Bias",summary:"Viewing two options as more different when evaluating them simultaneously than when evaluating them separately.",example:"Two very similar televisions seem more different side-by-side than when bought weeks apart."},
+  {id:56,cat:"decision",name:"Doubling-Back Aversion",summary:"Avoiding retracing steps even when doing so would clearly save time, because it feels like undoing progress.",example:"Driving a longer route rather than turning around, even when backtracking is measurably faster."},
+  {id:57,cat:"decision",name:"Mere Exposure Effect",summary:"Developing a preference for things merely because of familiarity, without any rational basis.",example:"Songs become more likeable after repeated radio play, even when initially disliked."},
+  {id:58,cat:"decision",name:"Well-Travelled Road Effect",summary:"Underestimating travel time on familiar routes and overestimating time on unfamiliar ones.",example:"Commuters think their normal route is faster than alternatives even when they've never timed others."},
+  {id:59,cat:"decision",name:"Semmelweis Reflex",summary:"Rejecting new evidence that contradicts an established paradigm — regardless of the evidence's quality.",example:"The medical community rejected Semmelweis's handwashing evidence for years because it contradicted consensus."},
+  {id:60,cat:"decision",name:"Shared Information Bias",summary:"Groups spending more time on information everyone already has and less on unique knowledge members bring.",example:"A hiring committee repeatedly discusses the same three known facts while ignoring novel insights."},
+  {id:61,cat:"decision",name:"Authority Bias",summary:"Attributing greater accuracy to authority figures and being more influenced by their opinions regardless of content.",example:"Patients accept diagnoses more readily when presented by doctors with more impressive credentials."},
+  {id:62,cat:"decision",name:"Automation Bias",summary:"Excessive dependence on automated systems, allowing erroneous automated information to override correct human judgment.",example:"Pilots over-relying on autopilot miss instrument anomalies that manual monitoring would catch."},
+  {id:63,cat:"decision",name:"Additive Bias",summary:"Solving problems by adding elements even when subtraction or simplification would be more effective.",example:"When asked to improve a recipe, people add ingredients rather than remove existing ones."},
+  {id:64,cat:"decision",name:"Outcome Bias",summary:"Judging a decision by its eventual outcome rather than the quality of the decision-making at the time.",example:"A surgeon who took a justified risk is blamed if the patient dies, praised if they survive — same decision, different luck."},
+  {id:65,cat:"decision",name:"Prevention Bias",summary:"Believing money spent on prevention buys more security than equal money on detection and response.",example:"Companies overspend on firewalls but underspend on breach response — even when both are equally effective per dollar."},
+  {id:66,cat:"decision",name:"Non-Adaptive Choice Switching",summary:"After a bad outcome, avoiding the previously made choice even when it was statistically optimal.",example:"Never betting on red again after red lost — even though the probability is unchanged."},
+
+  // HYPOTHESIS
+  {id:67,cat:"hypothesis",name:"Confirmation Bias",summary:"Seeking, interpreting, and remembering information to confirm pre-existing beliefs while filtering out contradicting evidence.",example:'A manager who "knows" an employee is unreliable notices every late arrival but forgets the 20 times they stayed late.'},
+  {id:68,cat:"hypothesis",name:"Illusory Truth Effect",summary:"Believing statements are true simply because they've been heard multiple times — familiarity masquerades as truth.",example:"Repeated misinformation in political campaigns becomes more believed over time regardless of fact-checks."},
+  {id:69,cat:"hypothesis",name:"Groupthink",summary:"The desire for harmony in a group results in irrational decision-making as dissenting views are suppressed.",example:"A team unanimously approves a flawed plan to avoid conflict, even when several members had private doubts."},
+  {id:70,cat:"hypothesis",name:"Illusion of Explanatory Depth",summary:"Believing one understands a topic far better than one actually does — especially for systems and mechanisms.",example:"People who claim to understand how a zip-lock bag works fail when asked to draw and explain the mechanism."},
+  {id:71,cat:"hypothesis",name:"Barnum / Forer Effect",summary:"Giving high accuracy ratings to vague, general personality descriptions assumed to be tailored specifically to you.",example:"Horoscopes feel eerily accurate because they're written to apply to nearly everyone."},
+  {id:72,cat:"hypothesis",name:"Belief Bias",summary:"Evaluating the logical strength of an argument based on how believable the conclusion is, not its logical structure.",example:"Accepting a flawed argument if its conclusion matches existing beliefs; rejecting a valid one if it doesn't."},
+  {id:73,cat:"hypothesis",name:"Rhyme-as-Reason Effect",summary:"Perceiving rhyming statements as more truthful or accurate than non-rhyming equivalents.",example:`"If the glove doesn\'t fit, you must acquit' — the rhyme added persuasive weight beyond the logic.`},
+  {id:74,cat:"hypothesis",name:"Fluency Heuristic",summary:"Judging more fluently processed information as more truthful or of higher quality, regardless of content.",example:"Companies with easy-to-pronounce names are rated as more trustworthy than those with complex names."},
+  {id:75,cat:"hypothesis",name:"Agent Detection Bias",summary:"The inclination to assume purposeful intervention by a sentient agent in events that may be random.",example:"Hearing a noise in the dark and immediately assuming it's someone rather than the house settling."},
+  {id:76,cat:"hypothesis",name:"Availability Cascade",summary:"A collective belief gains plausibility through increasing repetition in public discourse — repeat something long enough and it becomes 'true.'",example:"Media coverage of rare events creates widespread public belief that those events are common."},
+  {id:77,cat:"hypothesis",name:"Cognitive Dissonance",summary:"The mental discomfort of holding contradictory beliefs simultaneously, leading to motivated reasoning to reduce the tension.",example:"A smoker who knows smoking causes cancer rationalizes: 'I exercise a lot, so I'll be fine.'"},
+  {id:78,cat:"hypothesis",name:"Illusory Correlation",summary:"Perceiving a relationship between two unrelated variables — especially when we expect or want to find one.",example:"'It rained every time I washed my car' — so washing the car causes rain."},
+  {id:79,cat:"hypothesis",name:"Probability Matching",summary:"Matching response frequency to reward probability in uncertain environments, rather than always choosing the best option.",example:"Guessing 'heads' 60% of the time because heads appeared 60% — rather than always picking heads."},
+  {id:80,cat:"hypothesis",name:"Selection Bias",summary:"Drawing conclusions from a sample that is not representative of the population being studied.",example:"Judging neighborhood safety based only on experiences of people who have already moved away."},
+  {id:81,cat:"hypothesis",name:"Salience Bias",summary:"Focusing on emotionally striking or prominent items and ignoring equally important but unremarkable information.",example:"Focusing on a single dramatic crime story rather than overall statistics when assessing city safety."},
+  {id:82,cat:"hypothesis",name:"Truth Bias",summary:"Inclining toward believing others are telling the truth regardless of whether they actually are.",example:"Most people perform barely above chance at detecting lies — the default assumption is honesty."},
+  {id:83,cat:"hypothesis",name:"Groupshift",summary:"Groups making more extreme decisions than the average individual member, in whichever direction the group already leans.",example:"A cautious group of investors becomes even more risk-averse after group discussion."},
+  {id:84,cat:"hypothesis",name:"Common Source Bias",summary:"Treating studies from the same source or methodology as independent evidence, when they share the same flaws.",example:"Citing five studies using the same flawed survey as five independent confirmations."},
+  {id:85,cat:"hypothesis",name:"Quantification Bias",summary:"Ascribing more weight to measured metrics than to equally important unquantifiable values.",example:"A hospital optimizes for measured metrics (wait times) while neglecting unmeasured care quality."},
+  {id:86,cat:"hypothesis",name:"Backfire Effect",summary:"When firmly held beliefs are challenged, they become stronger rather than being updated.",example:"Correcting a false political belief sometimes causes the believer to hold the belief even more strongly."},
+  {id:87,cat:"hypothesis",name:"Clustering Illusion",summary:"The tendency to see patterns in random data — especially runs within sequences.",example:"Seeing a 'hot streak' in coin flips that are random — humans expect alternation but randomness clusters."},
+  {id:88,cat:"hypothesis",name:"False Priors",summary:"Initial incorrect beliefs interfering with unbiased evaluation of new factual evidence.",example:"Prior belief that the earth is flat causes people to misinterpret every piece of spherical-earth evidence."},
+
+  // ATTRIBUTION
+  {id:89,cat:"attribution",name:"Fundamental Attribution Error",summary:"Overemphasizing character and underestimating situational factors when judging others' behavior.",example:"Someone cuts you off: terrible driver. You cut someone off: you were in a rush."},
+  {id:90,cat:"attribution",name:"Self-Serving Bias",summary:"Attributing successes to internal factors (talent, intelligence) and failures to external factors (bad luck, circumstance).",example:"I passed the exam because I'm smart; I failed because the questions were unfair."},
+  {id:91,cat:"attribution",name:"In-Group Bias",summary:"Favouring members of one's own group over outsiders — judging their actions more charitably and attributing good outcomes to character.",example:"Judging the same policy differently depending on which political party proposed it."},
+  {id:92,cat:"attribution",name:"Just-World Hypothesis",summary:"Believing the world is fundamentally fair and people get what they deserve, which leads to blaming victims.",example:"'She must have done something to deserve it' in response to reports of injustice."},
+  {id:93,cat:"attribution",name:"Halo Effect",summary:"A positive impression of a person in one area influences opinions in all other unrelated areas.",example:"An attractive speaker's ideas receive less critical scrutiny than identical ideas from someone unattractive."},
+  {id:94,cat:"attribution",name:"Horn Effect",summary:"The reverse halo effect — a negative impression in one area colours all other perceptions negatively.",example:"Once someone makes a bad first impression, their subsequent good actions are interpreted with suspicion."},
+  {id:95,cat:"attribution",name:"Outgroup Homogeneity Bias",summary:"Seeing members of other groups as less varied and more uniform than members of one's own group.",example:"'They all look/think the same' — applied to any group the observer is not part of."},
+  {id:96,cat:"attribution",name:"Illusion of Control",summary:"Overestimating one's ability to control events that are actually determined by chance.",example:"Throwing dice gently for low numbers and hard for high numbers, as if physical effort affects outcome."},
+  {id:97,cat:"attribution",name:"Illusory Superiority",summary:"Overestimating one's own qualities relative to others — the Lake Wobegon effect.",example:"90% of drivers believe they are above-average drivers. Statistically impossible."},
+  {id:98,cat:"attribution",name:"False Consensus Effect",summary:"Overestimating the degree to which others share your beliefs, values, and behaviors.",example:"'Surely most reasonable people agree with me on this' — often untrue."},
+  {id:99,cat:"attribution",name:"Illusion of Transparency",summary:"Overestimating how well others can detect your internal states, and how well you understand theirs.",example:"A nervous speaker thinks the audience clearly sees their anxiety, when it's barely noticeable."},
+  {id:100,cat:"attribution",name:"Spotlight Effect",summary:"Overestimating how much others notice one's appearance, mistakes, and behaviors.",example:"Spilling something on your shirt and assuming everyone in the room noticed and will remember it."},
+  {id:101,cat:"attribution",name:"Extrinsic Incentives Bias",summary:"Viewing others as having situational extrinsic motivations while seeing oneself as having intrinsic, principled ones.",example:"'I volunteer because I care; they probably do it for the recognition.'"},
+  {id:102,cat:"attribution",name:"Naïve Cynicism",summary:"Expecting more egocentric bias in others than in oneself.",example:"'Everyone else is out for themselves — I at least act with integrity.'"},
+  {id:103,cat:"attribution",name:"Naïve Realism",summary:"Believing one sees the world objectively, and that those who disagree are uninformed, biased, or irrational.",example:"'I just see things as they are — you're clearly letting your emotions cloud your judgment.'"},
+  {id:104,cat:"attribution",name:"Actor-Observer Asymmetry",summary:"Attributing one's own behavior to situational factors but others' behavior to their stable character traits.",example:"I'm late because of traffic; they're late because they're irresponsible."},
+  {id:105,cat:"attribution",name:"Trait Ascription Bias",summary:"Viewing oneself as variable in personality and behavior but others as having fixed, stable traits.",example:"'I'm complicated and contextual; they're just aggressive/selfish/lazy.'"},
+  {id:106,cat:"attribution",name:"Social Comparison Bias",summary:"When making decisions, favouring candidates who don't compete with one's own particular strengths.",example:"A hiring manager rejects a more talented applicant because they'd outshine the manager's own specialty."},
+  {id:107,cat:"attribution",name:"Belief Perseverance",summary:"Maintaining beliefs even after the evidence for them has been explicitly discredited.",example:"Someone continues to distrust a vaccine after multiple studies have been replicated and explained clearly."},
+  {id:108,cat:"attribution",name:"Moral Luck",summary:"Judging people more harshly for bad outcomes than for equally bad intentions that happened not to cause harm.",example:"Two drunk drivers: one gets home safely, one hits someone. The second is judged far more harshly — same choice, different luck."},
+  {id:109,cat:"attribution",name:"Defensive Attribution",summary:"Attributing more blame to someone whose situation differs from one's own, as a defense mechanism to feel safe.",example:"Blaming accident victims who were driving — to reassure yourself it couldn't happen to you."},
+
+  // MEMORY
+  {id:110,cat:"memory",name:"Rosy Retrospection",summary:"Remembering the past as more positive than it was — negative emotions fade faster than positive ones, distorting the archive.",example:'"High school was the best time of my life" — said by someone who was anxious and awkward for 4 years.'},
+  {id:111,cat:"memory",name:"Hindsight Bias",summary:"After an event, believing you had predicted or could have predicted it all along — 'I knew it.'",example:"After a market crash: 'The signs were so obvious; I should have seen it coming.'"},
+  {id:112,cat:"memory",name:"Baader-Meinhof Phenomenon",summary:"After noticing something for the first time, believing it suddenly appears everywhere — attention has switched on, not frequency increased.",example:"You learn the word 'liminal' and then see it in three books, two podcasts, and a tweet within a week."},
+  {id:113,cat:"memory",name:"Misinformation Effect",summary:"Post-event information contaminating the original memory, especially in eyewitness testimony.",example:"Eyewitnesses who hear 'the car smashed' remember the crash as more severe than those who heard 'hit.'"},
+  {id:114,cat:"memory",name:"Google Effect",summary:"Forgetting information that can easily be found online — offloading memory to external search engines.",example:"Not bothering to remember directions because Google Maps is always accessible."},
+  {id:115,cat:"memory",name:"Source Confusion",summary:"Misattributing the origin of a memory — mistaking something seen on TV as something experienced personally.",example:"Remembering a story as something that happened to you, when you actually read it in a novel years ago."},
+  {id:116,cat:"memory",name:"Cryptomnesia",summary:"Mistaking a forgotten memory for a new, original idea — unconscious plagiarism.",example:"A songwriter 'composes' a melody that is actually a half-forgotten tune heard years earlier."},
+  {id:117,cat:"memory",name:"Bizarreness Effect",summary:"Bizarre material is remembered better than common material — the brain flags the unusual.",example:"You remember the one weird detail in a list far better than all the ordinary ones."},
+  {id:118,cat:"memory",name:"Verbatim Effect",summary:"The 'gist' of what someone says is remembered better than the word-for-word version.",example:"You remember the main point of a long conversation but couldn't quote a single sentence accurately."},
+  {id:119,cat:"memory",name:"Von Restorff Effect",summary:"An item that stands out from a list is more likely to be remembered than other items.",example:"The one red word in a black-and-white list is recalled first and most reliably."},
+  {id:120,cat:"memory",name:"Zeigarnik Effect",summary:"Uncompleted or interrupted tasks are remembered better than completed ones.",example:"A waiter remembers every detail of an unpaid tab but forgets it completely once the bill is settled."},
+  {id:121,cat:"memory",name:"Peak-End Rule",summary:"People judge experiences based on the most intense moment and the ending — not the average experience.",example:"A medical procedure with a less painful finish is remembered better than a shorter uniformly painful one."},
+  {id:122,cat:"memory",name:"Primacy Effect",summary:"Items at the beginning of a list or sequence are remembered better than middle ones.",example:"In a job interview, the first candidate is disproportionately well-remembered."},
+  {id:123,cat:"memory",name:"Recency Effect",summary:"The most recently encountered items are better recalled than earlier ones.",example:"The last candidate interviewed is often rated most favourably — freshest in mind."},
+  {id:124,cat:"memory",name:"Duration Neglect",summary:"The overall duration of an experience has little effect on how it is evaluated in memory.",example:"A two-hour and a two-week pleasant vacation are remembered similarly in satisfaction surveys."},
+  {id:125,cat:"memory",name:"Telescoping Effect",summary:"Recent events feel further away than they are; distant events feel more recent.",example:"An event from 5 years ago feels like last year; last month's event feels like ages ago."},
+  {id:126,cat:"memory",name:"Fading Affect Bias",summary:"Negative emotions associated with memories fade more quickly than positive ones.",example:"The embarrassment of a social blunder fades; the warm memory of a kind gesture lingers."},
+  {id:127,cat:"memory",name:"Spacing Effect",summary:"Information is better recalled if exposure is spaced over time rather than crammed into one session.",example:"Studying 30 min/day for a week beats cramming 3.5 hours the night before — for long-term retention."},
+  {id:128,cat:"memory",name:"Serial Position Effect",summary:"Items at the beginning and end of a list are recalled best — the combined primacy and recency effect.",example:"Middle items in a presentation are consistently the least remembered."},
+  {id:129,cat:"memory",name:"Choice-Supportive Bias",summary:"Retrospectively attributing positive qualities to chosen options and negative ones to unchosen alternatives.",example:"After buying a car, remembering its virtues vividly while conveniently forgetting the drawbacks."},
+  {id:130,cat:"memory",name:"Illusion of Knowing",summary:"Feeling confident one understands or could recall something without actually being able to.",example:"Feeling confident about a subject after reading an article, then failing to explain it to someone else."},
+  {id:131,cat:"memory",name:"Memory Inhibition",summary:"Recalling some items from a category actively suppresses memory of related items.",example:"Being shown a partial word list makes other associated words harder to recall."},
+  {id:132,cat:"memory",name:"Rosy Prospection",summary:"Expecting the future to be rosier than the past — future positive events feel more positive than past ones in retrospect.",example:"People consistently overestimate how happy they'll be on their next vacation or at the next milestone."},
+
+  // SOCIAL
+  {id:133,cat:"social",name:"Bandwagon Effect",summary:"Adopting beliefs and behaviors because others do — popularity becomes evidence of correctness.",example:"Buying a stock because everyone is talking about it, not because of its fundamentals."},
+  {id:134,cat:"social",name:"Blind Spot Bias",summary:"Recognizing cognitive biases in others more readily than in oneself — the meta-bias that protects all others.",example:'"I judge things objectively; it\'s other people who let emotions get in the way."'},
+  {id:135,cat:"social",name:"Curse of Knowledge",summary:"Once you know something, it's nearly impossible to imagine not knowing it — making experts poor communicators.",example:"The expert explains in jargon and is baffled when beginners don't immediately understand."},
+  {id:136,cat:"social",name:"Cheerleader Effect",summary:"People appear more attractive in a group than in isolation, due to facial averaging.",example:"A mediocre photo of a person surrounded by attractive friends is rated higher than a solo shot."},
+  {id:137,cat:"social",name:"Social Loafing",summary:"Individuals put in less effort when working in a group than when working alone.",example:"Group projects consistently underperform the sum of individual contributions."},
+  {id:138,cat:"social",name:"Conformity Bias",summary:"Changing one's behavior to match others in a group, even when doing so contradicts private judgment.",example:"In Asch conformity experiments, people agreed with obviously wrong answers to fit the group."},
+  {id:139,cat:"social",name:"Pygmalion Effect",summary:"Higher expectations of a person lead to better actual performance — a self-fulfilling prophecy.",example:"Students told their teacher believes in them strongly perform better, regardless of initial ability."},
+  {id:140,cat:"social",name:"Golem Effect",summary:"Lower expectations lead to worse performance — the negative Pygmalion effect.",example:"Employees whose managers expect little tend to underperform, even when capable."},
+  {id:141,cat:"social",name:"Not Invented Here",summary:"Aversion to using products, ideas, or knowledge developed outside one's own group.",example:"A tech company refuses to use third-party tools and rewrites everything in-house, even at great cost."},
+  {id:142,cat:"social",name:"Reactance Bias",summary:"Valuing freedom and autonomy so strongly that restrictions backfire, producing the opposite of intended effect.",example:"'Parental Advisory' warning labels on albums caused sales to increase substantially."},
+  {id:143,cat:"social",name:"Plan Continuation Bias",summary:"Failure to recognize that the original plan of action is no longer appropriate for a changed situation.",example:"Pilots continuing a landing approach despite deteriorating conditions rather than aborting."},
+  {id:144,cat:"social",name:"System Justification",summary:"Defending and bolstering the status quo — even at the expense of personal and group interests.",example:"Disadvantaged groups sometimes defend the very systems that disadvantage them."},
+  {id:145,cat:"social",name:"Third-Person Effect",summary:"Believing that media and advertising have a greater effect on others than on oneself.",example:'"Advertising doesn\'t affect me, but I can see it clearly manipulating other people."'},
+  {id:146,cat:"social",name:"Reciprocity Norm",summary:"Feeling obligated to return favors even when unsolicited — widely exploited in sales and marketing.",example:"Free supermarket samples lead to significantly higher purchase rates due to felt obligation."},
+  {id:147,cat:"social",name:"Social Proof",summary:"Looking to others' behavior to determine the correct course of action in ambiguous situations.",example:"A restaurant with a long queue must be better than an empty one — others must know something."},
+  {id:148,cat:"social",name:"Scarcity Heuristic",summary:"Valuing things more when they are rare or becoming unavailable, regardless of intrinsic value.",example:"'Limited time offer!' creates urgency that bypasses rational evaluation of whether the product is needed."},
+  {id:149,cat:"social",name:"Liking Bias",summary:"Being more easily persuaded by people we like, regardless of the quality of their argument.",example:"Salespeople who find common ground and mirror body language close more deals, independent of product quality."},
+  {id:150,cat:"social",name:"Bystander Effect",summary:"Individuals are less likely to help in an emergency when others are present — responsibility diffuses across the group.",example:"Kitty Genovese case: 38 witnesses, none called police, each assuming someone else had."},
+  {id:151,cat:"social",name:"False Uniqueness Effect",summary:"Believing one's positive attributes and behaviors are rarer than they actually are.",example:"A person overestimates how unusual it is that they both enjoy cooking and care about the environment."},
+  {id:152,cat:"social",name:"Cross-Race Effect",summary:"Being more accurate at recognizing faces of one's own race than faces of other races.",example:"Eyewitness misidentification is disproportionately common in cross-race identification situations."},
+  {id:153,cat:"social",name:"Herd Behavior",summary:"Individuals in a group acting collectively without centralized direction — following the crowd irrationally.",example:"Stock market bubbles and panics are driven by herd behavior rather than fundamentals."},
+  {id:154,cat:"social",name:"Overconfidence Effect",summary:"Excessive confidence in one's own answers, especially for questions of medium difficulty.",example:"90%-confident answers are correct only ~75% of the time in calibration studies."},
+  {id:155,cat:"social",name:"Hot-Cold Empathy Gap",summary:"Underestimating the influence of visceral drives (hunger, pain, desire) on one's attitudes when in a different state.",example:"People plan gym routines on full stomachs that they never follow when tired and hungry."},
+  {id:156,cat:"social",name:"Stereotyping",summary:"Expecting members of a group to have certain characteristics without accounting for individual variation.",example:"Assuming a software engineer won't be interested in poetry, or that a poet won't understand statistics."},
+  {id:157,cat:"social",name:"IKEA Effect",summary:"Placing disproportionately high value on things one partially created, regardless of objective quality.",example:"Homemade cookies are rated as tastier by their baker than identical store-bought ones."},
+  {id:158,cat:"social",name:"Moral Disengagement",summary:"Using cognitive mechanisms to disengage moral self-regulation and justify actions that would otherwise violate standards.",example:"Soldiers being told enemies are 'subhuman' to override moral resistance to violence."},
+  {id:159,cat:"social",name:"Majority Illusion",summary:"Overestimating how widespread a behavior or belief is in one's social network.",example:"Because your connected friends all smoke, you believe most people in your city smoke — they don't."},
+  {id:160,cat:"social",name:"Positivity Effect",summary:"Older adults focus more on positive memories and information and less on negative, compared to younger adults.",example:"Older people report higher life satisfaction than younger people despite more health challenges."},
+  {id:161,cat:"social",name:"False Memory",summary:"Developing highly confident but entirely false memories — events that never occurred feel vivid and real.",example:"People have been reliably implanted with false memories of being lost in a shopping mall as a child."},
+  {id:162,cat:"social",name:"Ingroup Favoritism",summary:"Giving preferential treatment to members of one's own group over outsiders, without objective justification.",example:"Hiring managers rate resumes from candidates who share their alma mater more favorably."},
+  {id:163,cat:"social",name:"Herding Instinct",summary:"Following the crowd in markets and social contexts, creating collective irrationality.",example:"The dot-com bubble and 2008 housing crisis were fuelled by herd investing overriding individual judgment."},
+  {id:164,cat:"social",name:"Self-Handicapping",summary:"Creating obstacles for oneself to provide an excuse for potential failure, protecting self-image.",example:"Not studying hard before an exam so you can blame the result on not trying rather than lack of ability."},
+  {id:165,cat:"social",name:"Communication Bias",summary:"Experts overestimating their audience's baseline knowledge, leading to systematic communication failures.",example:"A physicist explaining quantum mechanics skips the foundational steps that make it comprehensible."},
+];
 
 let currentFilter = 'all';
 let currentSearch = '';
@@ -560,72 +524,63 @@ let expandedId = null;
 
 function getFiltered() {
   return biases.filter(b => {
-    const matchCat = currentFilter === 'all' || b.category === currentFilter;
+    const matchCat = currentFilter === 'all' || b.cat === currentFilter;
     const q = currentSearch.toLowerCase();
-    const matchSearch = !q || b.name.toLowerCase().includes(q) || b.summary.toLowerCase().includes(q) || b.tagline.toLowerCase().includes(q);
+    const matchSearch = !q || b.name.toLowerCase().includes(q) || b.summary.toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
 }
 
 function cardHTML(b, isExpanded, animDelay) {
-  const color = categoryColors[b.category] || b.color;
+  const color = CAT_COLORS[b.cat] || '#7a6e5e';
   return `
     <div class="card animate-in ${isExpanded ? 'expanded' : ''}"
          data-id="${b.id}"
-         style="--card-accent: ${color}; animation-delay: ${animDelay}s"
+         style="--card-accent:${color}; animation-delay:${animDelay}s"
          onclick="toggleCard(${b.id})">
-      <div class="card-number">${String(b.id).padStart(2,'0')}</div>
-      <div class="card-category">${b.category}</div>
+      <div class="card-number">${String(b.id).padStart(3,'0')}</div>
+      <div class="card-category">${b.cat}</div>
       <h2>${b.name}</h2>
-      <p class="card-tagline">"${b.tagline}"</p>
       <p class="card-summary">${b.summary}</p>
+      ${b.example ? `
       <div class="card-extra">
-        <h3>Real-world example</h3>
+        <h3>Example</h3>
         <div class="example-box">${b.example}</div>
-        <h3>Antidote</h3>
-        <p>${b.antidote}</p>
-        <h3>Where it shows up</h3>
-        <ul>${b.realWorld.map(r => `<li>${r}</li>`).join('')}</ul>
       </div>
-      <p class="expand-hint">↓ click to expand</p>
-    </div>
-  `;
+      <p class="expand-hint">↓ expand</p>` : ''}
+    </div>`;
 }
 
 function render() {
   const filtered = getFiltered();
   const grid = document.getElementById('grid');
   const stats = document.getElementById('statsBar');
+  const isListView = document.body.classList.contains('list-view');
 
-  stats.textContent = `Showing ${filtered.length} of ${biases.length} biases — click any card to expand`;
+  stats.textContent = `Showing ${filtered.length} of ${biases.length} biases — click any card to ${isListView ? 'expand' : 'expand'}`;
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="no-results">No biases found. Try a different search.</div>';
+    grid.innerHTML = '<div class="no-results">No biases match. Try a different search or filter.</div>';
     return;
   }
 
-  grid.innerHTML = filtered.map((b, i) => cardHTML(b, expandedId === b.id, i * 0.04)).join('');
+  // In list view, don't stagger animations (too many items)
+  const getDelay = (i) => isListView ? 0 : Math.min(i * 0.025, 0.5);
+  grid.innerHTML = filtered.map((b, i) => cardHTML(b, expandedId === b.id, getDelay(i))).join('');
 }
 
 function toggleCard(id) {
-  // Collapse previously expanded card (if any)
   if (expandedId !== null && expandedId !== id) {
     const prev = document.querySelector(`.card[data-id="${expandedId}"]`);
-    if (prev) {
-      prev.classList.remove('expanded', 'animate-in');
-    }
+    if (prev) prev.classList.remove('expanded');
   }
-
   const el = document.querySelector(`.card[data-id="${id}"]`);
   if (!el) return;
-
   if (expandedId === id) {
-    // Collapse
     el.classList.remove('expanded');
     expandedId = null;
   } else {
-    // Expand — no animation re-trigger, just class toggle
-    el.classList.remove('animate-in'); // ensure no re-animation
+    el.classList.remove('animate-in');
     el.classList.add('expanded');
     expandedId = id;
   }
@@ -643,6 +598,22 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 
 document.getElementById('searchInput').addEventListener('input', e => {
   currentSearch = e.target.value;
+  expandedId = null;
+  render();
+});
+
+document.getElementById('gridBtn').addEventListener('click', () => {
+  document.body.classList.remove('list-view');
+  document.getElementById('gridBtn').classList.add('active');
+  document.getElementById('listBtn').classList.remove('active');
+  expandedId = null;
+  render();
+});
+
+document.getElementById('listBtn').addEventListener('click', () => {
+  document.body.classList.add('list-view');
+  document.getElementById('listBtn').classList.add('active');
+  document.getElementById('gridBtn').classList.remove('active');
   expandedId = null;
   render();
 });
