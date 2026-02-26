@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cognitive Biases Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --cream: #ede7d6;
+    --accent: #c8440a;
+    --accent2: #2a6b5e;
+    --gold: #b89b3e;
+    --muted: #7a6e5e;
+    --card: #faf7f2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  header {
+    padding: 60px 40px 40px;
+    border-bottom: 2px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+
+  h1 span {
+    display: block;
+    color: var(--accent);
+    font-style: normal;
+    font-size: 0.4em;
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .tagline {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: right;
+    max-width: 200px;
+    line-height: 1.6;
+  }
+
+  .controls {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 40px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .filter-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    padding: 6px 16px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: all 0.15s;
+    border-radius: 2px;
+  }
+
+  .filter-btn:hover { background: var(--cream); }
+  .filter-btn.active { background: var(--ink); color: var(--paper); }
+
+  .search-input {
+    margin-left: auto;
+    padding: 6px 14px;
+    border: 1.5px solid var(--muted);
+    background: transparent;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink);
+    outline: none;
+    width: 200px;
+    border-radius: 2px;
+  }
+
+  .search-input:focus { border-color: var(--ink); }
+  .search-input::placeholder { color: var(--muted); }
+
+  .stats-bar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 40px;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1.5px solid transparent;
+    border-radius: 4px;
+    padding: 28px 28px 24px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .card.animate-in {
+    animation: fadeIn 0.4s ease both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--card-accent, var(--muted));
+  }
+
+  .card:hover {
+    border-color: var(--ink);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+
+  .card.expanded {
+    border-color: var(--ink);
+    grid-column: span 2;
+  }
+
+  @media (max-width: 768px) { .card.expanded { grid-column: span 1; } }
+
+  .card-category {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--card-accent, var(--muted));
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .card-number {
+    position: absolute;
+    top: 20px; right: 24px;
+    font-size: 2.2rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--cream);
+    font-weight: 700;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    padding-right: 40px;
+  }
+
+  .card-tagline {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 14px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .card-summary {
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: #4a3e30;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card.expanded .card-summary {
+    display: block;
+    -webkit-line-clamp: unset;
+  }
+
+  .card-extra {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cream);
+  }
+
+  .card.expanded .card-extra { display: block; }
+
+  .card-extra h3 {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+
+  .card-extra h3:first-child { margin-top: 0; }
+
+  .card-extra p, .card-extra li {
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: #4a3e30;
+  }
+
+  .card-extra ul { padding-left: 16px; }
+
+  .example-box {
+    background: var(--cream);
+    border-radius: 3px;
+    padding: 12px 14px;
+    font-size: 0.72rem;
+    line-height: 1.7;
+    font-style: italic;
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+  }
+
+  .expand-hint {
+    margin-top: 14px;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .card.expanded .expand-hint { display: none; }
+
+  .no-results {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 80px 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    border-top: 1px solid var(--cream);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span>A Field Guide to</span>Cognitive<br>Biases</h1>
+  <p class="tagline">How your mind shortcuts reality — for better & worse</p>
+</header>
+
+<div class="controls">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="memory">Memory</button>
+  <button class="filter-btn" data-cat="social">Social</button>
+  <button class="filter-btn" data-cat="decision">Decision-Making</button>
+  <button class="filter-btn" data-cat="belief">Belief</button>
+  <button class="filter-btn" data-cat="perception">Perception</button>
+  <input type="text" class="search-input" placeholder="Search biases..." id="searchInput">
+</div>
+
+<div class="stats-bar" id="statsBar">Showing 20 biases — click any card to expand</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  This is a curated selection of well-documented cognitive biases. Click any card to learn more. Research draws from Kahneman, Tversky, and decades of behavioral science.
+</footer>
+
+<script>
+const biases = [
+  {
+    id: 1, category: "decision",
+    name: "Anchoring Bias",
+    tagline: "The first number you hear becomes your north star.",
+    summary: "We rely too heavily on the first piece of information offered when making decisions. Once an anchor is set, all subsequent judgments are made in relation to it — even if the anchor is arbitrary.",
+    example: '"The jacket was originally $500, now $200!" Feels like a deal — even if $200 is still overpriced.',
+    antidote: "Before seeing a price, estimate your own value first. Ask: what would I pay if I hadn't seen that number?",
+    realWorld: ["Salary negotiations", "Real estate pricing", "Legal settlements"],
+    color: "#c8440a"
+  },
+  {
+    id: 2, category: "belief",
+    name: "Confirmation Bias",
+    tagline: "Your brain is a yes-man for your existing beliefs.",
+    summary: "We seek out, interpret, and remember information in a way that confirms what we already believe, while ignoring contradicting evidence.",
+    example: 'A manager who "knows" an employee is unreliable notices every late arrival but forgets the 20 times they stayed late.',
+    antidote: "Actively seek disconfirming evidence. Ask: what would prove me wrong?",
+    realWorld: ["Political news consumption", "Medical self-diagnosis", "Hiring decisions"],
+    color: "#2a6b5e"
+  },
+  {
+    id: 3, category: "social",
+    name: "Dunning-Kruger Effect",
+    tagline: "The less you know, the more confident you feel.",
+    summary: "People with limited knowledge in a domain overestimate their competence. Conversely, true experts often underestimate themselves because they're aware of how much they don't know.",
+    example: "After reading one article about vaccines, someone feels qualified to debate epidemiologists.",
+    antidote: "Chase the \"Mount Stupid\" descent. The discomfort of realizing your ignorance is the beginning of expertise.",
+    realWorld: ["Online debates", "DIY disasters", "Early career overconfidence"],
+    color: "#b89b3e"
+  },
+  {
+    id: 4, category: "decision",
+    name: "Sunk Cost Fallacy",
+    tagline: "Past pain shouldn't drive future decisions — but it does.",
+    summary: "We continue investing in something because of prior investments (money, time, effort), even when the rational choice is to cut losses. The sunk costs are gone regardless of future action.",
+    example: "Sitting through a terrible 2-hour movie because you already paid $15.",
+    antidote: "Ask: if I had no history with this, would I still choose to continue?",
+    realWorld: ["Staying in bad relationships", "Doubling down on failing projects", "Holding losing stocks"],
+    color: "#c8440a"
+  },
+  {
+    id: 5, category: "perception",
+    name: "The Halo Effect",
+    tagline: "One good thing makes everything seem good.",
+    summary: "Our overall impression of a person influences how we perceive their specific traits. Attractiveness, for instance, leads us to assume competence, kindness, and intelligence.",
+    example: "A charismatic speaker's ideas get less scrutiny than the same ideas from someone awkward.",
+    antidote: "Evaluate traits independently. Would you still trust this argument if it came from someone you found annoying?",
+    realWorld: ["Job interviews", "Celebrity endorsements", "Teacher-student ratings"],
+    color: "#2a6b5e"
+  },
+  {
+    id: 6, category: "memory",
+    name: "Availability Heuristic",
+    tagline: "If you can think of it easily, it must be common.",
+    summary: "We judge the probability of events by how easily examples come to mind. Vivid, recent, or emotionally charged events feel more likely than they actually are.",
+    example: "After seeing a plane crash on the news, people drive instead of fly — despite flying being far safer.",
+    antidote: "Ask: how many examples exist in reality, not how easily you can think of one?",
+    realWorld: ["Risk perception", "Shark fear vs. vending machine fear", "Crime rate misjudgments"],
+    color: "#b89b3e"
+  },
+  {
+    id: 7, category: "social",
+    name: "Fundamental Attribution Error",
+    tagline: "Their failure = their fault. My failure = circumstance.",
+    summary: "When judging others' behavior, we overemphasize character and underestimate situational factors. When judging ourselves, we do the reverse.",
+    example: "Someone cuts you off: they're a terrible driver. You cut someone off: you were in a rush.",
+    antidote: "Before judging, ask: what invisible pressures might this person be under?",
+    realWorld: ["Workplace blame", "Political judgments", "Parenting judgments"],
+    color: "#c8440a"
+  },
+  {
+    id: 8, category: "belief",
+    name: "Bandwagon Effect",
+    tagline: "50 million people can't be wrong… can they?",
+    summary: "We adopt beliefs, behaviors, and trends because others do. The popularity of an idea becomes evidence for its correctness in our minds.",
+    example: "Buying a stock because everyone is talking about it, not because of its fundamentals.",
+    antidote: "Ask: would I believe or do this if I were the only one? What's my independent reason?",
+    realWorld: ["Fad diets", "Stock bubbles", "Voting behavior"],
+    color: "#2a6b5e"
+  },
+  {
+    id: 9, category: "decision",
+    name: "Status Quo Bias",
+    tagline: "The default is always tempting, even when it's wrong.",
+    summary: "We prefer the current state of affairs and perceive any change as a loss. Inaction feels safe even when action is clearly better.",
+    example: "Keeping a bad cell phone plan for years rather than spending 30 minutes switching.",
+    antidote: "Reframe: what would I actively choose if I were starting fresh today?",
+    realWorld: ["Organ donation rates by country", "401k enrollment", "Software defaults"],
+    color: "#b89b3e"
+  },
+  {
+    id: 10, category: "memory",
+    name: "Rosy Retrospection",
+    tagline: "The past was better. (It probably wasn't.)",
+    summary: "We remember past events more positively than we experienced them. Negative emotions fade faster than positive ones, leaving a distorted archive.",
+    example: '"High school was the best time of my life" — said by someone who was anxious and awkward for 4 years.',
+    antidote: "Keep a journal. Present-you and future-you will remember things very differently.",
+    realWorld: ["Nostalgia marketing", "Political 'golden ages'", "Relationship reconciliation"],
+    color: "#c8440a"
+  },
+  {
+    id: 11, category: "social",
+    name: "In-group Bias",
+    tagline: "Us vs. them is a feature, not a bug — but it's costly.",
+    summary: "We favor members of our own group over outsiders, evaluating their actions more charitably and attributing good outcomes to their nature rather than luck.",
+    example: "Judging the same policy differently depending on which party proposed it.",
+    antidote: "Identify your tribe. Then deliberately read perspectives from outside it.",
+    realWorld: ["Tribalism", "Nepotism", "Sports rivalries"],
+    color: "#2a6b5e"
+  },
+  {
+    id: 12, category: "belief",
+    name: "Illusory Correlation",
+    tagline: "Two things happened together — must be connected.",
+    summary: "We perceive a relationship between two variables where none exists, often when we expect or want to find one.",
+    example: "It rained every time you washed your car — so washing your car causes rain.",
+    antidote: "Look for base rates. How often does X happen without Y? Without that, correlation is meaningless.",
+    realWorld: ["Superstitions", "Vaccine-autism myths", "Stereotyping"],
+    color: "#b89b3e"
+  },
+  {
+    id: 13, category: "perception",
+    name: "Framing Effect",
+    tagline: "Same facts, different feelings — it's all in the packaging.",
+    summary: "Our decisions are influenced by how information is presented, not just its content. A \"95% survival rate\" feels very different from a \"5% mortality rate.\"",
+    example: '"Ground beef that is 90% fat-free" sells better than "10% fat" — same thing.',
+    antidote: "Rephrase: convert gains to losses and losses to gains. See if your opinion shifts.",
+    realWorld: ["Medical decision-making", "Political messaging", "Marketing"],
+    color: "#c8440a"
+  },
+  {
+    id: 14, category: "decision",
+    name: "Loss Aversion",
+    tagline: "Losing $100 hurts twice as much as gaining $100 feels good.",
+    summary: "We feel losses more intensely than equivalent gains. The psychological pain of losing is roughly twice as powerful as the pleasure of winning the same amount.",
+    example: "Being more motivated to avoid losing $50 than to earn $100.",
+    antidote: "Ask: what would a neutral observer choose? Reframe the same choice as both a gain and a loss.",
+    realWorld: ["Investment decisions", "Insurance overbuying", "Negotiation deadlocks"],
+    color: "#2a6b5e"
+  },
+  {
+    id: 15, category: "belief",
+    name: "Curse of Knowledge",
+    tagline: "Once you know something, you can't imagine not knowing it.",
+    summary: "Once we know something, we find it hard to imagine what it was like not to know it. This makes experts poor teachers and communicators.",
+    example: 'The expert who explains in jargon and is baffled when beginners don\'t "get it."',
+    antidote: "Use the \"5-year-old test.\" Can you explain it simply? If not, you may not understand it yourself.",
+    realWorld: ["Teaching", "Product design", "Technical writing"],
+    color: "#b89b3e"
+  },
+  {
+    id: 16, category: "social",
+    name: "Spotlight Effect",
+    tagline: "Nobody is watching you as closely as you think.",
+    summary: "We overestimate how much others notice our appearance, mistakes, and behaviors. We're the protagonist of our story; in everyone else's, we're a bit player.",
+    example: "Spilling something on your shirt and assuming everyone in the room noticed.",
+    antidote: "Remember: everyone else is also the star of their own movie. You're background.",
+    realWorld: ["Public speaking fear", "Social anxiety", "Performance anxiety"],
+    color: "#c8440a"
+  },
+  {
+    id: 17, category: "memory",
+    name: "The Mandela Effect",
+    tagline: "Your confident memory might be a creative fiction.",
+    summary: "Named for the widespread false memory of Nelson Mandela dying in prison, this describes how groups of people share incorrect memories — demonstrating how reconstructive and malleable memory is.",
+    example: '"The Berenstain Bears" is widely remembered as "Berenstein Bears." It was never spelled that way.',
+    antidote: "Treat confident memories as hypotheses, not facts. Verify before arguing.",
+    realWorld: ["Eyewitness testimony reliability", "Historical revisionism", "False confessions"],
+    color: "#2a6b5e"
+  },
+  {
+    id: 18, category: "perception",
+    name: "Blind Spot Bias",
+    tagline: "You see everyone else's biases clearly — except your own.",
+    summary: "We recognize cognitive biases in others much more readily than in ourselves. This is the meta-bias: the bias that protects all other biases.",
+    example: '"I judge things objectively; it\'s other people who let emotions get in the way."',
+    antidote: "The fact that you don't feel biased is not evidence that you aren't. Look for structural checks, not introspection.",
+    realWorld: ["Overconfident experts", "Partisan media consumption", "Self-assessments"],
+    color: "#b89b3e"
+  },
+  {
+    id: 19, category: "decision",
+    name: "Planning Fallacy",
+    tagline: "Everything will take longer and cost more than you think.",
+    summary: "We underestimate the time, costs, and risks of future actions while overestimating the benefits. We focus on the best-case scenario rather than the realistic distribution of outcomes.",
+    example: "The Sydney Opera House was planned for 6 years. It took 16. Budget: $7M. Actual: $102M.",
+    antidote: "Use the \"outside view\": how long did similar projects actually take?",
+    realWorld: ["Construction projects", "Software development", "Personal goal-setting"],
+    color: "#c8440a"
+  },
+  {
+    id: 20, category: "belief",
+    name: "Baader-Meinhof Phenomenon",
+    tagline: "Notice something once, and suddenly it's everywhere.",
+    summary: "After learning about something for the first time, you start noticing it everywhere — and wrongly conclude it's become more common. It was always there; your attention just switched on.",
+    example: "You learn the word 'sonder' and suddenly see it in three books, two podcasts, and a tweet.",
+    antidote: "Ask: has this actually increased in frequency, or have I just updated my attention filter?",
+    realWorld: ["New car syndrome", "Pregnancy hormones rumors", "Word frequency after learning"],
+    color: "#2a6b5e"
+  }
+];
+
+const categoryColors = {
+  decision: "#c8440a",
+  belief: "#2a6b5e",
+  memory: "#b89b3e",
+  social: "#5c3d8f",
+  perception: "#1a6b8a"
+};
+
+let currentFilter = 'all';
+let currentSearch = '';
+let expandedId = null;
+
+function getFiltered() {
+  return biases.filter(b => {
+    const matchCat = currentFilter === 'all' || b.category === currentFilter;
+    const q = currentSearch.toLowerCase();
+    const matchSearch = !q || b.name.toLowerCase().includes(q) || b.summary.toLowerCase().includes(q) || b.tagline.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+}
+
+function cardHTML(b, isExpanded, animDelay) {
+  const color = categoryColors[b.category] || b.color;
+  return `
+    <div class="card animate-in ${isExpanded ? 'expanded' : ''}"
+         data-id="${b.id}"
+         style="--card-accent: ${color}; animation-delay: ${animDelay}s"
+         onclick="toggleCard(${b.id})">
+      <div class="card-number">${String(b.id).padStart(2,'0')}</div>
+      <div class="card-category">${b.category}</div>
+      <h2>${b.name}</h2>
+      <p class="card-tagline">"${b.tagline}"</p>
+      <p class="card-summary">${b.summary}</p>
+      <div class="card-extra">
+        <h3>Real-world example</h3>
+        <div class="example-box">${b.example}</div>
+        <h3>Antidote</h3>
+        <p>${b.antidote}</p>
+        <h3>Where it shows up</h3>
+        <ul>${b.realWorld.map(r => `<li>${r}</li>`).join('')}</ul>
+      </div>
+      <p class="expand-hint">↓ click to expand</p>
+    </div>
+  `;
+}
+
+function render() {
+  const filtered = getFiltered();
+  const grid = document.getElementById('grid');
+  const stats = document.getElementById('statsBar');
+
+  stats.textContent = `Showing ${filtered.length} of ${biases.length} biases — click any card to expand`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="no-results">No biases found. Try a different search.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map((b, i) => cardHTML(b, expandedId === b.id, i * 0.04)).join('');
+}
+
+function toggleCard(id) {
+  // Collapse previously expanded card (if any)
+  if (expandedId !== null && expandedId !== id) {
+    const prev = document.querySelector(`.card[data-id="${expandedId}"]`);
+    if (prev) {
+      prev.classList.remove('expanded', 'animate-in');
+    }
+  }
+
+  const el = document.querySelector(`.card[data-id="${id}"]`);
+  if (!el) return;
+
+  if (expandedId === id) {
+    // Collapse
+    el.classList.remove('expanded');
+    expandedId = null;
+  } else {
+    // Expand — no animation re-trigger, just class toggle
+    el.classList.remove('animate-in'); // ensure no re-animation
+    el.classList.add('expanded');
+    expandedId = id;
+  }
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.cat;
+    expandedId = null;
+    render();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  currentSearch = e.target.value;
+  expandedId = null;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
