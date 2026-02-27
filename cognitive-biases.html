@@ -278,6 +278,7 @@
     padding: 20px;
     animation: fadeIn 0.2s ease;
     overscroll-behavior: contain;
+    min-height: 100vh;
   }
   .bias-detail-content {
     position: relative;
@@ -285,7 +286,7 @@
     border-radius: 10px;
     max-width: 780px;
     width: min(780px, 100%);
-    max-height: 90vh;
+    max-height: calc(100vh - 40px);
     overflow: auto;
     padding: 30px 30px 26px;
     border: 1.5px solid var(--cream);
@@ -594,9 +595,20 @@
     width: 90%;
     border-radius: 8px;
     animation: slideUp 0.3s ease;
-    max-height: 90vh;
+    max-height: calc(100vh - 40px);
     overflow: auto;
     overscroll-behavior: contain;
+  }
+  @supports (height: 100dvh) {
+    .bias-detail-modal {
+      min-height: 100dvh;
+    }
+    .bias-detail-content {
+      max-height: calc(100dvh - 40px);
+    }
+    .quiz-content, .flashcard-content {
+      max-height: calc(100dvh - 40px);
+    }
   }
   .quiz-label {
     font-size: 0.7rem;
@@ -860,11 +872,16 @@
   }
 
   @media screen and (max-width: 640px) {
-    .bias-detail-modal { padding: 10px; }
+    .bias-detail-modal {
+      padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
+      align-items: flex-start;
+      overflow-y: auto;
+    }
     .bias-detail-content {
-      max-height: 94vh;
+      max-height: calc(100vh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
       padding: 22px 18px 18px;
       border-radius: 8px;
+      margin: 0 auto;
     }
     .note-card { padding: 12px 10px 10px; }
     .note-card-head {
@@ -923,6 +940,13 @@
     }
     .prompt-note-list {
       max-height: 180px;
+    }
+  }
+  @media screen and (max-width: 640px) {
+    @supports (height: 100dvh) {
+      .bias-detail-content {
+        max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      }
     }
   }
 
