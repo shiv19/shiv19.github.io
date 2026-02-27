@@ -24,6 +24,9 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
+  body.modal-open {
+    overflow: hidden;
+  }
   body::before {
     content: '';
     position: fixed;
@@ -274,6 +277,7 @@
     z-index: 9999;
     padding: 20px;
     animation: fadeIn 0.2s ease;
+    overscroll-behavior: contain;
   }
   .bias-detail-content {
     position: relative;
@@ -286,6 +290,7 @@
     padding: 30px 30px 26px;
     border: 1.5px solid var(--cream);
     box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+    overscroll-behavior: contain;
   }
   .bias-detail-content .close-modal {
     top: 14px;
@@ -375,6 +380,72 @@
   .bias-detail-content .action-btn {
     padding: 7px 13px;
     font-size: 0.66rem;
+  }
+  .note-card {
+    padding: 16px 16px 14px;
+    cursor: pointer;
+  }
+  .note-card h2 {
+    padding-right: 0;
+    margin-bottom: 0;
+    font-size: 1.08rem;
+  }
+  .note-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .note-card-meta {
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .note-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .note-card-actions .action-btn {
+    padding: 6px 10px;
+    font-size: 0.6rem;
+    white-space: nowrap;
+  }
+  .note-card-body {
+    margin: 0;
+    color: #32281d;
+    font-size: 0.88rem;
+    line-height: 1.72;
+    font-family: var(--ui-sans);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .note-card:not(.expanded) .note-card-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    white-space: normal;
+  }
+  .note-expand-btn {
+    margin-top: 10px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+  }
+  .note-expand-btn:hover {
+    color: var(--ink);
   }
   .expand-hint { margin-top: auto; padding-top: 13px; font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
   .card.expanded .expand-hint { display: none; }
@@ -469,6 +540,15 @@
     transition: all 0.12s;
   }
   .surprise-btn:hover { background: var(--accent); color: var(--paper); }
+  .surprise-btn.active { background: var(--accent); color: var(--paper); }
+  .reset-btn {
+    border-color: #9e3a17;
+    color: #9e3a17;
+  }
+  .reset-btn:hover {
+    background: #9e3a17;
+    color: var(--paper);
+  }
   
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -484,6 +564,7 @@
     justify-content: center;
     z-index: 9999;
     animation: fadeIn 0.3s ease;
+    overscroll-behavior: contain;
   }
   .quiz-content, .flashcard-content {
     background: var(--card);
@@ -492,6 +573,9 @@
     width: 90%;
     border-radius: 8px;
     animation: slideUp 0.3s ease;
+    max-height: 90vh;
+    overflow: auto;
+    overscroll-behavior: contain;
   }
   .quiz-label {
     font-size: 0.7rem;
@@ -612,6 +696,27 @@
       padding: 22px 18px 18px;
       border-radius: 8px;
     }
+    .note-card { padding: 12px 10px 10px; }
+    .note-card-head {
+      flex-direction: column;
+      align-items: stretch;
+      margin-bottom: 10px;
+    }
+    .note-card-actions {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .note-card-actions .action-btn {
+      width: 100%;
+      font-size: 0.58rem;
+      text-align: center;
+    }
+    .note-card-body {
+      font-size: 0.84rem;
+      line-height: 1.66;
+    }
+    .note-expand-btn { font-size: 0.6rem; }
     .bias-detail-title {
       font-size: 1.4rem;
       margin-right: 28px;
@@ -834,6 +939,8 @@
     <button class="surprise-btn" id="surpriseBtn"><i class="fa-solid fa-dice icon-inline" aria-hidden="true"></i>Surprise me</button>
     <button class="surprise-btn" id="quizBtn" style="margin-left:4px;"><i class="fa-solid fa-circle-question icon-inline" aria-hidden="true"></i>Quiz</button>
     <button class="surprise-btn" id="flashcardBtn" style="margin-left:4px;"><i class="fa-solid fa-layer-group icon-inline" aria-hidden="true"></i>Flashcards</button>
+    <button class="surprise-btn" id="notesBtn" style="margin-left:4px;"><i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes</button>
+    <button class="surprise-btn reset-btn" id="resetProgressBtn" style="margin-left:4px;"><i class="fa-solid fa-rotate-left icon-inline" aria-hidden="true"></i>Reset progress</button>
     <div class="view-toggle">
       <button class="view-btn active" id="gridBtn"><i class="fa-solid fa-table-cells-large icon-inline" aria-hidden="true"></i>Grid</button>
       <button class="view-btn" id="listBtn"><i class="fa-solid fa-list icon-inline" aria-hidden="true"></i>List</button>

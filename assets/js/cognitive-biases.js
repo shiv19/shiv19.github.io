@@ -190,6 +190,37 @@
   let currentFilter = 'all';
   let currentSearch = '';
   let expandedId = null;
+  let currentView = 'biases';
+  let modalLockCount = 0;
+
+  function lockBodyScroll() {
+    modalLockCount += 1;
+    if (modalLockCount === 1) {
+      document.body.classList.add('modal-open');
+    }
+  }
+
+  function unlockBodyScroll() {
+    modalLockCount = Math.max(0, modalLockCount - 1);
+    if (modalLockCount === 0) {
+      document.body.classList.remove('modal-open');
+    }
+  }
+
+  function markModalOpen(modalEl) {
+    if (!modalEl || modalEl.dataset.scrollLocked === '1') return;
+    modalEl.dataset.scrollLocked = '1';
+    lockBodyScroll();
+  }
+
+  function closeModalElement(modalEl) {
+    if (!modalEl) return;
+    if (modalEl.dataset.scrollLocked === '1') {
+      modalEl.dataset.scrollLocked = '0';
+      unlockBodyScroll();
+    }
+    modalEl.remove();
+  }
 
   function getStorage(key, fallback = []) {
     try {
@@ -320,6 +351,8 @@
 
   function surpriseMe() {
     const bias = getRandomUnread();
+    currentView = 'biases';
+    updateNotesButton();
     currentFilter = 'all';
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.filter-btn[data-cat="all"]').classList.add('active');
@@ -361,6 +394,11 @@
   }
 
   function render() {
+    if (currentView === 'notes') {
+      renderNotesView();
+      return;
+    }
+
     const filtered = getFiltered();
     const grid = document.getElementById('grid');
     const stats = document.getElementById('statsBar');
@@ -390,7 +428,7 @@
 
   function closeCardModal(skipHistory = false) {
     const modal = document.querySelector('.bias-detail-modal');
-    if (modal) modal.remove();
+    if (modal) closeModalElement(modal);
     expandedId = null;
     if (!skipHistory) {
       history.pushState(null, '', window.location.pathname);
@@ -408,7 +446,7 @@
     const userNote = escapeHtml(notes[id] || '');
 
     const existing = document.querySelector('.bias-detail-modal');
-    if (existing) existing.remove();
+    if (existing) closeModalElement(existing);
 
     const modal = document.createElement('div');
     modal.className = 'bias-detail-modal';
@@ -477,6 +515,7 @@
     });
 
     document.body.appendChild(modal);
+    markModalOpen(modal);
     expandedId = id;
 
     if (!opts.skipHistory) {
@@ -486,6 +525,167 @@
 
   function toggleCard(id) {
     openCardModal(id);
+  }
+
+  function getSavedNotesList() {
+    const notes = getNotes();
+    return biases
+      .map((bias) => {
+        const rawNote = typeof notes[bias.id] === 'string' ? notes[bias.id] : '';
+        if (!rawNote.trim()) return null;
+        return {
+          id: bias.id,
+          name: bias.name,
+          cat: bias.cat,
+          note: rawNote
+        };
+      })
+      .filter(Boolean);
+  }
+
+  function notesCardHTML(item, animDelay) {
+    const color = CAT_COLORS[item.cat] || '#7a6e5e';
+    const isLong = item.note.length > 220 || item.note.includes('\n');
+    return `
+      <article class="card note-card animate-in"
+        style="--card-accent:${color}; animation-delay:${animDelay}s"
+        onclick="window.CognitiveBiases.openBiasFromNotes(${item.id})">
+        <div class="note-card-head">
+          <div>
+            <p class="note-card-meta">#${String(item.id).padStart(3, '0')} · ${item.cat.toUpperCase()}</p>
+            <h2>${item.name}</h2>
+          </div>
+          <div class="note-card-actions">
+            <button class="action-btn" onclick="event.stopPropagation();window.CognitiveBiases.openBiasFromNotes(${item.id})">
+              <i class="fa-solid fa-up-right-from-square icon-inline" aria-hidden="true"></i>Open bias
+            </button>
+            <button class="action-btn" onclick="event.stopPropagation();window.CognitiveBiases.copyNoteForBias(${item.id})">
+              <i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy note
+            </button>
+          </div>
+        </div>
+        <p class="note-card-body">${escapeHtml(item.note)}</p>
+        ${isLong ? `<button class="note-expand-btn" onclick="event.stopPropagation();window.CognitiveBiases.toggleNoteExpansion(this)"><i class="fa-solid fa-chevron-down icon-inline" aria-hidden="true"></i>Read more</button>` : ''}
+      </article>
+    `;
+  }
+
+  function renderNotesView() {
+    const grid = document.getElementById('grid');
+    const stats = document.getElementById('statsBar');
+    const isListView = document.body.classList.contains('list-view');
+    const allNotes = getSavedNotesList();
+    const q = currentSearch.trim().toLowerCase();
+    const notes = allNotes.filter((item) =>
+      !q ||
+      item.name.toLowerCase().includes(q) ||
+      item.cat.toLowerCase().includes(q) ||
+      item.note.toLowerCase().includes(q)
+    );
+
+    stats.textContent = `Showing ${notes.length} of ${allNotes.length} saved notes · stored locally in this browser`;
+
+    if (notes.length === 0) {
+      grid.innerHTML = allNotes.length
+        ? '<div class="no-results">No notes match your search. Try a different keyword.</div>'
+        : '<div class="no-results">No notes yet. Open any bias and add notes to build your personal notebook.</div>';
+      return;
+    }
+
+    const getDelay = (i) => isListView ? 0 : Math.min(i * 0.02, 0.35);
+    grid.innerHTML = notes.map((item, i) => notesCardHTML(item, getDelay(i))).join('');
+  }
+
+  function updateNotesButton() {
+    const notesBtn = document.getElementById('notesBtn');
+    if (!notesBtn) return;
+    if (currentView === 'notes') {
+      notesBtn.classList.add('active');
+      notesBtn.innerHTML = '<i class="fa-solid fa-arrow-left icon-inline" aria-hidden="true"></i>Back to biases';
+    } else {
+      notesBtn.classList.remove('active');
+      notesBtn.innerHTML = '<i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes';
+    }
+  }
+
+  function setMainView(view) {
+    currentView = view;
+    if (view === 'notes') {
+      closeCardModal(true);
+      expandedId = null;
+      document.body.classList.remove('list-view');
+      const gridBtn = document.getElementById('gridBtn');
+      const listBtn = document.getElementById('listBtn');
+      if (gridBtn) gridBtn.classList.add('active');
+      if (listBtn) listBtn.classList.remove('active');
+    }
+    updateNotesButton();
+    render();
+  }
+
+  function openBiasFromNotes(id) {
+    currentView = 'biases';
+    updateNotesButton();
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+    const allFilter = document.querySelector('.filter-btn[data-cat="all"]');
+    if (allFilter) allFilter.classList.add('active');
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+    currentSearch = '';
+    render();
+    scrollToCard(id);
+  }
+
+  function copyNoteForBias(id) {
+    const notes = getNotes();
+    const note = typeof notes[id] === 'string' ? notes[id] : '';
+    if (note.trim()) {
+      copyTextToClipboard(note, 'Note copied to clipboard!');
+    } else {
+      showToast('No note saved for this bias');
+    }
+  }
+
+  function resetProgress() {
+    const shouldReset = window.confirm(
+      'Reset progress?\n\nThis will mark all biases as unread and reset your streak. Notes will be kept.'
+    );
+    if (!shouldReset) return;
+
+    localStorage.removeItem(STORAGE_KEYS.READ);
+    localStorage.removeItem(STORAGE_KEYS.STREAK);
+    localStorage.removeItem(STORAGE_KEYS.LAST_VISIT);
+    localStorage.removeItem(STORAGE_KEYS.QUIZ_SCORES);
+
+    closeCardModal(true);
+    expandedId = null;
+    currentView = 'biases';
+    currentFilter = 'all';
+    currentSearch = '';
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+
+    document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+    const allFilter = document.querySelector('.filter-btn[data-cat="all"]');
+    if (allFilter) allFilter.classList.add('active');
+
+    updateNotesButton();
+    render();
+    updateProgress();
+    renderAchievements();
+    showToast('Progress reset. All flashcards are available again.');
+  }
+
+  function toggleNoteExpansion(buttonEl) {
+    const card = buttonEl.closest('.note-card');
+    if (!card) return;
+
+    const expanded = card.classList.toggle('expanded');
+    buttonEl.innerHTML = expanded
+      ? '<i class="fa-solid fa-chevron-up icon-inline" aria-hidden="true"></i>Show less'
+      : '<i class="fa-solid fa-chevron-down icon-inline" aria-hidden="true"></i>Read more';
   }
 
   function updateProgress() {
@@ -530,8 +730,8 @@
         <p class="daily-summary">${bias.summary}</p>
         ${bias.example ? `<div class="example-box" style="margin:16px 0;font-size:0.8rem;">${bias.example}</div>` : ''}
         <div class="daily-actions">
-          <button class="daily-btn" onclick="this.closest('.daily-modal').remove()">Explore</button>
-          <button class="daily-btn secondary" onclick="const modal=this.closest('.daily-modal');modal.remove();setTimeout(()=>{window.CognitiveBiases.scrollToCard(${bias.id})},100)">Read full card</button>
+          <button class="daily-btn" onclick="window.CognitiveBiases.closeModalElement(this.closest('.daily-modal'))">Explore</button>
+          <button class="daily-btn secondary" onclick="const modal=this.closest('.daily-modal');window.CognitiveBiases.closeModalElement(modal);setTimeout(()=>{window.CognitiveBiases.scrollToCard(${bias.id})},100)">Read full card</button>
         </div>
       </div>
     `;
@@ -548,10 +748,11 @@
     modal.querySelector('.secondary').style.cssText += ';background:var(--ink);color:var(--paper)';
     
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.remove();
+      if (e.target === modal) closeModalElement(modal);
     });
     
     document.body.appendChild(modal);
+    markModalOpen(modal);
     return modal;
   }
 
@@ -569,6 +770,7 @@
   function init() {
     const deepLinkedId = handleDeepLink();
     render();
+    updateNotesButton();
     updateProgress();
     renderAchievements();
     if (deepLinkedId) {
@@ -579,6 +781,10 @@
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (currentView === 'notes') {
+          currentView = 'biases';
+          updateNotesButton();
+        }
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentFilter = btn.dataset.cat;
@@ -601,6 +807,10 @@
     
     if (gridBtn) {
       gridBtn.addEventListener('click', () => {
+        if (currentView === 'notes') {
+          currentView = 'biases';
+          updateNotesButton();
+        }
         document.body.classList.remove('list-view');
         gridBtn.classList.add('active');
         if (listBtn) listBtn.classList.remove('active');
@@ -611,6 +821,10 @@
 
     if (listBtn) {
       listBtn.addEventListener('click', () => {
+        if (currentView === 'notes') {
+          currentView = 'biases';
+          updateNotesButton();
+        }
         document.body.classList.add('list-view');
         listBtn.classList.add('active');
         if (gridBtn) gridBtn.classList.remove('active');
@@ -634,13 +848,28 @@
       flashcardBtn.addEventListener('click', startFlashcards);
     }
 
+    const notesBtn = document.getElementById('notesBtn');
+    if (notesBtn) {
+      notesBtn.addEventListener('click', () => {
+        setMainView(currentView === 'notes' ? 'biases' : 'notes');
+      });
+    }
+
+    const resetProgressBtn = document.getElementById('resetProgressBtn');
+    if (resetProgressBtn) {
+      resetProgressBtn.addEventListener('click', resetProgress);
+    }
+
     window.addEventListener('popstate', () => {
       const params = new URLSearchParams(window.location.search);
       const id = parseInt(params.get('id'), 10);
       if (id && biases.find(b => b.id === id)) {
+        currentView = 'biases';
+        updateNotesButton();
         openCardModal(id, { skipHistory: true });
       } else {
         closeCardModal(true);
+        render();
       }
     });
   }
@@ -706,8 +935,8 @@
           <div class="quiz-result" style="display:none;"></div>
         </div>
       `;
-      modal.querySelector('.close-modal').onclick = () => modal.remove();
-      modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+      modal.querySelector('.close-modal').onclick = () => closeModalElement(modal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModalElement(modal); });
 
       modal.querySelectorAll('.quiz-option').forEach(btn => {
         btn.onclick = () => {
@@ -730,13 +959,14 @@
 
           setTimeout(() => {
             current++;
-            modal.remove();
+            closeModalElement(modal);
             showQuestion();
           }, 1500);
         };
       });
 
       document.body.appendChild(modal);
+      markModalOpen(modal);
     }
 
     showQuestion();
@@ -754,10 +984,12 @@
             score >= 7 ? 'Great job! You understand cognitive biases well.' :
             score >= 5 ? 'Not bad! Keep learning to improve.' : 'Keep studying! Practice makes perfect.'}
         </p>
-        <button class="action-btn" onclick="this.closest('.quiz-modal').remove()">Close</button>
+        <button class="action-btn" onclick="window.CognitiveBiases.closeModalElement(this.closest('.quiz-modal'))">Close</button>
       </div>
     `;
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModalElement(modal); });
     document.body.appendChild(modal);
+    markModalOpen(modal);
   }
 
   function startFlashcards() {
@@ -795,16 +1027,16 @@
         </div>
       `;
 
-      modal.querySelector('.close-modal').onclick = () => modal.remove();
-      modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+      modal.querySelector('.close-modal').onclick = () => closeModalElement(modal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModalElement(modal); });
 
       modal.querySelector('#prevCard').onclick = () => {
-        if (current > 0) { current--; modal.remove(); showCard(); }
+        if (current > 0) { current--; closeModalElement(modal); showCard(); }
       };
 
       modal.querySelector('#nextCard').onclick = () => {
-        if (current < shuffled.length - 1) { current++; modal.remove(); showCard(); }
-        else modal.remove();
+        if (current < shuffled.length - 1) { current++; closeModalElement(modal); showCard(); }
+        else closeModalElement(modal);
       };
 
       modal.querySelector('#markRead').onclick = () => {
@@ -819,6 +1051,7 @@
       };
 
       document.body.appendChild(modal);
+      markModalOpen(modal);
     }
 
     showCard();
@@ -841,6 +1074,12 @@
     surpriseMe,
     startQuiz,
     startFlashcards,
+    openBiasFromNotes,
+    copyNoteForBias,
+    toggleNoteExpansion,
+    resetProgress,
+    closeModalElement,
+    setMainView,
     saveNote,
     scrollToCard
   };
