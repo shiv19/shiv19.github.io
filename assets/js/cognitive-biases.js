@@ -11,7 +11,8 @@
     STREAK: 'cognitive-biases-streak',
     LAST_VISIT: 'cognitive-biases-last-visit',
     NOTES: 'cognitive-biases-notes',
-    QUIZ_SCORES: 'cognitive-biases-quiz'
+    QUIZ_SCORES: 'cognitive-biases-quiz',
+    PROMPT_COPIES: 'cognitive-biases-prompt-copies'
   };
 
   const biases = [
@@ -236,8 +237,174 @@
   function getReadIds() { return getStorage(STORAGE_KEYS.READ, []); }
   function setReadIds(ids) { setStorage(STORAGE_KEYS.READ, ids); }
 
-  function getNotes() { return getStorage(STORAGE_KEYS.NOTES, {}); }
-  function setNotes(notes) { setStorage(STORAGE_KEYS.NOTES, notes); }
+  const NOTE_TAGS = [
+    'work', 'relationships', 'money', 'health', 'stress', 'family',
+    'social', 'career', 'sleep', 'habits'
+  ];
+  const INTERRUPTION_OPTIONS = ['none', 'partial', 'yes'];
+  const AI_PROMPT_REQUIREMENTS = { minNotes: 1, minWords: 0 };
+
+  function createEmptyNoteRecord() {
+    return {
+      freeText: '',
+      situation: '',
+      automaticThought: '',
+      emotionIntensity: '',
+      behavior: '',
+      outcome: '',
+      alternativeThought: '',
+      occurrences: 1,
+      interruption: 'none',
+      tags: [],
+      createdAt: '',
+      updatedAt: ''
+    };
+  }
+
+  function normalizeOccurrences(value) {
+    const n = parseInt(value, 10);
+    if (!Number.isFinite(n) || n < 1) return 1;
+    return Math.min(n, 50);
+  }
+
+  function normalizeTags(value) {
+    if (!Array.isArray(value)) return [];
+    return [...new Set(value
+      .map((tag) => String(tag || '').trim().toLowerCase())
+      .filter(Boolean)
+      .filter((tag) => NOTE_TAGS.includes(tag)))];
+  }
+
+  function normalizeInterruption(value) {
+    const normalized = String(value || '').trim().toLowerCase();
+    return INTERRUPTION_OPTIONS.includes(normalized) ? normalized : 'none';
+  }
+
+  function normalizeNoteRecord(value) {
+    const empty = createEmptyNoteRecord();
+
+    if (typeof value === 'string') {
+      return { ...empty, freeText: value };
+    }
+
+    if (!value || typeof value !== 'object') {
+      return empty;
+    }
+
+    return {
+      ...empty,
+      freeText: String(value.freeText || ''),
+      situation: String(value.situation || ''),
+      automaticThought: String(value.automaticThought || ''),
+      emotionIntensity: String(value.emotionIntensity || ''),
+      behavior: String(value.behavior || ''),
+      outcome: String(value.outcome || ''),
+      alternativeThought: String(value.alternativeThought || ''),
+      occurrences: normalizeOccurrences(value.occurrences),
+      interruption: normalizeInterruption(value.interruption),
+      tags: normalizeTags(value.tags),
+      createdAt: String(value.createdAt || ''),
+      updatedAt: String(value.updatedAt || '')
+    };
+  }
+
+  function normalizeNotesMap(value) {
+    const src = value && typeof value === 'object' ? value : {};
+    const normalized = {};
+    Object.keys(src).forEach((id) => {
+      normalized[id] = normalizeNoteRecord(src[id]);
+    });
+    return normalized;
+  }
+
+  function getNotes() {
+    return normalizeNotesMap(getStorage(STORAGE_KEYS.NOTES, {}));
+  }
+
+  function setNotes(notes) {
+    setStorage(STORAGE_KEYS.NOTES, normalizeNotesMap(notes));
+  }
+
+  function hasMeaningfulNote(record) {
+    const note = normalizeNoteRecord(record);
+    return Boolean(
+      note.freeText.trim() ||
+      note.situation.trim() ||
+      note.automaticThought.trim() ||
+      note.emotionIntensity.trim() ||
+      note.behavior.trim() ||
+      note.outcome.trim() ||
+      note.alternativeThought.trim() ||
+      note.tags.length
+    );
+  }
+
+  function countWords(value) {
+    const text = String(value || '').trim();
+    if (!text) return 0;
+    return text.split(/\s+/).length;
+  }
+
+  function composeNoteText(record) {
+    const note = normalizeNoteRecord(record);
+    const parts = [];
+
+    if (note.situation.trim()) parts.push(`Situation: ${note.situation.trim()}`);
+    if (note.automaticThought.trim()) parts.push(`Automatic thought: ${note.automaticThought.trim()}`);
+    if (note.emotionIntensity.trim()) parts.push(`Emotion intensity (0-10): ${note.emotionIntensity.trim()}`);
+    if (note.behavior.trim()) parts.push(`Behavior: ${note.behavior.trim()}`);
+    if (note.outcome.trim()) parts.push(`Outcome: ${note.outcome.trim()}`);
+    if (note.alternativeThought.trim()) parts.push(`Alternative thought: ${note.alternativeThought.trim()}`);
+    if (note.tags.length) parts.push(`Tags: ${note.tags.join(', ')}`);
+    if (note.occurrences > 1) parts.push(`Occurrences recently: ${note.occurrences}`);
+    if (note.interruption !== 'none') {
+      parts.push(`Interruption success: ${note.interruption === 'yes' ? 'yes' : 'partly'}`);
+    }
+    if (note.freeText.trim()) parts.push(`Free reflection: ${note.freeText.trim()}`);
+
+    return parts.join('\n');
+  }
+
+  function getNoteByBiasId(id) {
+    const notes = getNotes();
+    return normalizeNoteRecord(notes[id]);
+  }
+
+  function saveNoteField(id, field, value) {
+    const notes = getNotes();
+    const current = normalizeNoteRecord(notes[id]);
+    const nowIso = new Date().toISOString();
+    const next = { ...current };
+
+    if (field === 'tags') {
+      next.tags = normalizeTags(value);
+    } else if (field === 'occurrences') {
+      next.occurrences = normalizeOccurrences(value);
+    } else if (field === 'interruption') {
+      next.interruption = normalizeInterruption(value);
+    } else if (field === 'emotionIntensity') {
+      const safe = String(value || '').replace(/[^\d]/g, '');
+      if (!safe) {
+        next.emotionIntensity = '';
+      } else {
+        const bounded = Math.max(0, Math.min(10, parseInt(safe, 10)));
+        next.emotionIntensity = String(bounded);
+      }
+    } else {
+      next[field] = String(value || '');
+    }
+
+    if (!next.createdAt && hasMeaningfulNote(next)) next.createdAt = nowIso;
+    next.updatedAt = nowIso;
+    notes[id] = next;
+    setNotes(notes);
+  }
+
+  function getNotesMetrics() {
+    const saved = getSavedNotesList();
+    const totalWords = saved.reduce((sum, item) => sum + countWords(item.noteText), 0);
+    return { noteCount: saved.length, totalWords };
+  }
 
   function getStreak() {
     const lastVisit = getStorage(STORAGE_KEYS.LAST_VISIT, null);
@@ -442,8 +609,8 @@
     const opts = options || {};
     const isRead = getReadIds().includes(id);
     const related = getRelated(bias);
-    const notes = getNotes();
-    const userNote = escapeHtml(notes[id] || '');
+    const noteRecord = getNoteByBiasId(id);
+    const safeText = (value) => escapeHtml(String(value || ''));
 
     const existing = document.querySelector('.bias-detail-modal');
     if (existing) closeModalElement(existing);
@@ -463,14 +630,55 @@
           ${bias.realWorld && bias.realWorld.length ? `<h3>Where it shows up</h3><ul>${bias.realWorld.map(r => `<li>${r}</li>`).join('')}</ul>` : ''}
           ${related.length ? `<h3>Related biases</h3><div class="related-biases">${related.map(r => `<span class="related-tag" data-related-id="${r.id}">${r.name}</span>`).join('')}</div>` : ''}
           <div class="notes-section">
-            <h3>Your notes</h3>
-            <textarea class="notes-textarea" placeholder="Add your personal notes...">${userNote}</textarea>
-            <p class="notes-storage-hint">Stored locally in this browser on this device.</p>
+            <h3>Guided reflection</h3>
+            <p class="notes-storage-hint">This is a self-reflection tool, not medical advice. Notes stay in this browser.</p>
+            <div class="note-template-grid">
+              <label class="note-field-label">Situation
+                <textarea class="notes-textarea compact" data-note-field="situation" placeholder="What happened?">${safeText(noteRecord.situation)}</textarea>
+              </label>
+              <label class="note-field-label">Automatic thought
+                <textarea class="notes-textarea compact" data-note-field="automaticThought" placeholder="What thought showed up first?">${safeText(noteRecord.automaticThought)}</textarea>
+              </label>
+              <label class="note-field-label">Emotion intensity (0-10)
+                <input class="notes-input" data-note-field="emotionIntensity" type="number" min="0" max="10" value="${safeText(noteRecord.emotionIntensity)}">
+              </label>
+              <label class="note-field-label">Behavior
+                <textarea class="notes-textarea compact" data-note-field="behavior" placeholder="What did you do next?">${safeText(noteRecord.behavior)}</textarea>
+              </label>
+              <label class="note-field-label">Outcome
+                <textarea class="notes-textarea compact" data-note-field="outcome" placeholder="How did it end?">${safeText(noteRecord.outcome)}</textarea>
+              </label>
+              <label class="note-field-label">Alternative thought
+                <textarea class="notes-textarea compact" data-note-field="alternativeThought" placeholder="A more balanced interpretation">${safeText(noteRecord.alternativeThought)}</textarea>
+              </label>
+              <label class="note-field-label">Occurrences recently
+                <input class="notes-input" data-note-field="occurrences" type="number" min="1" max="50" value="${safeText(noteRecord.occurrences)}">
+              </label>
+              <label class="note-field-label">Did you interrupt the bias?
+                <select class="notes-select" data-note-field="interruption">
+                  <option value="none" ${noteRecord.interruption === 'none' ? 'selected' : ''}>Not yet</option>
+                  <option value="partial" ${noteRecord.interruption === 'partial' ? 'selected' : ''}>Partly</option>
+                  <option value="yes" ${noteRecord.interruption === 'yes' ? 'selected' : ''}>Yes</option>
+                </select>
+              </label>
+            </div>
+            <div class="note-tags">
+              <p class="note-tags-label">Trigger/context tags</p>
+              <div class="note-tags-list">
+                ${NOTE_TAGS.map((tag) => `
+                  <button type="button" class="note-tag-btn ${noteRecord.tags.includes(tag) ? 'active' : ''}" data-note-tag="${tag}">${tag}</button>
+                `).join('')}
+              </div>
+            </div>
+            <label class="note-field-label">Free reflection
+              <textarea class="notes-textarea" data-note-field="freeText" placeholder="Anything else you noticed...">${safeText(noteRecord.freeText)}</textarea>
+            </label>
           </div>
           <div class="card-actions">
             <button class="action-btn" data-action="toggle-read">${isRead ? '<i class="fa-solid fa-check icon-inline" aria-hidden="true"></i>Mark unread' : '<i class="fa-regular fa-circle icon-inline" aria-hidden="true"></i>Mark as read'}</button>
             <button class="action-btn" data-action="copy-link"><i class="fa-solid fa-link icon-inline" aria-hidden="true"></i>Copy link</button>
             <button class="action-btn" data-action="share"><i class="fa-solid fa-share-nodes icon-inline" aria-hidden="true"></i>Share quote</button>
+            <button class="action-btn" data-action="copy-note"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy reflection</button>
           </div>
         </div>
       </div>
@@ -481,13 +689,32 @@
       if (event.target === modal) closeCardModal();
     });
 
-    const noteEl = modal.querySelector('.notes-textarea');
-    if (noteEl) {
-      noteEl.addEventListener('click', (event) => event.stopPropagation());
-      noteEl.addEventListener('input', (event) => {
-        saveNote(id, event.target.value);
+    modal.querySelectorAll('[data-note-field]').forEach((fieldEl) => {
+      fieldEl.addEventListener('click', (event) => event.stopPropagation());
+      const eventName = fieldEl.tagName === 'SELECT' ? 'change' : 'input';
+      fieldEl.addEventListener(eventName, (event) => {
+        const fieldName = event.target.dataset.noteField;
+        saveNoteField(id, fieldName, event.target.value);
+        updateAIButtonState();
+        if (currentView === 'notes') render();
       });
-    }
+    });
+
+    modal.querySelectorAll('[data-note-tag]').forEach((tagEl) => {
+      tagEl.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const tag = String(tagEl.dataset.noteTag || '');
+        if (!tag) return;
+        const current = getNoteByBiasId(id);
+        const tags = new Set(current.tags);
+        if (tags.has(tag)) tags.delete(tag);
+        else tags.add(tag);
+        saveNoteField(id, 'tags', [...tags]);
+        tagEl.classList.toggle('active');
+        updateAIButtonState();
+        if (currentView === 'notes') render();
+      });
+    });
 
     const readBtn = modal.querySelector('[data-action="toggle-read"]');
     if (readBtn) {
@@ -505,6 +732,16 @@
     const shareBtn = modal.querySelector('[data-action="share"]');
     if (shareBtn) {
       shareBtn.addEventListener('click', () => shareBias(bias));
+    }
+
+    const copyNoteBtn = modal.querySelector('[data-action="copy-note"]');
+    if (copyNoteBtn) {
+      copyNoteBtn.addEventListener('click', () => {
+        const latest = getNoteByBiasId(id);
+        const text = composeNoteText(latest);
+        if (text.trim()) copyTextToClipboard(text, 'Reflection copied!');
+        else showToast('No reflection saved yet');
+      });
     }
 
     modal.querySelectorAll('[data-related-id]').forEach((el) => {
@@ -531,13 +768,16 @@
     const notes = getNotes();
     return biases
       .map((bias) => {
-        const rawNote = typeof notes[bias.id] === 'string' ? notes[bias.id] : '';
-        if (!rawNote.trim()) return null;
+        const noteRecord = normalizeNoteRecord(notes[bias.id]);
+        if (!hasMeaningfulNote(noteRecord)) return null;
+        const noteText = composeNoteText(noteRecord);
         return {
           id: bias.id,
           name: bias.name,
           cat: bias.cat,
-          note: rawNote
+          note: noteText,
+          noteText,
+          noteRecord
         };
       })
       .filter(Boolean);
@@ -546,6 +786,9 @@
   function notesCardHTML(item, animDelay) {
     const color = CAT_COLORS[item.cat] || '#7a6e5e';
     const isLong = item.note.length > 220 || item.note.includes('\n');
+    const tagPills = item.noteRecord.tags.length
+      ? `<div class="note-inline-tags">${item.noteRecord.tags.map((tag) => `<span class="note-inline-tag">${escapeHtml(tag)}</span>`).join('')}</div>`
+      : '';
     return `
       <article class="card note-card animate-in"
         style="--card-accent:${color}; animation-delay:${animDelay}s"
@@ -564,6 +807,7 @@
             </button>
           </div>
         </div>
+        ${tagPills}
         <p class="note-card-body">${escapeHtml(item.note)}</p>
         ${isLong ? `<button class="note-expand-btn" onclick="event.stopPropagation();window.CognitiveBiases.toggleNoteExpansion(this)"><i class="fa-solid fa-chevron-down icon-inline" aria-hidden="true"></i>Read more</button>` : ''}
       </article>
@@ -580,7 +824,8 @@
       !q ||
       item.name.toLowerCase().includes(q) ||
       item.cat.toLowerCase().includes(q) ||
-      item.note.toLowerCase().includes(q)
+      item.note.toLowerCase().includes(q) ||
+      item.noteRecord.tags.some((tag) => tag.includes(q))
     );
 
     stats.textContent = `Showing ${notes.length} of ${allNotes.length} saved notes · stored locally in this browser`;
@@ -638,8 +883,7 @@
   }
 
   function copyNoteForBias(id) {
-    const notes = getNotes();
-    const note = typeof notes[id] === 'string' ? notes[id] : '';
+    const note = composeNoteText(getNoteByBiasId(id));
     if (note.trim()) {
       copyTextToClipboard(note, 'Note copied to clipboard!');
     } else {
@@ -657,6 +901,7 @@
     localStorage.removeItem(STORAGE_KEYS.STREAK);
     localStorage.removeItem(STORAGE_KEYS.LAST_VISIT);
     localStorage.removeItem(STORAGE_KEYS.QUIZ_SCORES);
+    localStorage.removeItem(STORAGE_KEYS.PROMPT_COPIES);
 
     closeCardModal(true);
     expandedId = null;
@@ -675,6 +920,7 @@
     render();
     updateProgress();
     renderAchievements();
+    updateAIButtonState();
     showToast('Progress reset. All flashcards are available again.');
   }
 
@@ -686,6 +932,513 @@
     buttonEl.innerHTML = expanded
       ? '<i class="fa-solid fa-chevron-up icon-inline" aria-hidden="true"></i>Show less'
       : '<i class="fa-solid fa-chevron-down icon-inline" aria-hidden="true"></i>Read more';
+  }
+
+  function createInsightsModal(title, bodyHtml) {
+    const modal = document.createElement('div');
+    modal.className = 'quiz-modal insights-modal';
+    modal.innerHTML = `
+      <button class="close-modal" aria-label="Close details">&times;</button>
+      <div class="quiz-content insights-content">
+        <div class="quiz-label">Self insight tools</div>
+        <h2 class="insights-title">${title}</h2>
+        ${bodyHtml}
+      </div>
+    `;
+    modal.querySelector('.close-modal').onclick = () => closeModalElement(modal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModalElement(modal); });
+    document.body.appendChild(modal);
+    markModalOpen(modal);
+    return modal;
+  }
+
+  function getImprovementSignal(noteRecord) {
+    const note = normalizeNoteRecord(noteRecord);
+    let score = 0;
+    if (note.interruption === 'yes') score += 2;
+    if (note.interruption === 'partial') score += 1;
+    if (note.alternativeThought.trim()) score += 1;
+    if (note.outcome.trim()) score += 1;
+    return score;
+  }
+
+  function getInsightsData() {
+    const notes = getSavedNotesList();
+    const now = Date.now();
+    const dayMs = 86400000;
+    const topRecurring = [...notes]
+      .sort((a, b) => {
+        const byOccurrences = b.noteRecord.occurrences - a.noteRecord.occurrences;
+        if (byOccurrences !== 0) return byOccurrences;
+        return countWords(b.noteText) - countWords(a.noteText);
+      })
+      .slice(0, 5);
+
+    const tagCounts = {};
+    notes.forEach((item) => {
+      item.noteRecord.tags.forEach((tag) => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    });
+
+    const topTags = Object.entries(tagCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6);
+
+    function scoreByCategory(days) {
+      const cutoff = now - (days * dayMs);
+      const aggregate = {};
+      notes.forEach((item) => {
+        const updatedAt = item.noteRecord.updatedAt ? new Date(item.noteRecord.updatedAt).getTime() : 0;
+        if (!updatedAt || updatedAt < cutoff) return;
+        aggregate[item.cat] = (aggregate[item.cat] || 0) + getImprovementSignal(item.noteRecord);
+      });
+      return Object.entries(aggregate)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
+    }
+
+    const improved7 = scoreByCategory(7);
+    const improved30 = scoreByCategory(30);
+    const metrics = getNotesMetrics();
+
+    return { notes, metrics, topRecurring, topTags, improved7, improved30 };
+  }
+
+  function buildActionPlans(insights) {
+    const plans = [];
+    insights.topRecurring.slice(0, 3).forEach((item) => {
+      const bias = getBias(item.id);
+      if (!bias) return;
+      const tag = item.noteRecord.tags[0] || 'a familiar trigger';
+      const antidote = String(bias.antidote || '').trim();
+      const question = antidote ? antidote : 'What evidence would challenge my first thought?';
+      plans.push(`If ${tag} activates ${bias.name}, then I will pause for 10 seconds and ask: "${question}"`);
+    });
+    return plans;
+  }
+
+  function getAIPromptUnlockState() {
+    const { noteCount, totalWords } = getNotesMetrics();
+    const hasNoteRequirement = noteCount >= AI_PROMPT_REQUIREMENTS.minNotes;
+    const hasWordRequirement = AI_PROMPT_REQUIREMENTS.minWords > 0
+      ? totalWords >= AI_PROMPT_REQUIREMENTS.minWords
+      : true;
+    const unlocked = hasNoteRequirement && hasWordRequirement;
+    return { unlocked, noteCount, totalWords };
+  }
+
+  function getAIPromptLockText(state) {
+    if (AI_PROMPT_REQUIREMENTS.minWords > 0) {
+      return `AI prompt locked (${state.noteCount}/${AI_PROMPT_REQUIREMENTS.minNotes} notes, ${state.totalWords}/${AI_PROMPT_REQUIREMENTS.minWords} words)`;
+    }
+    return `AI prompt locked (${state.noteCount}/${AI_PROMPT_REQUIREMENTS.minNotes} notes)`;
+  }
+
+  function getAIPromptUnlockHint(prefix = 'Unlock at') {
+    if (AI_PROMPT_REQUIREMENTS.minWords > 0) {
+      return `${prefix} ${AI_PROMPT_REQUIREMENTS.minNotes} notes and ${AI_PROMPT_REQUIREMENTS.minWords} words`;
+    }
+    const noteWord = AI_PROMPT_REQUIREMENTS.minNotes === 1 ? 'note' : 'notes';
+    return `${prefix} ${AI_PROMPT_REQUIREMENTS.minNotes} ${noteWord}`;
+  }
+
+  function sortNotesByRecent(notes) {
+    return [...notes].sort((a, b) => {
+      const aTime = a.noteRecord.updatedAt ? new Date(a.noteRecord.updatedAt).getTime() : 0;
+      const bTime = b.noteRecord.updatedAt ? new Date(b.noteRecord.updatedAt).getTime() : 0;
+      return bTime - aTime;
+    });
+  }
+
+  function sortNotesByRecurring(notes) {
+    return [...notes].sort((a, b) => {
+      const aUnresolved = a.noteRecord.interruption === 'none' ? 1 : 0;
+      const bUnresolved = b.noteRecord.interruption === 'none' ? 1 : 0;
+      if (bUnresolved !== aUnresolved) return bUnresolved - aUnresolved;
+      if (b.noteRecord.occurrences !== a.noteRecord.occurrences) {
+        return b.noteRecord.occurrences - a.noteRecord.occurrences;
+      }
+      return countWords(b.noteText) - countWords(a.noteText);
+    });
+  }
+
+  function getSmartPromptNotes(notes, maxNotes = 10) {
+    const limit = Math.max(1, Math.min(maxNotes, notes.length));
+    const chosen = [];
+    const seen = new Set();
+    const addBatch = (batch) => {
+      batch.forEach((item) => {
+        if (chosen.length >= limit) return;
+        if (seen.has(item.id)) return;
+        chosen.push(item);
+        seen.add(item.id);
+      });
+    };
+
+    const unresolved = sortNotesByRecurring(notes).filter((item) => item.noteRecord.interruption !== 'yes');
+    const recent = sortNotesByRecent(notes);
+    const wins = sortNotesByRecent(notes).filter((item) => item.noteRecord.interruption === 'yes');
+
+    addBatch(unresolved.slice(0, Math.ceil(limit * 0.5)));
+    addBatch(recent.slice(0, Math.ceil(limit * 0.35)));
+    addBatch(wins.slice(0, Math.ceil(limit * 0.15)));
+    addBatch(recent);
+
+    return chosen.slice(0, limit);
+  }
+
+  function summarizeNoteForPrompt(noteRecord) {
+    const note = normalizeNoteRecord(noteRecord);
+    const pieces = [];
+    if (note.situation.trim()) pieces.push(`Situation: ${note.situation.trim()}`);
+    if (note.automaticThought.trim()) pieces.push(`Thought: ${note.automaticThought.trim()}`);
+    if (note.outcome.trim()) pieces.push(`Outcome: ${note.outcome.trim()}`);
+    if (note.alternativeThought.trim()) pieces.push(`Alternative: ${note.alternativeThought.trim()}`);
+    if (!pieces.length && note.freeText.trim()) pieces.push(`Reflection: ${note.freeText.trim()}`);
+    return pieces.slice(0, 2).join(' | ');
+  }
+
+  function getSelectedPromptNotes(allNotes, scope, count, manualIds) {
+    const max = Math.max(1, Math.min(count || allNotes.length, allNotes.length));
+    if (scope === 'all') return [...allNotes];
+    if (scope === 'recent') return sortNotesByRecent(allNotes).slice(0, max);
+    if (scope === 'recurring') return sortNotesByRecurring(allNotes).slice(0, max);
+    if (scope === 'manual') return sortNotesByRecent(allNotes).filter((item) => manualIds.has(item.id));
+    return getSmartPromptNotes(allNotes, max);
+  }
+
+  function buildWeeklyReportText(insights) {
+    const dateLabel = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    const topBiasLines = insights.topRecurring.slice(0, 3).map((item, idx) =>
+      `${idx + 1}. ${item.name} (${item.noteRecord.occurrences} recent occurrences)`
+    );
+    const topTagLines = insights.topTags.slice(0, 4).map(([tag, count]) => `- ${tag}: ${count}`);
+    const wins = insights.notes
+      .filter((item) => item.noteRecord.interruption === 'yes')
+      .slice(0, 3)
+      .map((item) => `- Interrupted ${item.name}`);
+    const blindSpots = insights.notes
+      .filter((item) => item.noteRecord.interruption === 'none')
+      .sort((a, b) => b.noteRecord.occurrences - a.noteRecord.occurrences)
+      .slice(0, 3)
+      .map((item) => `- ${item.name} (${item.noteRecord.occurrences} times, still hard to interrupt)`);
+    const plans = buildActionPlans(insights);
+
+    return [
+      `Weekly Reflection Report (${dateLabel})`,
+      '',
+      'Recurring loops:',
+      ...(topBiasLines.length ? topBiasLines : ['- Add more reflections to detect recurring loops.']),
+      '',
+      'Trigger contexts:',
+      ...(topTagLines.length ? topTagLines : ['- Add context tags in notes to build trigger patterns.']),
+      '',
+      'Wins:',
+      ...(wins.length ? wins : ['- No clear wins logged yet.']),
+      '',
+      'Blind spots:',
+      ...(blindSpots.length ? blindSpots : ['- Not enough signal yet to identify blind spots.']),
+      '',
+      'Next week focus (if-then plans):',
+      ...(plans.length ? plans.map((plan) => `- ${plan}`) : ['- Add more reflections to generate plans.'])
+    ].join('\n');
+  }
+
+  function buildAIPromptText(noteItems, options = {}) {
+    const detailMode = options.detailMode === 'summary' ? 'summary' : 'detailed';
+    const notesBlock = noteItems.map((item, idx) => [
+      `Note ${idx + 1}: ${item.name} [${item.cat}]`,
+      detailMode === 'summary'
+        ? summarizeNoteForPrompt(item.noteRecord)
+        : composeNoteText(item.noteRecord),
+      ''
+    ].join('\n')).join('\n');
+
+    return [
+      'You are a reflective self-help coach (not a therapist, not a diagnostician).',
+      'Use the data below to help me identify cognitive bias patterns and practical next steps.',
+      '',
+      'My notes:',
+      notesBlock || '[No notes yet]',
+      '',
+      'Please do this:',
+      '1) Identify my top 3 recurring cognitive biases and cite note evidence for each.',
+      '2) Explain the likely trigger contexts for each pattern.',
+      '3) Suggest one alternative interpretation for each recurring pattern.',
+      '4) Give me 3 small if-then behavior experiments for the next 7 days.',
+      '5) Give me a daily 3-question check-in I can answer in under 2 minutes.',
+      '6) Keep tone supportive and concrete. Avoid clinical diagnosis.'
+    ].join('\n');
+  }
+
+  function showPatternMirror() {
+    const insights = getInsightsData();
+    const plans = buildActionPlans(insights);
+    const topRecurringHtml = insights.topRecurring.slice(0, 5).map((item) =>
+      `<li><strong>${item.name}</strong> · ${item.noteRecord.occurrences}x · ${item.cat}</li>`
+    ).join('');
+    const tagsHtml = insights.topTags.map(([tag, count]) =>
+      `<span class="insight-tag">${escapeHtml(tag)} (${count})</span>`
+    ).join('');
+    const improvedHtml = (rows) => rows.length
+      ? rows.map(([cat, score]) => `<li><strong>${escapeHtml(cat)}</strong>: ${score} improvement points</li>`).join('')
+      : '<li>Not enough signal yet. Add reflections over time.</li>';
+    const planHtml = plans.length
+      ? `<ol>${plans.map((plan) => `<li>${escapeHtml(plan)}</li>`).join('')}</ol>`
+      : '<p>Add a few more notes to generate action plans.</p>';
+    const unlock = getAIPromptUnlockState();
+
+    const modal = createInsightsModal('Pattern Mirror', `
+      <div class="insight-grid">
+        <section>
+          <h3>Top recurring biases</h3>
+          <ul>${topRecurringHtml || '<li>No notes yet.</li>'}</ul>
+        </section>
+        <section>
+          <h3>Top trigger contexts</h3>
+          <div class="insight-tags">${tagsHtml || '<span class="insight-tag">No tags yet</span>'}</div>
+        </section>
+        <section>
+          <h3>Most improved areas (7 days)</h3>
+          <ul>${improvedHtml(insights.improved7)}</ul>
+        </section>
+        <section>
+          <h3>Most improved areas (30 days)</h3>
+          <ul>${improvedHtml(insights.improved30)}</ul>
+        </section>
+      </div>
+      <section class="insight-plan">
+        <h3>Weekly debiasing action plan</h3>
+        ${planHtml}
+      </section>
+      <div class="card-actions insight-actions">
+        <button class="action-btn" data-insight-action="copy-report"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy weekly report</button>
+        <button class="action-btn ${unlock.unlocked ? '' : 'disabled'}" data-insight-action="copy-ai">${unlock.unlocked ? '<i class="fa-solid fa-robot icon-inline" aria-hidden="true"></i>Copy AI prompt' : `<i class="fa-solid fa-lock icon-inline" aria-hidden="true"></i>${getAIPromptLockText(unlock)}`}</button>
+      </div>
+    `);
+    if (!modal) return;
+    const copyReportBtn = modal.querySelector('[data-insight-action="copy-report"]');
+    if (copyReportBtn) {
+      copyReportBtn.addEventListener('click', () => {
+        copyTextToClipboard(buildWeeklyReportText(insights), 'Weekly report copied!');
+      });
+    }
+    const copyAiBtn = modal.querySelector('[data-insight-action="copy-ai"]');
+    if (copyAiBtn) {
+      copyAiBtn.classList.toggle('disabled', !unlock.unlocked);
+      copyAiBtn.addEventListener('click', () => {
+        const state = getAIPromptUnlockState();
+        if (!state.unlocked) {
+          showToast(getAIPromptUnlockHint('AI prompt unlocks at'));
+          return;
+        }
+        const selected = getSmartPromptNotes(getInsightsData().notes, 10);
+        copyTextToClipboard(buildAIPromptText(selected, { detailMode: 'detailed' }), 'AI prompt copied!');
+        const copies = getStorage(STORAGE_KEYS.PROMPT_COPIES, 0);
+        setStorage(STORAGE_KEYS.PROMPT_COPIES, copies + 1);
+      });
+    }
+  }
+
+  function showWeeklyReportModal() {
+    const insights = getInsightsData();
+    const reportText = buildWeeklyReportText(insights);
+    const modal = createInsightsModal('Weekly Reflection Report', `
+      <p class="insights-hint">Summarizes your recurring loops, wins, blind spots, and next-week focus.</p>
+      <textarea class="insight-textarea" readonly>${escapeHtml(reportText)}</textarea>
+      <div class="card-actions insight-actions">
+        <button class="action-btn" data-insight-action="copy"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy report</button>
+      </div>
+    `);
+    if (!modal) return;
+    const copyBtn = modal.querySelector('[data-insight-action="copy"]');
+    if (copyBtn) copyBtn.addEventListener('click', () => copyTextToClipboard(reportText, 'Weekly report copied!'));
+  }
+
+  function showAIPromptModal() {
+    const state = getAIPromptUnlockState();
+    if (!state.unlocked) {
+      showToast(`${getAIPromptUnlockHint('Add')} to unlock AI prompt`);
+      return;
+    }
+    const allNotes = getSavedNotesList();
+    if (!allNotes.length) {
+      showToast('Add at least 1 note to build an AI prompt');
+      return;
+    }
+
+    const defaultSmartIds = new Set(getSmartPromptNotes(allNotes, Math.min(10, allNotes.length)).map((item) => item.id));
+    const modal = createInsightsModal('AI Prompt Builder', `
+      <p class="insights-hint">Choose which notes to include before copying. This keeps prompts focused when your notebook grows.</p>
+      <div class="prompt-builder-controls">
+        <label>Scope
+          <select class="notes-select" data-builder="scope">
+            <option value="smart">Smart (recommended)</option>
+            <option value="recent">Recent notes</option>
+            <option value="recurring">Top recurring</option>
+            <option value="manual">Manual selection</option>
+            <option value="all">All notes</option>
+          </select>
+        </label>
+        <label data-builder="count-wrap">Note count
+          <input class="notes-input" data-builder="count" type="number" min="1" max="${allNotes.length}" value="${Math.min(10, allNotes.length)}">
+        </label>
+        <label>Prompt detail
+          <select class="notes-select" data-builder="detail">
+            <option value="detailed">Detailed</option>
+            <option value="summary">Summary</option>
+          </select>
+        </label>
+      </div>
+      <div class="prompt-builder-manual" data-builder="manual-wrap" style="display:none;">
+        <div class="prompt-builder-manual-head">
+          <input class="search-input prompt-builder-search" data-builder="search" placeholder="Filter notes by bias, tag, or text">
+          <button class="action-btn" data-builder="select-all" type="button">Select all</button>
+          <button class="action-btn" data-builder="select-none" type="button">Clear</button>
+        </div>
+        <div class="prompt-note-list" data-builder="list"></div>
+      </div>
+      <p class="prompt-builder-meta" data-builder="meta"></p>
+      <textarea class="insight-textarea" data-builder="output" readonly></textarea>
+      <div class="card-actions insight-actions">
+        <button class="action-btn" data-insight-action="copy"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy prompt</button>
+      </div>
+    `);
+    if (!modal) return;
+
+    const scopeEl = modal.querySelector('[data-builder="scope"]');
+    const countWrapEl = modal.querySelector('[data-builder="count-wrap"]');
+    const countEl = modal.querySelector('[data-builder="count"]');
+    const detailEl = modal.querySelector('[data-builder="detail"]');
+    const manualWrapEl = modal.querySelector('[data-builder="manual-wrap"]');
+    const searchEl = modal.querySelector('[data-builder="search"]');
+    const listEl = modal.querySelector('[data-builder="list"]');
+    const metaEl = modal.querySelector('[data-builder="meta"]');
+    const outputEl = modal.querySelector('[data-builder="output"]');
+    const selectAllEl = modal.querySelector('[data-builder="select-all"]');
+    const selectNoneEl = modal.querySelector('[data-builder="select-none"]');
+
+    const manualSelectedIds = new Set(defaultSmartIds);
+
+    function renderManualList(query = '') {
+      if (!listEl) return;
+      const q = String(query || '').trim().toLowerCase();
+      const filtered = sortNotesByRecent(allNotes).filter((item) => {
+        if (!q) return true;
+        return (
+          item.name.toLowerCase().includes(q) ||
+          item.cat.toLowerCase().includes(q) ||
+          item.note.toLowerCase().includes(q) ||
+          item.noteRecord.tags.some((tag) => tag.includes(q))
+        );
+      });
+      listEl.innerHTML = filtered.map((item) => `
+        <label class="prompt-note-item">
+          <input type="checkbox" data-builder-note-id="${item.id}" ${manualSelectedIds.has(item.id) ? 'checked' : ''}>
+          <span>
+            <strong>${escapeHtml(item.name)}</strong>
+            <small>#${String(item.id).padStart(3, '0')} · ${escapeHtml(item.cat)} · ${item.noteRecord.occurrences}x</small>
+          </span>
+        </label>
+      `).join('') || '<p class="insights-hint">No notes match this filter.</p>';
+    }
+
+    function getCurrentSelection() {
+      const scope = scopeEl ? scopeEl.value : 'smart';
+      const count = countEl ? parseInt(countEl.value, 10) : allNotes.length;
+      return getSelectedPromptNotes(allNotes, scope, count, manualSelectedIds);
+    }
+
+    function updateBuilderOutput() {
+      const scope = scopeEl ? scopeEl.value : 'smart';
+      const detailMode = detailEl ? detailEl.value : 'detailed';
+      const selection = getCurrentSelection();
+      const promptText = buildAIPromptText(selection, { detailMode });
+      const promptWords = countWords(promptText);
+      const scopeUsesCount = scope === 'smart' || scope === 'recent' || scope === 'recurring';
+
+      if (countWrapEl) countWrapEl.style.display = scopeUsesCount ? '' : 'none';
+      if (manualWrapEl) manualWrapEl.style.display = scope === 'manual' ? 'block' : 'none';
+      if (scope === 'manual') renderManualList(searchEl ? searchEl.value : '');
+
+      if (outputEl) outputEl.value = promptText;
+      if (metaEl) {
+        metaEl.textContent = `Using ${selection.length}/${allNotes.length} notes · approximately ${promptWords} words`;
+        metaEl.classList.toggle('warn', promptWords > 2600);
+      }
+    }
+
+    if (scopeEl) scopeEl.addEventListener('change', updateBuilderOutput);
+    if (countEl) {
+      countEl.addEventListener('input', () => {
+        const n = parseInt(countEl.value, 10);
+        if (!Number.isFinite(n) || n < 1) countEl.value = '1';
+        if (parseInt(countEl.value, 10) > allNotes.length) countEl.value = String(allNotes.length);
+        updateBuilderOutput();
+      });
+    }
+    if (detailEl) detailEl.addEventListener('change', updateBuilderOutput);
+    if (searchEl) {
+      searchEl.addEventListener('input', () => {
+        renderManualList(searchEl.value);
+      });
+    }
+    if (listEl) {
+      listEl.addEventListener('change', (event) => {
+        const target = event.target;
+        if (!target || target.tagName !== 'INPUT') return;
+        const noteId = parseInt(target.dataset.builderNoteId, 10);
+        if (!noteId) return;
+        if (target.checked) manualSelectedIds.add(noteId);
+        else manualSelectedIds.delete(noteId);
+        updateBuilderOutput();
+      });
+    }
+    if (selectAllEl) {
+      selectAllEl.addEventListener('click', () => {
+        allNotes.forEach((item) => manualSelectedIds.add(item.id));
+        renderManualList(searchEl ? searchEl.value : '');
+        updateBuilderOutput();
+      });
+    }
+    if (selectNoneEl) {
+      selectNoneEl.addEventListener('click', () => {
+        manualSelectedIds.clear();
+        renderManualList(searchEl ? searchEl.value : '');
+        updateBuilderOutput();
+      });
+    }
+
+    const copyBtn = modal.querySelector('[data-insight-action="copy"]');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        const selected = getCurrentSelection();
+        if (!selected.length) {
+          showToast('Select at least 1 note to build a prompt');
+          return;
+        }
+        const text = outputEl ? outputEl.value : buildAIPromptText(selected, { detailMode: 'detailed' });
+        copyTextToClipboard(text, 'AI prompt copied!');
+        const copies = getStorage(STORAGE_KEYS.PROMPT_COPIES, 0);
+        setStorage(STORAGE_KEYS.PROMPT_COPIES, copies + 1);
+      });
+    }
+
+    renderManualList('');
+    updateBuilderOutput();
+  }
+
+  function updateAIButtonState() {
+    const aiBtn = document.getElementById('aiPromptBtn');
+    if (!aiBtn) return;
+    const state = getAIPromptUnlockState();
+    aiBtn.classList.toggle('disabled', !state.unlocked);
+    aiBtn.disabled = false;
+    aiBtn.setAttribute('aria-disabled', state.unlocked ? 'false' : 'true');
+    aiBtn.title = state.unlocked
+      ? 'Generate a structured AI reflection prompt'
+      : `Locked. ${getAIPromptUnlockHint()}. Click to see how to unlock`;
   }
 
   function updateProgress() {
@@ -773,6 +1526,7 @@
     updateNotesButton();
     updateProgress();
     renderAchievements();
+    updateAIButtonState();
     if (deepLinkedId) {
       openCardModal(deepLinkedId, { skipHistory: true });
     } else {
@@ -853,6 +1607,21 @@
       notesBtn.addEventListener('click', () => {
         setMainView(currentView === 'notes' ? 'biases' : 'notes');
       });
+    }
+
+    const mirrorBtn = document.getElementById('mirrorBtn');
+    if (mirrorBtn) {
+      mirrorBtn.addEventListener('click', showPatternMirror);
+    }
+
+    const reportBtn = document.getElementById('reportBtn');
+    if (reportBtn) {
+      reportBtn.addEventListener('click', showWeeklyReportModal);
+    }
+
+    const aiPromptBtn = document.getElementById('aiPromptBtn');
+    if (aiPromptBtn) {
+      aiPromptBtn.addEventListener('click', showAIPromptModal);
     }
 
     const resetProgressBtn = document.getElementById('resetProgressBtn');
@@ -1058,9 +1827,8 @@
   }
 
   function saveNote(id, text) {
-    const notes = getNotes();
-    notes[id] = text;
-    setNotes(notes);
+    saveNoteField(id, 'freeText', text);
+    updateAIButtonState();
   }
 
   window.CognitiveBiases = {
@@ -1081,7 +1849,10 @@
     closeModalElement,
     setMainView,
     saveNote,
-    scrollToCard
+    scrollToCard,
+    showPatternMirror,
+    showWeeklyReportModal,
+    showAIPromptModal
   };
 
   if (document.readyState === 'loading') {

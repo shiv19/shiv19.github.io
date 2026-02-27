@@ -481,25 +481,25 @@
   }
   .mark-read-btn:hover { background: var(--cream); border-color: var(--ink); color: var(--ink); }
   .card.read .mark-read-btn { border-color: var(--accent); color: var(--accent); }
-  
+
   .progress-section { padding: 16px 40px; border-bottom: 1px solid var(--cream); background: var(--card); }
   .progress-stats { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--muted); margin-bottom: 8px; line-height: 1.45; font-family: var(--ui-sans); }
   .progress-stats strong { color: var(--ink); }
   .streak { color: var(--accent); }
   .progress-track { height: 6px; background: var(--cream); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s ease; }
-  
+
   .related-biases { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .related-tag { 
-    padding: 4px 10px; 
-    background: var(--cream); 
-    border-radius: 3px; 
-    font-size: 0.68rem; 
+  .related-tag {
+    padding: 4px 10px;
+    background: var(--cream);
+    border-radius: 3px;
+    font-size: 0.68rem;
     cursor: pointer;
     transition: background 0.12s;
   }
   .related-tag:hover { background: var(--ink); color: var(--paper); }
-  
+
   .card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--cream); }
   .action-btn {
     padding: 6px 12px;
@@ -515,6 +515,14 @@
     transition: all 0.12s;
   }
   .action-btn:hover { background: var(--cream); border-color: var(--ink); color: var(--ink); }
+  .action-btn.disabled,
+  .action-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    border-color: #b9ad9d;
+    color: #8c7c68;
+    background: transparent;
+  }
   .icon-inline {
     margin-right: 6px;
     font-size: 0.9em;
@@ -525,7 +533,7 @@
     font-size: 0.9em;
     vertical-align: -0.08em;
   }
-  
+
   .surprise-btn {
     padding: 6px 13px;
     border: 1.5px solid var(--accent);
@@ -541,6 +549,19 @@
   }
   .surprise-btn:hover { background: var(--accent); color: var(--paper); }
   .surprise-btn.active { background: var(--accent); color: var(--paper); }
+  .surprise-btn.disabled,
+  .surprise-btn:disabled {
+    border-color: #b89b8a;
+    color: #b89b8a;
+    cursor: not-allowed;
+    background: transparent;
+    opacity: 0.7;
+  }
+  .surprise-btn.disabled:hover,
+  .surprise-btn:disabled:hover {
+    background: transparent;
+    color: #b89b8a;
+  }
   .reset-btn {
     border-color: #9e3a17;
     color: #9e3a17;
@@ -549,12 +570,12 @@
     background: #9e3a17;
     color: var(--paper);
   }
-  
+
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
+
   .quiz-modal, .flashcard-modal {
     position: fixed;
     inset: 0;
@@ -688,6 +709,155 @@
     line-height: 1;
   }
   .close-modal:hover { color: var(--ink); }
+  .insights-content {
+    max-width: 860px;
+  }
+  .insights-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    margin-bottom: 14px;
+  }
+  .insights-hint {
+    margin-bottom: 10px;
+    color: #4f4235;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    font-family: var(--ui-sans);
+  }
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .insight-grid section,
+  .insight-plan {
+    border: 1px solid #e6dbc6;
+    border-radius: 8px;
+    background: #f8f3ea;
+    padding: 12px 14px;
+  }
+  .insight-grid h3,
+  .insight-plan h3 {
+    font-size: 0.7rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .insight-grid ul,
+  .insight-plan ol {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #2f271d;
+    font-family: var(--ui-sans);
+  }
+  .insight-plan {
+    margin-top: 12px;
+  }
+  .insight-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .insight-tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 4px 10px;
+    background: var(--cream);
+    color: #4a3e30;
+    font-size: 0.72rem;
+  }
+  .insight-actions {
+    margin-top: 14px;
+  }
+  .insight-textarea {
+    width: 100%;
+    min-height: 280px;
+    border: 1px solid #e1d7c2;
+    border-radius: 8px;
+    background: #fffdfa;
+    color: #2f271d;
+    padding: 12px;
+    line-height: 1.58;
+    font-size: 0.8rem;
+    font-family: "JetBrains Mono", "DM Mono", Menlo, Consolas, monospace;
+    resize: vertical;
+  }
+  .prompt-builder-controls {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .prompt-builder-controls label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .prompt-builder-manual {
+    border: 1px solid #e4d8c3;
+    border-radius: 8px;
+    background: #fcf8f1;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .prompt-builder-manual-head {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .prompt-builder-search {
+    width: 100%;
+    max-width: none;
+  }
+  .prompt-note-list {
+    max-height: 220px;
+    overflow: auto;
+    border-top: 1px solid #e8decf;
+    padding-top: 8px;
+  }
+  .prompt-note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    cursor: pointer;
+    font-family: var(--ui-sans);
+    color: #2f271d;
+  }
+  .prompt-note-item input {
+    margin-top: 3px;
+  }
+  .prompt-note-item span {
+    display: grid;
+    gap: 2px;
+  }
+  .prompt-note-item strong {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+  .prompt-note-item small {
+    font-size: 0.7rem;
+    color: #6b5d4d;
+  }
+  .prompt-builder-meta {
+    margin: 6px 0 10px;
+    font-family: var(--ui-sans);
+    font-size: 0.78rem;
+    color: #5f503f;
+  }
+  .prompt-builder-meta.warn {
+    color: #9e3a17;
+    font-weight: 600;
+  }
 
   @media screen and (max-width: 640px) {
     .bias-detail-modal { padding: 10px; }
@@ -732,8 +902,30 @@
       font-size: 0.62rem;
       letter-spacing: 0.04em;
     }
+    .note-template-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .insight-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .insight-textarea {
+      min-height: 220px;
+      font-size: 0.74rem;
+    }
+    .prompt-builder-controls {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .prompt-builder-manual-head {
+      flex-wrap: wrap;
+    }
+    .prompt-note-list {
+      max-height: 180px;
+    }
   }
-  
+
   .notes-section {
     margin-top: 14px;
     padding-top: 14px;
@@ -756,7 +948,92 @@
     outline: none;
     border-color: var(--ink);
   }
-  
+  .notes-textarea.compact {
+    min-height: 72px;
+    font-size: 0.76rem;
+  }
+  .note-template-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .note-field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.64rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .notes-input,
+  .notes-select {
+    width: 100%;
+    height: 36px;
+    padding: 7px 10px;
+    border: 1px solid var(--cream);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--ui-sans);
+    font-size: 0.82rem;
+  }
+  .notes-input:focus,
+  .notes-select:focus {
+    outline: none;
+    border-color: var(--ink);
+  }
+  .note-tags {
+    margin-top: 12px;
+  }
+  .note-tags-label {
+    margin-bottom: 8px;
+    font-size: 0.64rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .note-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .note-tag-btn {
+    border: 1px solid #d7cdb8;
+    background: transparent;
+    color: #5b4d3e;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 0.68rem;
+    cursor: pointer;
+    text-transform: lowercase;
+    font-family: var(--ui-sans);
+  }
+  .note-tag-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .note-tag-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .note-inline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 2px 0 10px;
+  }
+  .note-inline-tag {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--cream);
+    color: #5a4d3f;
+    font-size: 0.64rem;
+    text-transform: lowercase;
+  }
+
   .achievements-bar {
     padding: 12px 40px;
     background: var(--cream);
@@ -838,6 +1115,27 @@
     font-family: var(--ui-sans);
     grid-column: 1/-1;
   }
+  .safety-banner {
+    margin: 18px 40px 18px;
+    border: 1px solid #ddcaa7;
+    background: #fff5e3;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: var(--ui-sans);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: #473928;
+  }
+  .safety-banner strong {
+    color: #2f2619;
+  }
+  .safety-banner a {
+    color: inherit;
+    text-underline-offset: 0.14em;
+  }
+  .safety-banner a:hover {
+    color: var(--ink);
+  }
   footer {
     padding: 40px;
     border-top: 1px solid var(--cream);
@@ -888,6 +1186,11 @@
       padding-left: 16px;
       padding-right: 16px;
     }
+    .safety-banner {
+      margin: 14px 16px 0;
+      font-size: 0.74rem;
+      padding: 9px 10px;
+    }
     .stats-bar { font-size: 0.7rem; }
     .grid {
       padding: 18px 16px 24px;
@@ -920,6 +1223,12 @@
     <h1><span>Complete Field Guide to</span>Cognitive<br>Biases</h1>
     <p class="tagline">165 systematic quirks of the human mind</p>
   </header>
+  <div class="safety-banner">
+    <strong>Self-help reflection tool:</strong> This app supports self-awareness and is not a diagnosis or crisis service.
+    If you are in immediate danger, call your local emergency number.
+    For crisis lines worldwide, use <a href="https://findahelpline.com/" target="_blank" rel="noopener noreferrer">Findahelpline.com</a>.
+    If you are in the U.S. or Canada, call or text <a href="https://988lifeline.org/" target="_blank" rel="noopener noreferrer">988</a>.
+  </div>
   <div class="progress-section" id="progressBar"></div>
   <div class="achievements-bar" id="achievementsBar"></div>
   <div class="controls">
@@ -940,6 +1249,9 @@
     <button class="surprise-btn" id="quizBtn" style="margin-left:4px;"><i class="fa-solid fa-circle-question icon-inline" aria-hidden="true"></i>Quiz</button>
     <button class="surprise-btn" id="flashcardBtn" style="margin-left:4px;"><i class="fa-solid fa-layer-group icon-inline" aria-hidden="true"></i>Flashcards</button>
     <button class="surprise-btn" id="notesBtn" style="margin-left:4px;"><i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes</button>
+    <button class="surprise-btn" id="mirrorBtn" style="margin-left:4px;"><i class="fa-solid fa-chart-line icon-inline" aria-hidden="true"></i>Pattern mirror</button>
+    <button class="surprise-btn" id="reportBtn" style="margin-left:4px;"><i class="fa-solid fa-file-lines icon-inline" aria-hidden="true"></i>Weekly report</button>
+    <button class="surprise-btn" id="aiPromptBtn" style="margin-left:4px;"><i class="fa-solid fa-robot icon-inline" aria-hidden="true"></i>AI prompt</button>
     <button class="surprise-btn reset-btn" id="resetProgressBtn" style="margin-left:4px;"><i class="fa-solid fa-rotate-left icon-inline" aria-hidden="true"></i>Reset progress</button>
     <div class="view-toggle">
       <button class="view-btn active" id="gridBtn"><i class="fa-solid fa-table-cells-large icon-inline" aria-hidden="true"></i>Grid</button>
