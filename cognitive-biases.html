@@ -226,10 +226,9 @@
   .card-extra p, .card-extra li { font-size: 0.7rem; line-height: 1.7; color: #4a3e30; }
   .card-extra ul { padding-left: 14px; }
   .card-tagline {
-    font-size: 0.72rem;
-    color: var(--muted);
-    font-style: italic;
-    font-family: 'Playfair Display', serif;
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 500;
     margin-bottom: 8px;
     line-height: 1.5;
   }
@@ -245,6 +244,33 @@
   }
   .expand-hint { margin-top: 12px; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
   .card.expanded .expand-hint { display: none; }
+  .card.read { opacity: 0.55; }
+  .card.read::after {
+    content: '✓';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: bold;
+  }
+  .card.read .card-number { display: none; }
+  .mark-read-btn {
+    margin-top: 14px;
+    padding: 6px 12px;
+    border: 1.5px solid var(--muted);
+    background: transparent;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-radius: 2px;
+    transition: all 0.12s;
+  }
+  .mark-read-btn:hover { background: var(--cream); border-color: var(--ink); color: var(--ink); }
+  .card.read .mark-read-btn { border-color: var(--accent); color: var(--accent); }
 
   /* LIST VIEW */
   body.list-view .grid {
@@ -321,18 +347,20 @@
   <div class="controls">
     <span class="filter-label">Category:</span>
     <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="unread">Unread</button>
+    <button class="filter-btn" data-cat="read">Read</button>
     <button class="filter-btn" data-cat="estimation">Estimation</button>
     <button class="filter-btn" data-cat="decision">Decision</button>
     <button class="filter-btn" data-cat="hypothesis">Hypothesis</button>
     <button class="filter-btn" data-cat="attribution">Attribution</button>
     <button class="filter-btn" data-cat="memory">Memory</button>
     <button class="filter-btn" data-cat="social">Social</button>
-    <div class="controls-right">
-      <input type="text" class="search-input" placeholder="Search biases..." id="searchInput">
-      <div class="view-toggle">
-        <button class="view-btn active" id="gridBtn">⊞ Grid</button>
-        <button class="view-btn" id="listBtn">☰ List</button>
-      </div>
+  </div>
+  <div class="controls">
+    <input type="text" class="search-input" placeholder="Search biases..." id="searchInput" style="flex:1;">
+    <div class="view-toggle">
+      <button class="view-btn active" id="gridBtn">⊞ Grid</button>
+      <button class="view-btn" id="listBtn">☰ List</button>
     </div>
   </div>
   <div class="stats-bar" id="statsBar">Loading…</div>
@@ -529,21 +557,45 @@ const biases = [
 let currentFilter = 'all';
 let currentSearch = '';
 let expandedId = null;
+const READ_KEY = 'cognitive-biases-read';
+
+function getReadIds() {
+  try {
+    return JSON.parse(localStorage.getItem(READ_KEY)) || [];
+  } catch { return []; }
+}
+
+function setReadIds(ids) {
+  localStorage.setItem(READ_KEY, JSON.stringify(ids));
+}
+
+function toggleRead(id, e) {
+  e.stopPropagation();
+  const readIds = getReadIds();
+  const idx = readIds.indexOf(id);
+  if (idx > -1) readIds.splice(idx, 1);
+  else readIds.push(id);
+  setReadIds(readIds);
+  render();
+}
 
 function getFiltered() {
+  const readIds = getReadIds();
   return biases.filter(b => {
-    const matchCat = currentFilter === 'all' || b.cat === currentFilter;
+    let matchCat = currentFilter === 'all' || b.cat === currentFilter;
+    if (currentFilter === 'read') matchCat = readIds.includes(b.id);
+    if (currentFilter === 'unread') matchCat = !readIds.includes(b.id);
     const q = currentSearch.toLowerCase();
     const matchSearch = !q || b.name.toLowerCase().includes(q) || b.summary.toLowerCase().includes(q);
     return matchCat && matchSearch;
   });
 }
 
-function cardHTML(b, isExpanded, animDelay) {
+function cardHTML(b, isExpanded, animDelay, isRead) {
   const color = CAT_COLORS[b.cat] || '#7a6e5e';
   const hasExtra = b.example || b.antidote || (b.realWorld && b.realWorld.length);
   return `
-    <div class="card animate-in ${isExpanded ? 'expanded' : ''}"
+    <div class="card animate-in ${isExpanded ? 'expanded' : ''} ${isRead ? 'read' : ''}"
          data-id="${b.id}"
          style="--card-accent:${color}; animation-delay:${animDelay}s"
          onclick="toggleCard(${b.id})">
@@ -557,6 +609,7 @@ function cardHTML(b, isExpanded, animDelay) {
         ${b.example ? `<h3>Real-world example</h3><div class="example-box">${b.example}</div>` : ''}
         ${b.antidote ? `<h3>Antidote</h3><p>${b.antidote}</p>` : ''}
         ${b.realWorld && b.realWorld.length ? `<h3>Where it shows up</h3><ul>${b.realWorld.map(r=>'<li>'+r+'</li>').join('')}</ul>` : ''}
+        <button class="mark-read-btn" onclick="toggleRead(${b.id}, event)">${isRead ? 'Mark unread' : 'Mark as read'}</button>
       </div>
       <p class="expand-hint">↓ expand</p>` : ''}
     </div>`;
@@ -567,17 +620,17 @@ function render() {
   const grid = document.getElementById('grid');
   const stats = document.getElementById('statsBar');
   const isListView = document.body.classList.contains('list-view');
+  const readIds = getReadIds();
 
-  stats.textContent = `Showing ${filtered.length} of ${biases.length} biases — click any card to ${isListView ? 'expand' : 'expand'}`;
+  stats.textContent = `Showing ${filtered.length} of ${biases.length} biases · ${readIds.length} read — click any card to expand`;
 
   if (filtered.length === 0) {
     grid.innerHTML = '<div class="no-results">No biases match. Try a different search or filter.</div>';
     return;
   }
 
-  // In list view, don't stagger animations (too many items)
   const getDelay = (i) => isListView ? 0 : Math.min(i * 0.025, 0.5);
-  grid.innerHTML = filtered.map((b, i) => cardHTML(b, expandedId === b.id, getDelay(i))).join('');
+  grid.innerHTML = filtered.map((b, i) => cardHTML(b, expandedId === b.id, getDelay(i), readIds.includes(b.id))).join('');
 }
 
 function toggleCard(id) {
