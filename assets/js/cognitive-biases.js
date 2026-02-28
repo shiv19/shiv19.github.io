@@ -619,67 +619,71 @@
     modal.className = 'bias-detail-modal';
     modal.innerHTML = `
       <div class="bias-detail-content">
-        <button class="close-modal" aria-label="Close details">&times;</button>
-        <div class="card-category">${bias.cat}</div>
-        <h2 class="bias-detail-title">${bias.name}</h2>
-        ${bias.tagline ? `<p class="card-tagline">"${bias.tagline}"</p>` : ''}
-        <p class="card-summary">${bias.summary}</p>
-        <div class="card-extra">
-          ${bias.example ? `<h3>Real-world example</h3><div class="example-box">${bias.example}</div>` : ''}
-          ${bias.antidote ? `<h3>Antidote</h3><p>${bias.antidote}</p>` : ''}
-          ${bias.realWorld && bias.realWorld.length ? `<h3>Where it shows up</h3><ul>${bias.realWorld.map(r => `<li>${r}</li>`).join('')}</ul>` : ''}
-          ${related.length ? `<h3>Related biases</h3><div class="related-biases">${related.map(r => `<span class="related-tag" data-related-id="${r.id}">${r.name}</span>`).join('')}</div>` : ''}
-          <div class="notes-section">
-            <h3>Guided reflection</h3>
-            <p class="notes-storage-hint">This is a self-reflection tool, not medical advice. Notes stay in this browser.</p>
-            <div class="note-template-grid">
-              <label class="note-field-label">Situation
-                <textarea class="notes-textarea compact" data-note-field="situation" placeholder="What happened?">${safeText(noteRecord.situation)}</textarea>
-              </label>
-              <label class="note-field-label">Automatic thought
-                <textarea class="notes-textarea compact" data-note-field="automaticThought" placeholder="What thought showed up first?">${safeText(noteRecord.automaticThought)}</textarea>
-              </label>
-              <label class="note-field-label">Emotion intensity (0-10)
-                <input class="notes-input" data-note-field="emotionIntensity" type="number" min="0" max="10" value="${safeText(noteRecord.emotionIntensity)}">
-              </label>
-              <label class="note-field-label">Behavior
-                <textarea class="notes-textarea compact" data-note-field="behavior" placeholder="What did you do next?">${safeText(noteRecord.behavior)}</textarea>
-              </label>
-              <label class="note-field-label">Outcome
-                <textarea class="notes-textarea compact" data-note-field="outcome" placeholder="How did it end?">${safeText(noteRecord.outcome)}</textarea>
-              </label>
-              <label class="note-field-label">Alternative thought
-                <textarea class="notes-textarea compact" data-note-field="alternativeThought" placeholder="A more balanced interpretation">${safeText(noteRecord.alternativeThought)}</textarea>
-              </label>
-              <label class="note-field-label">Occurrences recently
-                <input class="notes-input" data-note-field="occurrences" type="number" min="1" max="50" value="${safeText(noteRecord.occurrences)}">
-              </label>
-              <label class="note-field-label">Did you interrupt the bias?
-                <select class="notes-select" data-note-field="interruption">
-                  <option value="none" ${noteRecord.interruption === 'none' ? 'selected' : ''}>Not yet</option>
-                  <option value="partial" ${noteRecord.interruption === 'partial' ? 'selected' : ''}>Partly</option>
-                  <option value="yes" ${noteRecord.interruption === 'yes' ? 'selected' : ''}>Yes</option>
-                </select>
-              </label>
-            </div>
-            <div class="note-tags">
-              <p class="note-tags-label">Trigger/context tags</p>
-              <div class="note-tags-list">
-                ${NOTE_TAGS.map((tag) => `
-                  <button type="button" class="note-tag-btn ${noteRecord.tags.includes(tag) ? 'active' : ''}" data-note-tag="${tag}">${tag}</button>
-                `).join('')}
+        <div class="bias-detail-topbar">
+          <button class="close-modal" aria-label="Close details">&times;</button>
+        </div>
+        <div class="bias-detail-scroll">
+          <div class="card-category">${bias.cat}</div>
+          <h2 class="bias-detail-title">${bias.name}</h2>
+          ${bias.tagline ? `<p class="card-tagline">"${bias.tagline}"</p>` : ''}
+          <p class="card-summary">${bias.summary}</p>
+          <div class="card-extra">
+            ${bias.example ? `<h3>Real-world example</h3><div class="example-box">${bias.example}</div>` : ''}
+            ${bias.antidote ? `<h3>Antidote</h3><p>${bias.antidote}</p>` : ''}
+            ${bias.realWorld && bias.realWorld.length ? `<h3>Where it shows up</h3><ul>${bias.realWorld.map(r => `<li>${r}</li>`).join('')}</ul>` : ''}
+            ${related.length ? `<h3>Related biases</h3><div class="related-biases">${related.map(r => `<span class="related-tag" data-related-id="${r.id}">${r.name}</span>`).join('')}</div>` : ''}
+            <div class="notes-section">
+              <h3>Guided reflection</h3>
+              <p class="notes-storage-hint">This is a self-reflection tool, not medical advice. Notes stay in this browser.</p>
+              <div class="note-template-grid">
+                <label class="note-field-label">Situation
+                  <textarea class="notes-textarea compact" data-note-field="situation" placeholder="What happened?">${safeText(noteRecord.situation)}</textarea>
+                </label>
+                <label class="note-field-label">Automatic thought
+                  <textarea class="notes-textarea compact" data-note-field="automaticThought" placeholder="What thought showed up first?">${safeText(noteRecord.automaticThought)}</textarea>
+                </label>
+                <label class="note-field-label">Emotion intensity (0-10)
+                  <input class="notes-input" data-note-field="emotionIntensity" type="number" min="0" max="10" value="${safeText(noteRecord.emotionIntensity)}">
+                </label>
+                <label class="note-field-label">Behavior
+                  <textarea class="notes-textarea compact" data-note-field="behavior" placeholder="What did you do next?">${safeText(noteRecord.behavior)}</textarea>
+                </label>
+                <label class="note-field-label">Outcome
+                  <textarea class="notes-textarea compact" data-note-field="outcome" placeholder="How did it end?">${safeText(noteRecord.outcome)}</textarea>
+                </label>
+                <label class="note-field-label">Alternative thought
+                  <textarea class="notes-textarea compact" data-note-field="alternativeThought" placeholder="A more balanced interpretation">${safeText(noteRecord.alternativeThought)}</textarea>
+                </label>
+                <label class="note-field-label">Occurrences recently
+                  <input class="notes-input" data-note-field="occurrences" type="number" min="1" max="50" value="${safeText(noteRecord.occurrences)}">
+                </label>
+                <label class="note-field-label">Did you interrupt the bias?
+                  <select class="notes-select" data-note-field="interruption">
+                    <option value="none" ${noteRecord.interruption === 'none' ? 'selected' : ''}>Not yet</option>
+                    <option value="partial" ${noteRecord.interruption === 'partial' ? 'selected' : ''}>Partly</option>
+                    <option value="yes" ${noteRecord.interruption === 'yes' ? 'selected' : ''}>Yes</option>
+                  </select>
+                </label>
               </div>
+              <div class="note-tags">
+                <p class="note-tags-label">Trigger/context tags</p>
+                <div class="note-tags-list">
+                  ${NOTE_TAGS.map((tag) => `
+                    <button type="button" class="note-tag-btn ${noteRecord.tags.includes(tag) ? 'active' : ''}" data-note-tag="${tag}">${tag}</button>
+                  `).join('')}
+                </div>
+              </div>
+              <label class="note-field-label">Free reflection
+                <textarea class="notes-textarea" data-note-field="freeText" placeholder="Anything else you noticed...">${safeText(noteRecord.freeText)}</textarea>
+              </label>
             </div>
-            <label class="note-field-label">Free reflection
-              <textarea class="notes-textarea" data-note-field="freeText" placeholder="Anything else you noticed...">${safeText(noteRecord.freeText)}</textarea>
-            </label>
           </div>
-          <div class="card-actions">
-            <button class="action-btn" data-action="toggle-read">${isRead ? '<i class="fa-solid fa-check icon-inline" aria-hidden="true"></i>Mark unread' : '<i class="fa-regular fa-circle icon-inline" aria-hidden="true"></i>Mark as read'}</button>
-            <button class="action-btn" data-action="copy-link"><i class="fa-solid fa-link icon-inline" aria-hidden="true"></i>Copy link</button>
-            <button class="action-btn" data-action="share"><i class="fa-solid fa-share-nodes icon-inline" aria-hidden="true"></i>Share quote</button>
-            <button class="action-btn" data-action="copy-note"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy reflection</button>
-          </div>
+        </div>
+        <div class="card-actions bias-detail-footer">
+          <button class="action-btn" data-action="toggle-read">${isRead ? '<i class="fa-solid fa-check icon-inline" aria-hidden="true"></i>Mark unread' : '<i class="fa-regular fa-circle icon-inline" aria-hidden="true"></i>Mark as read'}</button>
+          <button class="action-btn" data-action="copy-link"><i class="fa-solid fa-link icon-inline" aria-hidden="true"></i>Copy link</button>
+          <button class="action-btn" data-action="share"><i class="fa-solid fa-share-nodes icon-inline" aria-hidden="true"></i>Share quote</button>
+          <button class="action-btn" data-action="copy-note"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy reflection</button>
         </div>
       </div>
     `;
