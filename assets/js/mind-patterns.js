@@ -193,6 +193,8 @@
   let expandedId = null;
   let currentView = 'biases';
   let modalLockCount = 0;
+  let isQuickStartMode = false;
+  let quickStartBiasId = null;
 
   function lockBodyScroll() {
     modalLockCount += 1;
@@ -516,7 +518,64 @@
     return unread[Math.floor(Math.random() * unread.length)];
   }
 
+  function getRandomBiasExcluding(excludeId = null) {
+    const pool = biases.filter((b) => b.id !== excludeId);
+    if (!pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  function pickQuickStartBias() {
+    const next = getRandomUnread() || getRandomBiasExcluding(quickStartBiasId);
+    quickStartBiasId = next ? next.id : null;
+    return next || null;
+  }
+
+  function renderQuickStart() {
+    const bias = getBias(quickStartBiasId) || pickQuickStartBias();
+    if (!bias) return;
+    const nameEl = document.getElementById('quickStartName');
+    const taglineEl = document.getElementById('quickStartTagline');
+    const summaryEl = document.getElementById('quickStartSummary');
+    if (nameEl) nameEl.textContent = bias.name;
+    if (taglineEl) taglineEl.textContent = bias.tagline ? `"${bias.tagline}"` : '';
+    if (summaryEl) summaryEl.textContent = bias.summary;
+  }
+
+  function enterQuickStartMode() {
+    isQuickStartMode = true;
+    document.body.classList.add('quick-start-mode');
+    if (!quickStartBiasId) pickQuickStartBias();
+    renderQuickStart();
+    updateStickyControlsVisibility();
+  }
+
+  function enterLibraryMode(options = {}) {
+    isQuickStartMode = false;
+    document.body.classList.remove('quick-start-mode');
+    currentView = 'biases';
+    updateNotesButton();
+    render();
+    updateProgress();
+    renderAchievements();
+    updateStickyControlsVisibility();
+
+    const biasId = options.openBiasId;
+    if (biasId && getBias(biasId)) {
+      setTimeout(() => {
+        const card = document.querySelector(`.card[data-id="${biasId}"]`);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        openCardModal(biasId);
+      }, 80);
+    }
+  }
+
+  function ensureLibraryMode() {
+    if (!isQuickStartMode) return;
+    enterLibraryMode();
+  }
+
   function surpriseMe() {
+    ensureLibraryMode();
     const bias = getRandomUnread();
     currentView = 'biases';
     updateNotesButton();
@@ -581,6 +640,7 @@
   }
 
   function scrollToCard(id) {
+    ensureLibraryMode();
     setTimeout(() => {
       const card = document.querySelector(`.card[data-id="${id}"]`);
       if (card) {
@@ -883,6 +943,7 @@
   }
 
   function setFilter(category) {
+    ensureLibraryMode();
     if (!category) return;
     if (currentView === 'notes') {
       currentView = 'biases';
@@ -895,6 +956,7 @@
   }
 
   function setSearchTerm(value, sourceEl = null) {
+    ensureLibraryMode();
     currentSearch = value || '';
     expandedId = null;
     syncSearchInputs(sourceEl);
@@ -902,6 +964,7 @@
   }
 
   function setLayoutView(view) {
+    ensureLibraryMode();
     if (currentView === 'notes') {
       currentView = 'biases';
       updateNotesButton();
@@ -927,6 +990,10 @@
   }
 
   function updateStickyControlsVisibility() {
+    if (isQuickStartMode) {
+      document.body.classList.remove('show-sticky-controls');
+      return;
+    }
     const toolbar = document.querySelector('.controls-toolbar');
     if (!toolbar) return;
     const toolbarBottom = toolbar.getBoundingClientRect().bottom;
@@ -935,6 +1002,7 @@
   }
 
   function setMainView(view) {
+    ensureLibraryMode();
     currentView = view;
     if (view === 'notes') {
       closeCardModal(true);
@@ -1548,54 +1616,6 @@
     return null;
   }
 
-  function showBiasModal(bias, isShared = false) {
-    const modal = document.createElement('div');
-    modal.className = 'daily-modal';
-    modal.innerHTML = `
-      <div class="daily-content">
-        <div class="daily-label">${isShared ? 'Shared Bias' : 'Bias of the Day'}</div>
-        <h2>${bias.name}</h2>
-        <p class="daily-tagline">"${bias.tagline}"</p>
-        <p class="daily-summary">${bias.summary}</p>
-        ${bias.example ? `<div class="example-box" style="margin:16px 0;font-size:0.8rem;font-style:normal;">${bias.example}</div>` : ''}
-        <div class="daily-actions">
-          <button class="daily-btn" onclick="window.CognitiveBiases.closeModalElement(this.closest('.daily-modal'))">Explore</button>
-          <button class="daily-btn secondary" onclick="const modal=this.closest('.daily-modal');window.CognitiveBiases.closeModalElement(modal);setTimeout(()=>{window.CognitiveBiases.scrollToCard(${bias.id})},100)">Read full card</button>
-        </div>
-      </div>
-    `;
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeIn 0.3s ease';
-    modal.querySelector('.daily-content').style.cssText = 'background:var(--card);padding:40px;max-width:500px;border-radius:8px;text-align:center;animation:slideUp 0.3s ease';
-    modal.querySelector('.daily-label').style.cssText = 'font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:8px';
-    modal.querySelector('h2').style.cssText = 'font-family:Playfair Display,serif;font-size:1.8rem;margin-bottom:12px';
-    modal.querySelector('.daily-tagline').style.cssText = 'font-size:0.9rem;color:var(--accent);margin-bottom:16px;font-style:normal';
-    modal.querySelector('.daily-summary').style.cssText = 'font-size:0.8rem;line-height:1.7;color:#4a3e30;margin-bottom:16px';
-    modal.querySelector('.daily-actions').style.cssText = 'display:flex;gap:12px;justify-content:center';
-    modal.querySelectorAll('.daily-btn').forEach(btn => {
-      btn.style.cssText = 'padding:10px 20px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;font-family:DM Mono,monospace;font-size:0.7rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink);border-radius:2px;transition:all 0.12s';
-    });
-    modal.querySelector('.secondary').style.cssText += ';background:var(--ink);color:var(--paper)';
-    
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModalElement(modal);
-    });
-    
-    document.body.appendChild(modal);
-    markModalOpen(modal);
-    return modal;
-  }
-
-  function showDailyBias() {
-    const lastDaily = localStorage.getItem('cognitive-biases-daily-date');
-    const today = new Date().toDateString();
-    
-    if (lastDaily === today) return;
-    
-    const bias = getRandomUnread();
-    showBiasModal(bias, false);
-    localStorage.setItem('cognitive-biases-daily-date', today);
-  }
-
   function init() {
     const deepLinkedId = handleDeepLink();
     render();
@@ -1608,9 +1628,36 @@
     renderAchievements();
     updateAIButtonState();
     if (deepLinkedId) {
+      isQuickStartMode = false;
+      document.body.classList.remove('quick-start-mode');
       openCardModal(deepLinkedId, { skipHistory: true });
     } else {
-      showDailyBias();
+      enterQuickStartMode();
+    }
+
+    const quickStartLearnBtn = document.getElementById('quickStartLearnBtn');
+    if (quickStartLearnBtn) {
+      quickStartLearnBtn.addEventListener('click', () => {
+        const bias = getBias(quickStartBiasId) || pickQuickStartBias();
+        if (bias) enterLibraryMode({ openBiasId: bias.id });
+      });
+    }
+
+    const quickStartAnotherBtn = document.getElementById('quickStartAnotherBtn');
+    if (quickStartAnotherBtn) {
+      quickStartAnotherBtn.addEventListener('click', () => {
+        const next = getRandomBiasExcluding(quickStartBiasId) || pickQuickStartBias();
+        if (!next) return;
+        quickStartBiasId = next.id;
+        renderQuickStart();
+      });
+    }
+
+    const quickStartLibraryBtn = document.getElementById('quickStartLibraryBtn');
+    if (quickStartLibraryBtn) {
+      quickStartLibraryBtn.addEventListener('click', () => {
+        enterLibraryMode();
+      });
     }
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
