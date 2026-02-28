@@ -38,39 +38,39 @@
   }
   .page-wrap { max-width: 1200px; margin: 0 auto; }
   header {
-    padding: 60px 40px 40px;
+    padding: 28px 40px 20px;
     border-bottom: 2px solid var(--ink);
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: end;
-    gap: 20px;
+    gap: 14px;
   }
   h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    line-height: 0.95;
+    font-size: clamp(1.55rem, 3.1vw, 2.45rem);
+    line-height: 1.05;
     letter-spacing: -0.02em;
-    font-style: italic;
+    font-style: normal;
   }
   h1 span {
     display: block;
     color: var(--accent);
     font-style: normal;
-    font-size: 0.4em;
+    font-size: 0.48em;
     font-family: 'DM Mono', monospace;
     font-weight: 400;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
   }
   .tagline {
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-align: right;
-    max-width: 200px;
-    line-height: 1.7;
+    max-width: 245px;
+    line-height: 1.5;
   }
   .controls {
     padding: 20px 40px;
@@ -123,6 +123,54 @@
   }
   .search-input:focus { border-color: var(--ink); }
   .search-input::placeholder { color: var(--muted); }
+  .controls-toolbar {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr);
+    grid-template-areas:
+      "search view"
+      "explore insights";
+    gap: 10px 12px;
+    align-items: start;
+  }
+  .search-wrap {
+    grid-area: search;
+    min-width: 0;
+  }
+  .controls-toolbar .search-input {
+    width: 100%;
+  }
+  .action-cluster,
+  .view-cluster {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid var(--cream);
+    background: var(--card);
+    border-radius: 6px;
+  }
+  .view-cluster {
+    grid-area: view;
+    justify-self: end;
+    width: max-content;
+  }
+  .cluster-explore { grid-area: explore; }
+  .cluster-insights { grid-area: insights; }
+  .cluster-label {
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    line-height: 1;
+  }
+  .cluster-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cluster-buttons .surprise-btn {
+    margin: 0;
+  }
   .view-toggle {
     display: flex;
     border: 1.5px solid var(--ink);
@@ -141,6 +189,61 @@
   }
   .view-btn + .view-btn { border-left: 1.5px solid var(--ink); }
   .view-btn.active { background: var(--ink); color: var(--paper); }
+  .sticky-controls {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, -130%);
+    width: min(1120px, calc(100% - 24px));
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) auto auto auto;
+    gap: 8px;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #d7ccb7;
+    border-radius: 10px;
+    background: rgba(250, 247, 242, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 26px rgba(0,0,0,0.16);
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
+  }
+  body.show-sticky-controls .sticky-controls {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .sticky-search-input {
+    width: 100%;
+  }
+  .sticky-filter-select {
+    min-width: 136px;
+    padding: 7px 10px;
+    border: 1.5px solid var(--muted);
+    background: #fffdf9;
+    border-radius: 4px;
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+  .sticky-filter-select:focus {
+    outline: none;
+    border-color: var(--ink);
+  }
+  .sticky-controls .view-toggle .view-btn {
+    padding: 6px 9px;
+    font-size: 0.68rem;
+  }
+  .sticky-notes-btn {
+    white-space: nowrap;
+  }
   .stats-bar {
     padding: 12px 40px;
     font-size: 0.74rem;
@@ -1221,17 +1324,74 @@
 
   @media screen and (max-width: 640px) {
     header {
-      padding: 40px 16px 24px;
-      gap: 12px;
+      padding: 24px 16px 14px;
+      gap: 8px;
     }
     .tagline {
       max-width: none;
       text-align: left;
-      font-size: 0.74rem;
+      font-size: 0.68rem;
     }
     .controls {
       padding: 14px 16px;
       gap: 7px;
+    }
+    .controls-toolbar {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "search"
+        "view"
+        "explore"
+        "insights";
+      gap: 8px;
+    }
+    .search-wrap,
+    .action-cluster,
+    .view-cluster {
+      width: 100%;
+      min-width: 0;
+    }
+    .view-cluster {
+      justify-self: stretch;
+    }
+    .cluster-label {
+      font-size: 0.56rem;
+    }
+    .cluster-buttons,
+    .view-toggle {
+      width: 100%;
+    }
+    .view-toggle .view-btn {
+      flex: 1 1 50%;
+    }
+    .sticky-controls {
+      top: auto;
+      bottom: calc(10px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 130%);
+      width: calc(100% - 16px);
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "search search"
+        "filter notes"
+        "view view";
+      gap: 7px;
+      padding: 8px;
+      border-radius: 12px;
+    }
+    body.show-sticky-controls .sticky-controls {
+      transform: translate(-50%, 0);
+    }
+    .sticky-search-wrap { grid-area: search; }
+    .sticky-filter-wrap { grid-area: filter; }
+    .sticky-notes-wrap { grid-area: notes; }
+    .sticky-view-wrap { grid-area: view; }
+    .sticky-filter-select,
+    .sticky-notes-btn,
+    .sticky-controls .view-toggle {
+      width: 100%;
+    }
+    .sticky-controls .view-btn {
+      flex: 1 1 50%;
     }
     .filter-btn,
     .surprise-btn,
@@ -1284,8 +1444,8 @@
 <body>
 <div class="page-wrap">
   <header>
-    <h1><span>Complete Field Guide to</span>Cognitive<br>Biases</h1>
-    <p class="tagline">165 systematic quirks of the human mind</p>
+    <h1><span>Welcome to</span>Mind Patterns Explorer</h1>
+    <p class="tagline">A friendly guide to 165 common thinking habits</p>
   </header>
   <div class="safety-banner">
     <strong>Self-help reflection tool:</strong> This app supports self-awareness and is not a diagnosis or crisis service.
@@ -1307,19 +1467,61 @@
     <button class="filter-btn" data-cat="memory">Memory</button>
     <button class="filter-btn" data-cat="social">Social</button>
   </div>
-  <div class="controls">
-    <input type="text" class="search-input" placeholder="Search biases..." id="searchInput" style="flex:1;">
-    <button class="surprise-btn" id="surpriseBtn"><i class="fa-solid fa-dice icon-inline" aria-hidden="true"></i>Surprise me</button>
-    <button class="surprise-btn" id="quizBtn" style="margin-left:4px;"><i class="fa-solid fa-circle-question icon-inline" aria-hidden="true"></i>Quiz</button>
-    <button class="surprise-btn" id="flashcardBtn" style="margin-left:4px;"><i class="fa-solid fa-layer-group icon-inline" aria-hidden="true"></i>Flashcards</button>
-    <button class="surprise-btn" id="notesBtn" style="margin-left:4px;"><i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes</button>
-    <button class="surprise-btn" id="mirrorBtn" style="margin-left:4px;"><i class="fa-solid fa-chart-line icon-inline" aria-hidden="true"></i>Pattern mirror</button>
-    <button class="surprise-btn" id="reportBtn" style="margin-left:4px;"><i class="fa-solid fa-file-lines icon-inline" aria-hidden="true"></i>Weekly report</button>
-    <button class="surprise-btn" id="aiPromptBtn" style="margin-left:4px;"><i class="fa-solid fa-robot icon-inline" aria-hidden="true"></i>AI prompt</button>
-    <button class="surprise-btn reset-btn" id="resetProgressBtn" style="margin-left:4px;"><i class="fa-solid fa-rotate-left icon-inline" aria-hidden="true"></i>Reset progress</button>
-    <div class="view-toggle">
-      <button class="view-btn active" id="gridBtn"><i class="fa-solid fa-table-cells-large icon-inline" aria-hidden="true"></i>Grid</button>
-      <button class="view-btn" id="listBtn"><i class="fa-solid fa-list icon-inline" aria-hidden="true"></i>List</button>
+  <div class="controls controls-toolbar">
+    <div class="search-wrap">
+      <input type="text" class="search-input" placeholder="Search biases..." id="searchInput">
+    </div>
+    <div class="action-cluster cluster-explore">
+      <span class="cluster-label">Explore</span>
+      <div class="cluster-buttons">
+        <button class="surprise-btn" id="surpriseBtn"><i class="fa-solid fa-dice icon-inline" aria-hidden="true"></i>Surprise me</button>
+        <button class="surprise-btn" id="quizBtn"><i class="fa-solid fa-circle-question icon-inline" aria-hidden="true"></i>Quiz</button>
+        <button class="surprise-btn" id="flashcardBtn"><i class="fa-solid fa-layer-group icon-inline" aria-hidden="true"></i>Flashcards</button>
+        <button class="surprise-btn" id="notesBtn"><i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes</button>
+      </div>
+    </div>
+    <div class="action-cluster cluster-insights">
+      <span class="cluster-label">Insights</span>
+      <div class="cluster-buttons">
+        <button class="surprise-btn" id="mirrorBtn"><i class="fa-solid fa-chart-line icon-inline" aria-hidden="true"></i>Pattern mirror</button>
+        <button class="surprise-btn" id="reportBtn"><i class="fa-solid fa-file-lines icon-inline" aria-hidden="true"></i>Weekly report</button>
+        <button class="surprise-btn" id="aiPromptBtn"><i class="fa-solid fa-robot icon-inline" aria-hidden="true"></i>AI prompt</button>
+        <button class="surprise-btn reset-btn" id="resetProgressBtn"><i class="fa-solid fa-rotate-left icon-inline" aria-hidden="true"></i>Reset progress</button>
+      </div>
+    </div>
+    <div class="view-cluster">
+      <span class="cluster-label">View</span>
+      <div class="view-toggle">
+        <button class="view-btn active" id="gridBtn"><i class="fa-solid fa-table-cells-large icon-inline" aria-hidden="true"></i>Grid</button>
+        <button class="view-btn" id="listBtn"><i class="fa-solid fa-list icon-inline" aria-hidden="true"></i>List</button>
+      </div>
+    </div>
+  </div>
+  <div class="sticky-controls" id="stickyControls" aria-label="Quick controls">
+    <div class="sticky-search-wrap">
+      <input type="text" class="search-input sticky-search-input" placeholder="Search biases..." id="stickySearchInput">
+    </div>
+    <div class="sticky-filter-wrap">
+      <select class="sticky-filter-select" id="stickyFilterSelect" aria-label="Filter category">
+        <option value="all">All</option>
+        <option value="unread">Unread</option>
+        <option value="read">Read</option>
+        <option value="estimation">Estimation</option>
+        <option value="decision">Decision</option>
+        <option value="hypothesis">Hypothesis</option>
+        <option value="attribution">Attribution</option>
+        <option value="memory">Memory</option>
+        <option value="social">Social</option>
+      </select>
+    </div>
+    <div class="sticky-notes-wrap">
+      <button class="surprise-btn sticky-notes-btn" id="stickyNotesBtn"><i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes</button>
+    </div>
+    <div class="sticky-view-wrap">
+      <div class="view-toggle">
+        <button class="view-btn active" id="stickyGridBtn"><i class="fa-solid fa-table-cells-large icon-inline" aria-hidden="true"></i>Grid</button>
+        <button class="view-btn" id="stickyListBtn"><i class="fa-solid fa-list icon-inline" aria-hidden="true"></i>List</button>
+      </div>
     </div>
   </div>
   <div class="stats-bar" id="statsBar">Loading…</div>
@@ -1330,7 +1532,8 @@
     <a href="https://pubmed.ncbi.nlm.nih.gov/17835457/" target="_blank" rel="noopener noreferrer">Kahneman &amp; Tversky (1974)</a> ·
     <a href="https://busterbenson.com/2016/09/01/cognitive-bias-cheat-sheet" target="_blank" rel="noopener noreferrer">Buster Benson's Cognitive Bias Cheat Sheet</a> ·
     <a href="https://thedecisionlab.com/reference-guide/psychology/biases" target="_blank" rel="noopener noreferrer">The Decision Lab</a><br>
-    165 documented biases across 6 categories. Click any card for details.
+    165 documented biases across 6 categories. Click any card for details.<br>
+    Built with ❤️ by <a href="/">Shiv19</a>
   </footer>
 </div>
 <script src="assets/js/cognitive-biases.js"></script>

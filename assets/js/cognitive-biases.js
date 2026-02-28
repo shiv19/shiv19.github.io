@@ -520,10 +520,7 @@
     const bias = getRandomUnread();
     currentView = 'biases';
     updateNotesButton();
-    currentFilter = 'all';
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.filter-btn[data-cat="all"]').classList.add('active');
-    render();
+    setFilter('all');
     setTimeout(() => {
       const card = document.querySelector(`.card[data-id="${bias.id}"]`);
       if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -611,6 +608,11 @@
     const related = getRelated(bias);
     const noteRecord = getNoteByBiasId(id);
     const safeText = (value) => escapeHtml(String(value || ''));
+    const readButtonLabel = (read) => (
+      read
+        ? '<i class="fa-solid fa-check icon-inline" aria-hidden="true"></i>Mark unread'
+        : '<i class="fa-regular fa-circle icon-inline" aria-hidden="true"></i>Mark as read'
+    );
 
     const existing = document.querySelector('.bias-detail-modal');
     if (existing) closeModalElement(existing);
@@ -620,7 +622,7 @@
     modal.innerHTML = `
       <div class="bias-detail-content">
         <div class="bias-detail-topbar">
-          <button class="close-modal" aria-label="Close details">&times;</button>
+          <button type="button" class="close-modal" aria-label="Close details">&times;</button>
         </div>
         <div class="bias-detail-scroll">
           <div class="card-category">${bias.cat}</div>
@@ -680,10 +682,10 @@
           </div>
         </div>
         <div class="card-actions bias-detail-footer">
-          <button class="action-btn" data-action="toggle-read">${isRead ? '<i class="fa-solid fa-check icon-inline" aria-hidden="true"></i>Mark unread' : '<i class="fa-regular fa-circle icon-inline" aria-hidden="true"></i>Mark as read'}</button>
-          <button class="action-btn" data-action="copy-link"><i class="fa-solid fa-link icon-inline" aria-hidden="true"></i>Copy link</button>
-          <button class="action-btn" data-action="share"><i class="fa-solid fa-share-nodes icon-inline" aria-hidden="true"></i>Share quote</button>
-          <button class="action-btn" data-action="copy-note"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy reflection</button>
+          <button type="button" class="action-btn" data-action="toggle-read">${readButtonLabel(isRead)}</button>
+          <button type="button" class="action-btn" data-action="copy-link"><i class="fa-solid fa-link icon-inline" aria-hidden="true"></i>Copy link</button>
+          <button type="button" class="action-btn" data-action="share"><i class="fa-solid fa-share-nodes icon-inline" aria-hidden="true"></i>Share quote</button>
+          <button type="button" class="action-btn" data-action="copy-note"><i class="fa-regular fa-copy icon-inline" aria-hidden="true"></i>Copy reflection</button>
         </div>
       </div>
     `;
@@ -722,9 +724,12 @@
 
     const readBtn = modal.querySelector('[data-action="toggle-read"]');
     if (readBtn) {
-      readBtn.addEventListener('click', () => {
+      readBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         toggleRead(id);
-        openCardModal(id, { skipHistory: true });
+        const nowRead = getReadIds().includes(id);
+        readBtn.innerHTML = readButtonLabel(nowRead);
       });
     }
 
@@ -845,16 +850,88 @@
     grid.innerHTML = notes.map((item, i) => notesCardHTML(item, getDelay(i))).join('');
   }
 
-  function updateNotesButton() {
-    const notesBtn = document.getElementById('notesBtn');
-    if (!notesBtn) return;
-    if (currentView === 'notes') {
-      notesBtn.classList.add('active');
-      notesBtn.innerHTML = '<i class="fa-solid fa-arrow-left icon-inline" aria-hidden="true"></i>Back to biases';
-    } else {
-      notesBtn.classList.remove('active');
-      notesBtn.innerHTML = '<i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes';
+  function syncSearchInputs(sourceEl = null) {
+    ['searchInput', 'stickySearchInput'].forEach((id) => {
+      const input = document.getElementById(id);
+      if (!input || input === sourceEl) return;
+      if (input.value !== currentSearch) input.value = currentSearch;
+    });
+  }
+
+  function syncFilterControls() {
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.cat === currentFilter);
+    });
+    const stickyFilter = document.getElementById('stickyFilterSelect');
+    if (stickyFilter && stickyFilter.value !== currentFilter) {
+      stickyFilter.value = currentFilter;
     }
+  }
+
+  function syncViewButtons() {
+    const isListView = document.body.classList.contains('list-view');
+    const buttonPairs = [
+      ['gridBtn', !isListView],
+      ['stickyGridBtn', !isListView],
+      ['listBtn', isListView],
+      ['stickyListBtn', isListView]
+    ];
+    buttonPairs.forEach(([id, isActive]) => {
+      const btn = document.getElementById(id);
+      if (btn) btn.classList.toggle('active', isActive);
+    });
+  }
+
+  function setFilter(category) {
+    if (!category) return;
+    if (currentView === 'notes') {
+      currentView = 'biases';
+      updateNotesButton();
+    }
+    currentFilter = category;
+    expandedId = null;
+    syncFilterControls();
+    render();
+  }
+
+  function setSearchTerm(value, sourceEl = null) {
+    currentSearch = value || '';
+    expandedId = null;
+    syncSearchInputs(sourceEl);
+    render();
+  }
+
+  function setLayoutView(view) {
+    if (currentView === 'notes') {
+      currentView = 'biases';
+      updateNotesButton();
+    }
+    const isList = view === 'list';
+    document.body.classList.toggle('list-view', isList);
+    syncViewButtons();
+    expandedId = null;
+    render();
+  }
+
+  function updateNotesButton() {
+    const notesButtons = [document.getElementById('notesBtn'), document.getElementById('stickyNotesBtn')].filter(Boolean);
+    notesButtons.forEach((notesBtn) => {
+      if (currentView === 'notes') {
+        notesBtn.classList.add('active');
+        notesBtn.innerHTML = '<i class="fa-solid fa-arrow-left icon-inline" aria-hidden="true"></i>Back to biases';
+      } else {
+        notesBtn.classList.remove('active');
+        notesBtn.innerHTML = '<i class="fa-solid fa-note-sticky icon-inline" aria-hidden="true"></i>All notes';
+      }
+    });
+  }
+
+  function updateStickyControlsVisibility() {
+    const toolbar = document.querySelector('.controls-toolbar');
+    if (!toolbar) return;
+    const toolbarBottom = toolbar.getBoundingClientRect().bottom;
+    const shouldShow = toolbarBottom < 0;
+    document.body.classList.toggle('show-sticky-controls', shouldShow);
   }
 
   function setMainView(view) {
@@ -868,6 +945,7 @@
       if (gridBtn) gridBtn.classList.add('active');
       if (listBtn) listBtn.classList.remove('active');
     }
+    syncViewButtons();
     updateNotesButton();
     render();
   }
@@ -876,12 +954,9 @@
     currentView = 'biases';
     updateNotesButton();
     currentFilter = 'all';
-    document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
-    const allFilter = document.querySelector('.filter-btn[data-cat="all"]');
-    if (allFilter) allFilter.classList.add('active');
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = '';
+    syncFilterControls();
     currentSearch = '';
+    syncSearchInputs();
     render();
     scrollToCard(id);
   }
@@ -913,12 +988,9 @@
     currentFilter = 'all';
     currentSearch = '';
 
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = '';
-
-    document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
-    const allFilter = document.querySelector('.filter-btn[data-cat="all"]');
-    if (allFilter) allFilter.classList.add('active');
+    syncSearchInputs();
+    syncFilterControls();
+    syncViewButtons();
 
     updateNotesButton();
     render();
@@ -1485,7 +1557,7 @@
         <h2>${bias.name}</h2>
         <p class="daily-tagline">"${bias.tagline}"</p>
         <p class="daily-summary">${bias.summary}</p>
-        ${bias.example ? `<div class="example-box" style="margin:16px 0;font-size:0.8rem;">${bias.example}</div>` : ''}
+        ${bias.example ? `<div class="example-box" style="margin:16px 0;font-size:0.8rem;font-style:normal;">${bias.example}</div>` : ''}
         <div class="daily-actions">
           <button class="daily-btn" onclick="window.CognitiveBiases.closeModalElement(this.closest('.daily-modal'))">Explore</button>
           <button class="daily-btn secondary" onclick="const modal=this.closest('.daily-modal');window.CognitiveBiases.closeModalElement(modal);setTimeout(()=>{window.CognitiveBiases.scrollToCard(${bias.id})},100)">Read full card</button>
@@ -1496,7 +1568,7 @@
     modal.querySelector('.daily-content').style.cssText = 'background:var(--card);padding:40px;max-width:500px;border-radius:8px;text-align:center;animation:slideUp 0.3s ease';
     modal.querySelector('.daily-label').style.cssText = 'font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:8px';
     modal.querySelector('h2').style.cssText = 'font-family:Playfair Display,serif;font-size:1.8rem;margin-bottom:12px';
-    modal.querySelector('.daily-tagline').style.cssText = 'font-size:0.9rem;color:var(--accent);margin-bottom:16px';
+    modal.querySelector('.daily-tagline').style.cssText = 'font-size:0.9rem;color:var(--accent);margin-bottom:16px;font-style:normal';
     modal.querySelector('.daily-summary').style.cssText = 'font-size:0.8rem;line-height:1.7;color:#4a3e30;margin-bottom:16px';
     modal.querySelector('.daily-actions').style.cssText = 'display:flex;gap:12px;justify-content:center';
     modal.querySelectorAll('.daily-btn').forEach(btn => {
@@ -1528,6 +1600,10 @@
     const deepLinkedId = handleDeepLink();
     render();
     updateNotesButton();
+    syncSearchInputs();
+    syncFilterControls();
+    syncViewButtons();
+    updateStickyControlsVisibility();
     updateProgress();
     renderAchievements();
     updateAIButtonState();
@@ -1539,24 +1615,28 @@
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (currentView === 'notes') {
-          currentView = 'biases';
-          updateNotesButton();
-        }
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.dataset.cat;
-        expandedId = null;
-        render();
+        setFilter(btn.dataset.cat);
       });
     });
 
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
       searchInput.addEventListener('input', e => {
-        currentSearch = e.target.value;
-        expandedId = null;
-        render();
+        setSearchTerm(e.target.value, searchInput);
+      });
+    }
+
+    const stickySearchInput = document.getElementById('stickySearchInput');
+    if (stickySearchInput) {
+      stickySearchInput.addEventListener('input', (e) => {
+        setSearchTerm(e.target.value, stickySearchInput);
+      });
+    }
+
+    const stickyFilterSelect = document.getElementById('stickyFilterSelect');
+    if (stickyFilterSelect) {
+      stickyFilterSelect.addEventListener('change', (e) => {
+        setFilter(e.target.value);
       });
     }
 
@@ -1565,29 +1645,27 @@
     
     if (gridBtn) {
       gridBtn.addEventListener('click', () => {
-        if (currentView === 'notes') {
-          currentView = 'biases';
-          updateNotesButton();
-        }
-        document.body.classList.remove('list-view');
-        gridBtn.classList.add('active');
-        if (listBtn) listBtn.classList.remove('active');
-        expandedId = null;
-        render();
+        setLayoutView('grid');
       });
     }
 
     if (listBtn) {
       listBtn.addEventListener('click', () => {
-        if (currentView === 'notes') {
-          currentView = 'biases';
-          updateNotesButton();
-        }
-        document.body.classList.add('list-view');
-        listBtn.classList.add('active');
-        if (gridBtn) gridBtn.classList.remove('active');
-        expandedId = null;
-        render();
+        setLayoutView('list');
+      });
+    }
+
+    const stickyGridBtn = document.getElementById('stickyGridBtn');
+    if (stickyGridBtn) {
+      stickyGridBtn.addEventListener('click', () => {
+        setLayoutView('grid');
+      });
+    }
+
+    const stickyListBtn = document.getElementById('stickyListBtn');
+    if (stickyListBtn) {
+      stickyListBtn.addEventListener('click', () => {
+        setLayoutView('list');
       });
     }
 
@@ -1612,6 +1690,12 @@
         setMainView(currentView === 'notes' ? 'biases' : 'notes');
       });
     }
+    const stickyNotesBtn = document.getElementById('stickyNotesBtn');
+    if (stickyNotesBtn) {
+      stickyNotesBtn.addEventListener('click', () => {
+        setMainView(currentView === 'notes' ? 'biases' : 'notes');
+      });
+    }
 
     const mirrorBtn = document.getElementById('mirrorBtn');
     if (mirrorBtn) {
@@ -1632,6 +1716,9 @@
     if (resetProgressBtn) {
       resetProgressBtn.addEventListener('click', resetProgress);
     }
+
+    window.addEventListener('scroll', updateStickyControlsVisibility, { passive: true });
+    window.addEventListener('resize', updateStickyControlsVisibility);
 
     window.addEventListener('popstate', () => {
       const params = new URLSearchParams(window.location.search);
