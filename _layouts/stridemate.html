@@ -37,7 +37,24 @@
 <body>
     <div class="loader"></div>
     <script type="text/javascript">
-        window.location = '/assets/stridemate/';
+        (function() {
+            var playStoreUrl = 'https://play.google.com/store/apps/details?id=com.shiv19.stridemate';
+            var pwaUrl = '/assets/stridemate/';
+            var searchParams = new URLSearchParams(window.location.search);
+            var isAndroid = /Android/i.test(window.navigator.userAgent || '');
+            var isStandalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+
+            if (window.navigator.standalone === true) {
+                isStandalone = true;
+            }
+
+            if (searchParams.get('web') === '1' || !isAndroid || isStandalone) {
+                window.location.replace(pwaUrl);
+                return;
+            }
+
+            window.location.replace(playStoreUrl);
+        })();
     </script>
 </body>
 
