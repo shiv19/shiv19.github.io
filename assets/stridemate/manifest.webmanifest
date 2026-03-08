@@ -3,6 +3,24 @@
   "background_color": "#25516a",
   "icons": [
     {
+      "purpose": "any",
+      "sizes": "16x16 32x32",
+      "src": "assets/icon/favicon.ico",
+      "type": "image/x-icon"
+    },
+    {
+      "purpose": "any",
+      "sizes": "192x192",
+      "src": "assets/icon/icon192.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "maskable",
+      "sizes": "192x192",
+      "src": "assets/icon/icon192_maskable.png",
+      "type": "image/png"
+    },
+    {
       "purpose": "maskable",
       "sizes": "512x512",
       "src": "assets/icon/icon512_maskable.png",
