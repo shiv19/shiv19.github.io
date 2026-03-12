@@ -25,6 +25,7 @@ const state = {
   canvasHeight: 720,
   viewportWidth: 1280,
   viewportHeight: 720,
+  gameplayScale: 1,
   stars: [],
   particles: [],
   hazards: [],
@@ -112,7 +113,7 @@ function createPlayer() {
     y: 360,
     vx: 0,
     vy: 0,
-    radius: 18,
+    radius: scaleValue(18),
     angle: 0,
     thrustGlow: 0,
     ammo: 5,
@@ -209,6 +210,14 @@ function rand(min, max) {
 
 function pick(list) {
   return list[Math.floor(Math.random() * list.length)];
+}
+
+function scaleValue(value) {
+  return value * state.gameplayScale;
+}
+
+function scaleRange(min, max) {
+  return rand(min, max) * state.gameplayScale;
 }
 
 function formatTime(ms) {
@@ -573,6 +582,13 @@ function pickSafePoint(generator, buffer, fallback) {
   return fallback;
 }
 
+function getGameplayScale(width, height) {
+  if (!(width <= 1100 && width > height)) {
+    return 1;
+  }
+  return clamp(height / 500, 0.84, 1);
+}
+
 function resizeCanvas() {
   const stage = root.querySelector(".space-stage");
   const rect = stage.getBoundingClientRect();
@@ -581,6 +597,7 @@ function resizeCanvas() {
   state.viewportHeight = rect.height;
   state.canvasWidth = Math.max(320, Math.round(rect.width));
   state.canvasHeight = Math.max(320, Math.round(rect.height));
+  state.gameplayScale = getGameplayScale(state.canvasWidth, state.canvasHeight);
   canvas.width = Math.round(state.canvasWidth * dpr);
   canvas.height = Math.round(state.canvasHeight * dpr);
   canvas.style.width = `${state.canvasWidth}px`;
@@ -717,7 +734,7 @@ function spawnSingleDrifter(difficulty) {
   const targetX = safeTarget.x;
   const targetY = safeTarget.y;
   const velocity = velocityToward(start.x, start.y, targetX, targetY, rand(115, 175) * difficulty.speed);
-  state.hazards.push(createHazard(start.x, start.y, velocity.vx, velocity.vy, rand(14, 22), "rock"));
+  state.hazards.push(createHazard(start.x, start.y, velocity.vx, velocity.vy, scaleRange(14, 22), "rock"));
   return "Drifter";
 }
 
@@ -746,7 +763,7 @@ function spawnCircleBurst(difficulty) {
         centerY + Math.sin(angle) * 14,
         Math.cos(angle) * speed,
         Math.sin(angle) * speed,
-        rand(11, 18),
+        scaleRange(11, 18),
         "ember"
       )
     );
@@ -772,7 +789,7 @@ function spawnLaneWall(difficulty) {
       if (Math.abs(x - gapCenter) < gapSize * 0.5) {
         continue;
       }
-      state.hazards.push(createHazard(x, y, rand(-18, 18), vy, rand(14, 18), "ice"));
+      state.hazards.push(createHazard(x, y, rand(-18, 18), vy, scaleRange(14, 18), "ice"));
     }
   } else {
     const fromLeft = Math.random() > 0.5;
@@ -782,7 +799,7 @@ function spawnLaneWall(difficulty) {
       if (Math.abs(y - gapCenter) < gapSize * 0.5) {
         continue;
       }
-      state.hazards.push(createHazard(x, y, vx, rand(-18, 18), rand(14, 18), "ice"));
+      state.hazards.push(createHazard(x, y, vx, rand(-18, 18), scaleRange(14, 18), "ice"));
     }
   }
 
@@ -812,7 +829,7 @@ function spawnDiagonalStream(difficulty) {
     const targetX = fromLeft ? state.canvasWidth + 100 : -100;
     const targetY = y + rand(120, 220);
     const velocity = velocityToward(x, y, targetX, targetY, speed);
-    state.hazards.push(createHazard(x, y, velocity.vx, velocity.vy, rand(13, 19), "rock"));
+    state.hazards.push(createHazard(x, y, velocity.vx, velocity.vy, scaleRange(13, 19), "rock"));
   }
 
   return "Diagonal Stream";
@@ -847,7 +864,7 @@ function spawnPinwheel(difficulty) {
           centerY + Math.sin(angle) * distance,
           Math.cos(angle) * speed,
           Math.sin(angle) * speed,
-          rand(10, 16),
+          scaleRange(10, 16),
           "ember"
         )
       );
@@ -941,7 +958,7 @@ function fireBullet(now) {
   }
 
   const direction = { x: Math.sin(player.angle), y: -Math.cos(player.angle) };
-  const spawnDistance = player.radius + 10;
+  const spawnDistance = player.radius + scaleValue(10);
   const bulletSpeed = 560;
 
   state.bullets.push({
@@ -949,7 +966,7 @@ function fireBullet(now) {
     y: player.y + direction.y * spawnDistance,
     vx: direction.x * bulletSpeed + player.vx * 0.35,
     vy: direction.y * bulletSpeed + player.vy * 0.35,
-    radius: 4,
+    radius: scaleValue(4),
     life: 1.05,
   });
 

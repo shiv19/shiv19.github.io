@@ -34,6 +34,12 @@ body {
   min-height: 100vh;
 }
 
+@supports (height: 100dvh) {
+  body {
+    min-height: 100dvh;
+  }
+}
+
 button,
 canvas {
   display: block;
@@ -46,6 +52,12 @@ canvas {
 .space-shell {
   min-height: 100vh;
   padding: clamp(10px, 2vw, 22px);
+}
+
+@supports (height: 100dvh) {
+  .space-shell {
+    min-height: 100dvh;
+  }
 }
 
 .space-stage {
@@ -800,6 +812,30 @@ canvas {
 }
 
 @media (max-width: 1100px) and (orientation: landscape) {
+  html,
+  body {
+    overflow: hidden;
+  }
+
+  .space-shell {
+    padding: 0;
+  }
+
+  .space-stage {
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    border-radius: 0;
+    border: 0;
+  }
+
+  @supports (height: 100dvh) {
+    .space-stage {
+      height: 100dvh;
+      min-height: 100dvh;
+    }
+  }
+
   .hud {
     top: max(8px, env(safe-area-inset-top));
     left: max(8px, env(safe-area-inset-left));
@@ -807,11 +843,11 @@ canvas {
   }
 
   .hud-chip {
-    padding: 6px 9px 7px;
+    padding: 5px 8px 6px;
   }
 
   .hud-chip strong {
-    font-size: 0.76rem;
+    font-size: 0.72rem;
   }
 
   .hud-chip--drift {
@@ -819,26 +855,26 @@ canvas {
   }
 
   .hud-chip--drift strong {
-    font-size: 1.3rem;
+    font-size: 1.16rem;
   }
 
   .hud-chip--goal,
   .hud-chip--score {
     top: 0;
-    width: 78px;
+    width: 72px;
   }
 
   .hud-chip--charges,
   .hud-chip--wards {
-    width: 84px;
+    width: 78px;
   }
 
   .hud-chip--charges {
-    top: 42px;
+    top: 36px;
   }
 
   .hud-chip--wards {
-    top: 86px;
+    top: 74px;
   }
 
   .hud-chip--music,
@@ -848,11 +884,11 @@ canvas {
   }
 
   .hud-chip--music {
-    top: 42px;
+    top: 36px;
   }
 
   .hud-chip--fx {
-    top: 86px;
+    top: 74px;
   }
 
   .hud-chip--icon strong {
@@ -874,23 +910,23 @@ canvas {
   .touch-controls {
     left: max(14px, calc(env(safe-area-inset-left) + 8px));
     right: max(14px, calc(env(safe-area-inset-right) + 8px));
-    bottom: max(12px, calc(env(safe-area-inset-bottom) + 8px));
+    bottom: max(10px, calc(env(safe-area-inset-bottom) + 6px));
   }
 
   .touch-joystick {
-    width: 122px;
-    height: 122px;
+    width: 112px;
+    height: 112px;
   }
 
   .touch-joystick__thumb {
-    width: 54px;
-    height: 54px;
+    width: 50px;
+    height: 50px;
   }
 
   .touch-fire {
-    width: 84px;
-    height: 84px;
-    font-size: 0.98rem;
+    width: 78px;
+    height: 78px;
+    font-size: 0.92rem;
   }
 }
 
