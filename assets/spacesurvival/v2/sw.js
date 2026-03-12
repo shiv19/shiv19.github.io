@@ -1,4 +1,4 @@
-const CACHE_NAME = "space-survival-v2-cache-v2";
+const CACHE_NAME = "space-survival-v2-cache-v3";
 const CACHE_PREFIX = "space-survival-v2-cache-";
 const CORE_ASSETS = [
   "./",
