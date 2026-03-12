@@ -1,10 +1,11 @@
-const CACHE_NAME = "space-survival-v2-cache-v1";
+const CACHE_NAME = "space-survival-v2-cache-v2";
+const CACHE_PREFIX = "space-survival-v2-cache-";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./assets/index-C6EIyd5v.css",
-  "./assets/index-CfLWWXL8.js",
+  "./assets/index-Ds8Yz0xP.css",
+  "./assets/index-Dqf2k5Jc.js",
   "./audio/asteroid-hit-crunch.mp3",
   "./audio/asteroid-hit-crunch.ogg",
   "./audio/asteroid-hit.mp3",
@@ -27,7 +28,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME) {
+          if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) {
             return caches.delete(key);
           }
           return Promise.resolve();
