@@ -1,0 +1,29 @@
+{
+  "name": "Space Survival V2",
+  "short_name": "Space V2",
+  "description": "A three-minute asteroid meditation built as the GPT-5.4 version of Space Survival.",
+  "id": "/assets/spacesurvival/v2/",
+  "start_url": "/assets/spacesurvival/v2/",
+  "scope": "/assets/spacesurvival/v2/",
+  "display": "standalone",
+  "background_color": "#040812",
+  "theme_color": "#081324",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

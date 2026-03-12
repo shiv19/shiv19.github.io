@@ -359,7 +359,8 @@ function updateHud() {
 }
 
 function updateControlsHint() {
-  const mobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  const mobile = (("ontouchstart" in window) || navigator.maxTouchPoints > 0) && window.innerWidth <= 900;
+  document.documentElement.classList.toggle("touch-ui", mobile);
   controlsNote.textContent = mobile
     ? "Use the drift pad to weave and tap Spark to fire. Charges return on their own."
     : "Drift with WASD or arrows. Tap space to spark a shot. Charges return on their own.";

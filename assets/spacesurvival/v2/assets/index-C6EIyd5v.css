@@ -756,17 +756,15 @@ canvas {
   }
 }
 
-@media (hover: none) and (pointer: coarse) {
-  .touch-controls {
-    display: flex;
-  }
-
-  .controls-note {
-    display: none;
-  }
+.touch-ui .touch-controls {
+  display: flex;
 }
 
-@media (hover: none) and (pointer: coarse) and (max-width: 720px) {
+.touch-ui .controls-note {
+  display: none;
+}
+
+@media (max-width: 720px) {
   .touch-controls {
     inset: auto 12px 12px 12px;
   }
