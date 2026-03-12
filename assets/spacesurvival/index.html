@@ -2,13 +2,186 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <base href="/assets/spacesurvival/"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Space Survival</title>
-    <script type="module" crossorigin src="assets/index-CfLWWXL8.js"></script>
-    <link rel="stylesheet" crossorigin href="assets/index-C6EIyd5v.css">
+    <title>Space Survival Versions</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #eef6ff;
+        background:
+          radial-gradient(circle at top, rgba(74, 143, 212, 0.2), transparent 28%),
+          linear-gradient(180deg, #07111f 0%, #02050d 100%);
+      }
+
+      .shell {
+        width: min(100%, 1100px);
+        margin: 0 auto;
+        padding: clamp(24px, 5vw, 56px) 20px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: #7ebeff;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.75rem;
+      }
+
+      h1 {
+        margin: 12px 0 18px;
+        font-size: clamp(2.4rem, 7vw, 5rem);
+        line-height: 0.95;
+      }
+
+      .intro {
+        max-width: 760px;
+        color: rgba(225, 238, 255, 0.8);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 34px;
+      }
+
+      .card {
+        padding: 24px;
+        border-radius: 26px;
+        border: 1px solid rgba(111, 173, 243, 0.2);
+        background: rgba(5, 12, 25, 0.84);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      }
+
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1.8rem;
+      }
+
+      .meta {
+        margin: 0;
+        color: rgba(190, 217, 244, 0.72);
+        font-size: 0.95rem;
+      }
+
+      .desc {
+        margin: 18px 0 0;
+        color: rgba(225, 238, 255, 0.8);
+        line-height: 1.65;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .pill {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(126, 190, 255, 0.1);
+        color: #a9d4ff;
+        font-size: 0.9rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        flex-wrap: wrap;
+      }
+
+      a.button {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .primary {
+        background: linear-gradient(135deg, #49a4ff 0%, #2373ff 100%);
+        color: white;
+      }
+
+      .secondary {
+        border: 1px solid rgba(111, 173, 243, 0.24);
+        background: rgba(8, 18, 34, 0.8);
+        color: #eef6ff;
+      }
+
+      .note {
+        margin-top: 30px;
+        color: rgba(190, 217, 244, 0.68);
+        line-height: 1.7;
+      }
+
+      @media (max-width: 760px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <main class="shell">
+      <p class="eyebrow">AI Time Capsule</p>
+      <h1>Space Survival</h1>
+      <p class="intro">
+        This page preserves two eras of the same game as a benchmark of how AI agents evolved while building it.
+        <strong>V1</strong> is the original build from the file creation date, and <strong>V2</strong> is the GPT-5.4
+        version developed on March 13, 2026.
+      </p>
+
+      <section class="grid">
+        <article class="card">
+          <h2>V1</h2>
+          <p class="meta">Created February 19, 2025</p>
+          <p class="desc">
+            The original release. Fast, minimal, and brutal. This is the first version of Space Survival, preserved as
+            the starting point in the benchmark.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Original build</span>
+            <span class="pill">No meta progression</span>
+            <span class="pill">Baseline benchmark</span>
+          </div>
+          <div class="actions">
+            <a class="button primary" href="./v1/">Play V1</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>V2</h2>
+          <p class="meta">Built March 13, 2026 by GPT-5.4</p>
+          <p class="desc">
+            The expanded meditation-arcade version with a 3-minute mission, upgrades, audio, revives, and a more
+            complete progression loop shaped during this session.
+          </p>
+          <div class="pill-row">
+            <span class="pill">GPT-5.4</span>
+            <span class="pill">3-minute mission</span>
+            <span class="pill">Persistent upgrades</span>
+          </div>
+          <div class="actions">
+            <a class="button primary" href="./v2/">Play V2</a>
+          </div>
+        </article>
+      </section>
+
+      <p class="note">
+        The point here is preservation, not replacement. V1 is the original reference point. V2 shows what changed
+        when a later model took the same idea much further.
+      </p>
+    </main>
   </body>
 </html>
