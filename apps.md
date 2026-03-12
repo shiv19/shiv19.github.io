@@ -6,10 +6,13 @@ published: true
 description: "Discover and access my collection of hosted applications and tools"
 ---
 
+{% assign visible_apps = site.data.apps.apps | where_exp: "app", "app.selfhosted != true" %}
+{% assign visible_categories = visible_apps | map: "category" | uniq %}
+
 <div class="hero">
   <h1 class="hero-title">Apps & Tools</h1>
   <p class="hero-text">
-    A tidy shelf of experiments, utilities, and self-hosted services that live on shiv19.com.<br>
+    A tidy shelf of experiments, utilities, and apps that live on shiv19.com.<br>
     Tap a filter, pick an app, and it opens in a new tab.
   </p>
 </div>
@@ -17,10 +20,10 @@ description: "Discover and access my collection of hosted applications and tools
 <section class="apps-lede container">
   <div class="apps-callout">
     <p>
-      The projects that are marked self-hosted run on my laptop server on a colima instance. They may be offline occasionally when I'm working on them or my server is down.
+      A small collection of apps and tools I’ve built or deployed, all linked from one place.
     </p>
     <div class="apps-stats">
-      <span>{{ site.data.apps.apps | size }} live apps</span>
+      <span>{{ visible_apps | size }} live apps</span>
       <span>Updated {{ site.time | date: "%b %Y" }}</span>
     </div>
   </div>
@@ -29,14 +32,15 @@ description: "Discover and access my collection of hosted applications and tools
 <section class="apps-filter container" aria-label="App categories">
   <div class="apps-filter-buttons" id="category-filters">
     <button class="apps-filter-btn is-active" data-category="all">All apps</button>
-    {% for category in site.data.apps.categories %}
-    <button class="apps-filter-btn" data-category="{{ category[0] }}">{{ category[1].name }}</button>
+    {% for category_key in visible_categories %}
+    {% assign category = site.data.apps.categories[category_key] %}
+    <button class="apps-filter-btn" data-category="{{ category_key }}">{{ category.name }}</button>
     {% endfor %}
   </div>
 </section>
 
 <section class="apps-grid container" id="apps-grid">
-  {% for app in site.data.apps.apps %}
+  {% for app in visible_apps %}
   {% assign category = site.data.apps.categories[app.category] %}
   {% assign icon_letter = app.name | slice: 0, 1 | upcase %}
   <article class="apps-card" data-category="{{ app.category }}" data-url="{{ app.url }}">
@@ -50,9 +54,6 @@ description: "Discover and access my collection of hosted applications and tools
     <p class="apps-card-body">{{ app.description }}</p>
     <footer class="apps-card-footer">
       <span class="apps-card-link">{{ app.url | replace: 'https://', '' }}</span>
-      {% if app.selfhosted %}
-      <span class="apps-card-badge" title="Runs on my personal server">Self-hosted</span>
-      {% endif %}
       <button class="apps-card-open" type="button" aria-label="Open {{ app.name }}" onclick="openApp('{{ app.url }}')">
         Launch
       </button>

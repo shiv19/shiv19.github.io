@@ -1,4 +1,10 @@
 apps:
+  - name: "Stridemate"
+    description: "Running pace calculator and training companion"
+    url: "https://shiv19.com/stridemate"
+    icon: "directions_run"
+    category: "fitness"
+
   - name: "Agile Poker"
     description: "Planning poker tool for agile teams to estimate story points collaboratively"
     url: "https://agilepoker.shiv19.com"
@@ -39,12 +45,6 @@ apps:
     icon: "reddit"
     category: "social"
     selfhosted: true
-
-  - name: "StrideMate"
-    description: "Running pace calculator and training companion"
-    url: "https://shiv19.com/stridemate"
-    icon: "directions_run"
-    category: "fitness"
 
   - name: "Code Snippets"
     description: "A local only snippets manager for developers"
