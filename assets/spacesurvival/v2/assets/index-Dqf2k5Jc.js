@@ -5,6 +5,7 @@ const UPGRADE_CAPS = {
   reload: 4,
   hull: 2,
 };
+const BASE_PLAYER_RADIUS = 18;
 const JOYSTICK_DEAD_ZONE = 0.18;
 const JOYSTICK_RESPONSE_CURVE = 1.2;
 const root = document.getElementById("root");
@@ -113,7 +114,7 @@ function createPlayer() {
     y: 360,
     vx: 0,
     vy: 0,
-    radius: scaleValue(18),
+    radius: BASE_PLAYER_RADIUS,
     angle: 0,
     thrustGlow: 0,
     ammo: 5,
@@ -598,6 +599,7 @@ function resizeCanvas() {
   state.canvasWidth = Math.max(320, Math.round(rect.width));
   state.canvasHeight = Math.max(320, Math.round(rect.height));
   state.gameplayScale = getGameplayScale(state.canvasWidth, state.canvasHeight);
+  state.player.radius = scaleValue(BASE_PLAYER_RADIUS);
   canvas.width = Math.round(state.canvasWidth * dpr);
   canvas.height = Math.round(state.canvasHeight * dpr);
   canvas.style.width = `${state.canvasWidth}px`;
