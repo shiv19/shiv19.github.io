@@ -5,6 +5,8 @@ const UPGRADE_CAPS = {
   reload: 4,
   hull: 2,
 };
+const JOYSTICK_DEAD_ZONE = 0.18;
+const JOYSTICK_RESPONSE_CURVE = 1.2;
 const root = document.getElementById("root");
 
 const state = {
@@ -19,8 +21,6 @@ const state = {
   startedAt: 0,
   lastFrame: 0,
   lastPatternAt: 0,
-  pointerActive: false,
-  touchId: null,
   canvasWidth: 1280,
   canvasHeight: 720,
   viewportWidth: 1280,
@@ -31,10 +31,10 @@ const state = {
   bullets: [],
   keys: Object.create(null),
   touchControls: {
-    up: false,
-    down: false,
-    left: false,
-    right: false,
+    active: false,
+    pointerId: null,
+    x: 0,
+    y: 0,
   },
   meta: loadMeta(),
   run: createRunState(),
@@ -141,11 +141,9 @@ root.innerHTML = `
       </div>
       <div class="controls-note" id="controls-note">Drift with WASD or arrows. Tap space to spark a shot. Charges return on their own.</div>
       <div class="touch-controls" aria-hidden="true">
-        <div class="dpad">
-          <button class="touch-key touch-key--up" id="touch-up" type="button">↑</button>
-          <button class="touch-key touch-key--left" id="touch-left" type="button">←</button>
-          <button class="touch-key touch-key--right" id="touch-right" type="button">→</button>
-          <button class="touch-key touch-key--down" id="touch-down" type="button">↓</button>
+        <div class="touch-joystick" id="touch-joystick" aria-label="Drift joystick">
+          <div class="touch-joystick__base"></div>
+          <div class="touch-joystick__thumb" id="touch-joystick-thumb"></div>
         </div>
         <button class="touch-fire" id="touch-fire" type="button">Fire</button>
       </div>
@@ -193,10 +191,8 @@ const controlsNote = document.getElementById("controls-note");
 const musicToggle = document.getElementById("music-toggle");
 const sfxToggle = document.getElementById("sfx-toggle");
 const shopGrid = document.getElementById("shop-grid");
-const touchUpButton = document.getElementById("touch-up");
-const touchLeftButton = document.getElementById("touch-left");
-const touchRightButton = document.getElementById("touch-right");
-const touchDownButton = document.getElementById("touch-down");
+const touchJoystick = document.getElementById("touch-joystick");
+const touchJoystickThumb = document.getElementById("touch-joystick-thumb");
 const touchFireButton = document.getElementById("touch-fire");
 const reviveButton = document.getElementById("revive-button");
 const ammoUpgradeButton = document.getElementById("ammo-upgrade-button");
@@ -361,28 +357,85 @@ function updateHud() {
 function updateControlsHint() {
   const mobile = window.matchMedia("(max-width: 1100px)").matches;
   controlsNote.textContent = mobile
-    ? "Use the drift pad to weave and tap Spark to fire. Charges return on their own."
+    ? "Use the drift stick to weave and tap Fire to spark a shot. Charges return on their own."
     : "Drift with WASD or arrows. Tap space to spark a shot. Charges return on their own.";
 }
 
-function setTouchControl(direction, pressed) {
-  state.touchControls[direction] = pressed;
+function renderTouchJoystick() {
+  const radius = Math.max(36, touchJoystick.getBoundingClientRect().width * 0.34);
+  touchJoystickThumb.style.setProperty("--thumb-x", `${state.touchControls.x * radius}px`);
+  touchJoystickThumb.style.setProperty("--thumb-y", `${state.touchControls.y * radius}px`);
+  touchJoystick.classList.toggle("is-active", state.touchControls.active);
 }
 
-function bindTouchDirection(button, direction) {
-  const start = (event) => {
+function resetTouchControls() {
+  state.touchControls.active = false;
+  state.touchControls.pointerId = null;
+  state.touchControls.x = 0;
+  state.touchControls.y = 0;
+  renderTouchJoystick();
+}
+
+function updateTouchJoystickFromEvent(event) {
+  const rect = touchJoystick.getBoundingClientRect();
+  const centerX = rect.left + rect.width * 0.5;
+  const centerY = rect.top + rect.height * 0.5;
+  const maxRadius = Math.max(36, rect.width * 0.34);
+  const dx = event.clientX - centerX;
+  const dy = event.clientY - centerY;
+  const distance = Math.hypot(dx, dy);
+  const clampedDistance = Math.min(distance, maxRadius);
+  const normalizedDistance = clampedDistance / maxRadius;
+
+  if (normalizedDistance <= JOYSTICK_DEAD_ZONE) {
+    state.touchControls.x = 0;
+    state.touchControls.y = 0;
+    renderTouchJoystick();
+    return;
+  }
+
+  const angle = Math.atan2(dy, dx);
+  const adjustedMagnitude = (normalizedDistance - JOYSTICK_DEAD_ZONE) / (1 - JOYSTICK_DEAD_ZONE);
+  const easedMagnitude = Math.pow(adjustedMagnitude, JOYSTICK_RESPONSE_CURVE);
+
+  state.touchControls.x = Math.cos(angle) * easedMagnitude;
+  state.touchControls.y = Math.sin(angle) * easedMagnitude;
+  renderTouchJoystick();
+}
+
+function bindTouchJoystick(joystick) {
+  const activate = (event) => {
+    if (state.touchControls.active) {
+      return;
+    }
     event.preventDefault();
-    setTouchControl(direction, true);
+    state.touchControls.active = true;
+    state.touchControls.pointerId = event.pointerId;
+    if (typeof joystick.setPointerCapture === "function") {
+      joystick.setPointerCapture(event.pointerId);
+    }
+    updateTouchJoystickFromEvent(event);
   };
-  const end = (event) => {
+  const move = (event) => {
+    if (event.pointerId !== state.touchControls.pointerId) {
+      return;
+    }
     event.preventDefault();
-    setTouchControl(direction, false);
+    updateTouchJoystickFromEvent(event);
+  };
+  const release = (event) => {
+    if (event.pointerId !== state.touchControls.pointerId) {
+      return;
+    }
+    event.preventDefault();
+    resetTouchControls();
   };
 
-  button.addEventListener("pointerdown", start);
-  button.addEventListener("pointerup", end);
-  button.addEventListener("pointercancel", end);
-  button.addEventListener("pointerleave", end);
+  joystick.addEventListener("pointerdown", activate);
+  joystick.addEventListener("pointermove", move);
+  joystick.addEventListener("pointerup", release);
+  joystick.addEventListener("pointercancel", release);
+  joystick.addEventListener("lostpointercapture", release);
 }
 
 function bindTouchFire(button) {
@@ -577,6 +630,7 @@ function resetRun() {
   saveMeta();
   state.player = createPlayer();
   applyPersistentUpgrades(state.player);
+  resetTouchControls();
   state.player.x = state.canvasWidth * 0.5;
   state.player.y = state.canvasHeight * 0.62;
   state.player.lastAmmoTickAt = state.startedAt;
@@ -823,8 +877,10 @@ function spawnPattern(now) {
 
 function updatePlayer(dt) {
   const player = state.player;
-  const inputX = ((state.keys.arrowright || state.keys.d || state.touchControls.right) ? 1 : 0) - ((state.keys.arrowleft || state.keys.a || state.touchControls.left) ? 1 : 0);
-  const inputY = ((state.keys.arrowdown || state.keys.s || state.touchControls.down) ? 1 : 0) - ((state.keys.arrowup || state.keys.w || state.touchControls.up) ? 1 : 0);
+  const keyboardX = ((state.keys.arrowright || state.keys.d) ? 1 : 0) - ((state.keys.arrowleft || state.keys.a) ? 1 : 0);
+  const keyboardY = ((state.keys.arrowdown || state.keys.s) ? 1 : 0) - ((state.keys.arrowup || state.keys.w) ? 1 : 0);
+  const inputX = clamp(keyboardX + state.touchControls.x, -1, 1);
+  const inputY = clamp(keyboardY + state.touchControls.y, -1, 1);
   const accel = 920;
   const damping = Math.pow(0.16, dt);
   const maxSpeed = 350;
@@ -1450,10 +1506,7 @@ window.addEventListener("keyup", (event) => {
 
 window.addEventListener("blur", () => {
   state.keys = Object.create(null);
-  state.touchControls.up = false;
-  state.touchControls.down = false;
-  state.touchControls.left = false;
-  state.touchControls.right = false;
+  resetTouchControls();
 });
 
 window.addEventListener("resize", resizeCanvas);
@@ -1463,10 +1516,7 @@ startButton.addEventListener("click", () => {
 secondaryButton.addEventListener("click", startNewJourney);
 musicToggle.addEventListener("click", toggleSound);
 sfxToggle.addEventListener("click", toggleSfx);
-bindTouchDirection(touchUpButton, "up");
-bindTouchDirection(touchLeftButton, "left");
-bindTouchDirection(touchRightButton, "right");
-bindTouchDirection(touchDownButton, "down");
+bindTouchJoystick(touchJoystick);
 bindTouchFire(touchFireButton);
 reviveButton.addEventListener("click", reviveRun);
 ammoUpgradeButton.addEventListener("click", () => buyUpgrade("ammo"));
@@ -1474,6 +1524,7 @@ reloadUpgradeButton.addEventListener("click", () => buyUpgrade("reload"));
 hullUpgradeButton.addEventListener("click", () => buyUpgrade("hull"));
 
 resizeCanvas();
+renderTouchJoystick();
 updateAudioToggles();
 renderIntroOverlay();
 requestAnimationFrame(step);
