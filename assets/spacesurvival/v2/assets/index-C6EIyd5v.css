@@ -756,12 +756,14 @@ canvas {
   }
 }
 
-.touch-ui .touch-controls {
-  display: flex;
-}
+@media (max-width: 1100px) {
+  .touch-controls {
+    display: flex;
+  }
 
-.touch-ui .controls-note {
-  display: none;
+  .controls-note {
+    display: none;
+  }
 }
 
 @media (max-width: 720px) {
