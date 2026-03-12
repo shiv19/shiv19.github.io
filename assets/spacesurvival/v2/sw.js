@@ -1,11 +1,11 @@
-const CACHE_NAME = "space-survival-v2-cache-v5";
+const CACHE_NAME = "space-survival-v2-cache-v6";
 const CACHE_PREFIX = "space-survival-v2-cache-";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./assets/index-Ds8Yz0xP.css",
-  "./assets/index-Dqf2k5Jc.js",
+  "./assets/index-F7mK2pQn.js",
   "./audio/asteroid-hit-crunch.mp3",
   "./audio/asteroid-hit-crunch.ogg",
   "./audio/asteroid-hit.mp3",
