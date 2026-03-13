@@ -58,6 +58,12 @@ apps:
     icon: "child_care"
     category: "education"
 
+  - name: "Mind Patterns Explorer"
+    description: "A friendly guide to 165 common thinking habits and cognitive biases"
+    url: "https://shiv19.com/mind-patterns"
+    icon: "psychology"
+    category: "education"
+
   - name: "Space Survival"
     description: "Survive in an asteroid field as a spaceship in this thrilling arcade game"
     url: "https://shiv19.com/spacesurvival"
