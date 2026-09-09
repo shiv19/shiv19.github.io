@@ -5,6 +5,12 @@ apps:
     icon: "directions_run"
     category: "fitness"
 
+  - name: "Trackey"
+    description: "A personal time tracker to log activities and understand where your time goes"
+    url: "https://trackey.shiv19.com"
+    icon: "timer"
+    category: "productivity"
+
   - name: "Agile Poker"
     description: "Planning poker tool for agile teams to estimate story points collaboratively"
     url: "https://agilepoker.shiv19.com"
