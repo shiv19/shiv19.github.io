@@ -839,6 +839,10 @@ footer {
   margin-bottom: 0.5rem;
   margin-top: 0;
   color: var(--color-text-primary);
+}
+
+// Keep transformed emoji outside the text clip to avoid Chromium paint artifacts.
+.hero-title-text {
   background: linear-gradient(120deg, var(--color-text-primary), var(--color-text-muted));
   background-clip: text;
   -webkit-background-clip: text;
