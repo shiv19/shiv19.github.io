@@ -58,6 +58,12 @@ apps:
     icon: "child_care"
     category: "education"
 
+  - name: "Animal Sounds"
+    description: "A playful animal slideshow and mini-game collection that helps young children learn animal names and sounds"
+    url: "https://shiv19.com/animal-sounds"
+    icon: "pets"
+    category: "education"
+
   - name: "Mind Patterns Explorer"
     description: "A friendly guide to 165 common thinking habits and cognitive biases"
     url: "https://shiv19.com/mind-patterns"
