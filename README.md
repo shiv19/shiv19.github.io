@@ -25,7 +25,7 @@ Features & Integrations
 - PWA Support - Progressive Web App with service workers (@pwabuilder/pwaupdate)
 - Custom dark/light mode toggle
 - Disqus - Comments
-- Google Analytics
+- Cloudflare analytics
 - Rouge - Syntax highlighting
 
 #### Embedded Apps

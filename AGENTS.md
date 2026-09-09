@@ -373,7 +373,7 @@ This project does not have automated tests. Manual testing:
 
 ### Third-Party Services
 - Disqus: Comments
-- Google Analytics: Tracking (UA-114649787-1)
+- Cloudflare: Analytics managed through Cloudflare
 
 ## Common Tasks
 
