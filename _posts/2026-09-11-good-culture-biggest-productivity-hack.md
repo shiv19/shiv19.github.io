@@ -8,4 +8,4 @@ link_title: "Good Culture is the Biggest Productivity Hack, Not AI"
 published: true
 ---
 
-Great read from Gregor Ojstersek. His take: AI doesn't fix a broken engineering culture, it amplifies it. Get the environment right so great people can thrive, then let AI multiply their output—not the other way around.
+Great read from Gregor Ojstersek. His take: AI doesn't fix a broken engineering culture, it amplifies it. Get the environment right so great people can thrive, then let AI multiply their output. Not the other way around.
