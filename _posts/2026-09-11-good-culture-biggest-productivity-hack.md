@@ -1,6 +1,6 @@
 ---
 layout: micro
-title: ""
+title: "Culture first, AI second"
 date: 2026-09-11 12:58:05 +12:00
 author: multishiv19
 link: https://newsletter.eng-leadership.com/p/good-culture-is-the-biggest-productivity
