@@ -39,34 +39,31 @@ description: "Discover and access my collection of hosted applications and tools
   </div>
 </section>
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,1,0&display=block">
+
 <section class="apps-grid container" id="apps-grid">
   {% for app in visible_apps %}
   {% assign category = site.data.apps.categories[app.category] %}
-  {% assign icon_letter = app.name | slice: 0, 1 | upcase %}
-  <article class="apps-card" data-category="{{ app.category }}" data-url="{{ app.url }}">
-    <header class="apps-card-header">
-      <div class="apps-icon" aria-hidden="true">{{ icon_letter }}</div>
-      <div>
-        <p class="apps-card-title">{{ app.name }}</p>
-        <p class="apps-card-tag">{{ category.name }}</p>
-      </div>
-    </header>
+  {% assign host = app.url | replace: 'https://', '' | replace: 'http://', '' %}
+  <a class="apps-card" href="{{ app.url }}" target="_blank" rel="noopener noreferrer"
+     data-category="{{ app.category }}" data-color="{{ category.color }}" aria-label="Open {{ app.name }}">
+    <div class="apps-card-top">
+      <span class="apps-icon" aria-hidden="true">
+        {% if app.icon %}<span class="material-symbols-rounded">{{ app.icon }}</span>{% else %}{{ app.name | slice: 0, 1 | upcase }}{% endif %}
+      </span>
+      <span class="apps-card-tag">{{ category.name }}</span>
+    </div>
+    <h2 class="apps-card-title">{{ app.name }}</h2>
     <p class="apps-card-body">{{ app.description }}</p>
-    <footer class="apps-card-footer">
-      <span class="apps-card-link">{{ app.url | replace: 'https://', '' }}</span>
-      <button class="apps-card-open" type="button" aria-label="Open {{ app.name }}" onclick="openApp('{{ app.url }}')">
-        Launch
-      </button>
-    </footer>
-  </article>
+    <div class="apps-card-footer">
+      <span class="apps-card-link">{{ host }}</span>
+      <span class="apps-card-go" aria-hidden="true"><span class="material-symbols-rounded">north_east</span></span>
+    </div>
+  </a>
   {% endfor %}
 </section>
 
 <script>
-function openApp(url) {
-  window.open(url, '_blank', 'noopener,noreferrer');
-}
-
 document.addEventListener('DOMContentLoaded', function () {
   const buttons = Array.from(document.querySelectorAll('.apps-filter-btn'));
   const cards = Array.from(document.querySelectorAll('.apps-card'));

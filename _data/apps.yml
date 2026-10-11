@@ -1,4 +1,10 @@
 apps:
+  - name: "The Desk"
+    description: "A drawer of small apps on one self-hosted Workers-style backend, served from a Mac in the corner"
+    url: "https://celld.shiv19.com"
+    icon: "layers"
+    category: "developer"
+
   - name: "Stridemate"
     description: "Running pace calculator and training companion"
     url: "https://shiv19.com/stridemate"
