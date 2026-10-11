@@ -75,7 +75,7 @@ published: true
 <div class="hero">
   <h1 class="hero-title">About Me</h1>
   <p class="hero-text">
-    Kia ora! I'm Shiva Prasad, a {{ age }}-year-old mobile technologist based in Auckland, New Zealand.
+    Kia ora! I'm Shiva Prasad, a {{ age }}-year-old engineering manager and lifelong builder based in Auckland, New Zealand.
   </p>
   <p class="hero-text">
     I’ve always been a builder at heart. I started out hacking together prototypes and diving deep into NativeScript plugins, driven by the pure joy of making things work. Over the last decade, that journey has taken me from writing code to leading the teams that write it. Today, I focus on the bigger picture: architecting scalable platforms, mentoring engineers, and bridging the gap between ambitious product ideas and rock-solid technical execution.
@@ -113,7 +113,7 @@ published: true
 	</li>
 	<li>
 		<strong>Partner · <a href="https://nstudio.io">nStudio</a> (2018—Present)</strong><br>
-		Work with founders to ship apps like Portable North Pole, TriviaSpar, Sweet.io, and Blackout Lighting Console—often parachuting in to unblock UX or performance puzzles.
+		Still a partner, though my hands-on years are behind me. Back then I worked with founders to ship apps like Portable North Pole, TriviaSpar, Sweet.io, and Blackout Lighting Console—often parachuting in to unblock UX or performance puzzles.
 	</li>
 	<li>
 		<strong>Earlier Chapters</strong><br>
@@ -130,13 +130,13 @@ published: true
 
 ## Life Beyond Shipping Apps
 
-Family life keeps me grounded: I'm married to an incredible Vietnamese partner, and together we're raising our son{% if son_age_years > 0 %} ({{ son_age_years }}y{% if son_age_remaining_months > 0 %} {{ son_age_remaining_months }}m{% endif %}){% else %} ({{ son_age_months }} months){% endif %}, born in December 2024. When I manage to steal solo time, you'll find me chasing miles on Auckland's coastal runways, tinkering with AI workflows, or geeking out over the latest VR headset. Evenings are for anime marathons—My Hero Academia is the current binge, joining past favorites like Death Note, Naruto, Frieren, Re:Zero, and Shangri-La Frontier. Weekends usually involve e-bike rides, hikoi around Aotearoa's trails, or deep dives into gadgets that make family life a little more fun.
+Family life keeps me grounded: I'm married to an incredible Vietnamese partner, and together we're raising our son{% if son_age_years > 0 %} ({{ son_age_years }}y{% if son_age_remaining_months > 0 %} {{ son_age_remaining_months }}m{% endif %}){% else %} ({{ son_age_months }} months){% endif %}, born in December 2024. When I manage to steal solo time, you'll find me chasing miles on Auckland's coastal runways or geeking out over the latest VR headset. Evenings turn into AI coding sprees: pairing with coding agents on whatever idea grabbed me that week, most recently a self-hosted mini-app stack running on an old Mac in the corner. Weekends are for tinkering on that Mac, catching up on AI and tech news, e-bike rides, and hikoi around Aotearoa's trails. Anime still gets a look-in now and then (Frieren, Death Note, and Re:Zero remain favorites), and I'm counting down the days to GTA 6.
 
-If we ever meet in person, there's a decent chance I'll show up straight from a run, ask what AI tools you're experimenting with, compare notes on VR headsets, and recommend at least one anime arc that made me think differently about storytelling.
+If we ever meet in person, there's a decent chance I'll show up straight from a run, ask what AI tools you're experimenting with, compare notes on VR headsets, and try to talk you into self-hosting something small just for the fun of it.
 
 ## Work With Me
 
-Need a prototype, a performance intervention, or a second set of eyes on a tricky NativeScript issue? I offer consultation and remote debugging for teams worldwide.
+Need a second set of eyes on a mobile architecture, a performance intervention, or help getting a team productive with AI coding agents? I take on the occasional consultation and remote debugging session for teams worldwide. I no longer do NativeScript work day to day, but a legacy NativeScript codebase does not scare me.
 
 [sp@shiv19.com](mailto:sp@shiv19.com)
 
