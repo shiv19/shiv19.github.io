@@ -396,8 +396,8 @@ pre code {
   border-bottom: none;
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: none;
-  backdrop-filter: saturate(160%) blur(14px);
-  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  // No backdrop blur: the header is not sticky, and a blur here drew a band
+  // that cut the fern/rangoli wallpaper off at the top of the page.
 }
 
 .masthead {
@@ -1537,5 +1537,127 @@ html[data-theme="dark"] .snowflake {
   .snowflake {
     animation: none;
     display: none;
+  }
+}
+
+/* ==========================================================================
+   NZ home, Karnataka roots: fern + kolam wallpaper, title greeting, footer clocks
+   ========================================================================== */
+
+:root {
+  --wallpaper-fern: #4f6f55;   /* green-grey */
+  --wallpaper-kolam: #9b6a3a;  /* warm earth */
+  --wallpaper-opacity: 0.07;
+}
+
+@mixin roots-dark {
+  --wallpaper-fern: #cfd6dd;   /* silver fern */
+  --wallpaper-kolam: #d2bf9f;  /* rice flour, warm */
+  --wallpaper-opacity: 0.06;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include roots-dark;
+  }
+}
+
+html[data-theme="dark"] {
+  @include roots-dark;
+}
+
+// Fixed layer behind all content; its tile is drawn once by assets/js/wallpaper.js.
+.site-wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-repeat: repeat;
+  background-size: 880px 880px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+
+  &.is-ready {
+    opacity: var(--wallpaper-opacity);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .site-wallpaper {
+    display: none;
+  }
+}
+
+// Title greeting: the whole line cycles. Variants share one grid cell, so the
+// title never shifts; the widest variant sets the box.
+.hero-hello {
+  display: inline-grid;
+  justify-items: start;
+  max-width: 100%; // variants may wrap on phones; the tallest sets the block
+}
+.hero-hello-word {
+  grid-area: 1 / 1;
+
+  .hero-hello:not(.is-cycling) &:not(:first-child) {
+    display: none;
+  }
+  // Fade out (250 ms) and fade in (300 ms) never overlap; the script waits
+  // for the fade-out before activating the next line.
+  .hero-hello.is-cycling & {
+    opacity: 0;
+    transition: opacity 0.25s ease-in;
+  }
+  .hero-hello.is-cycling &.is-active {
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
+  }
+  &[lang="kn"] .hero-title-text {
+    // The gradient paints only inside the text box; Kannada conjuncts (ಸ್ಕಾ)
+    // hang below the baseline, so give the box room without moving the line.
+    padding-bottom: 0.18em;
+    margin-bottom: -0.18em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-hello.is-cycling,
+  .hero-hello.is-cycling .hero-hello-word {
+    transition: none;
+  }
+}
+
+.footer-roots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  margin: 0 0 1rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.footer-arc {
+  flex: none;
+  color: var(--color-text-muted);
+  overflow: visible;
+
+  text {
+    fill: currentColor;
+    font-size: 9px;
+    letter-spacing: 0.04em;
+  }
+}
+
+.footer-clocks {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+
+  time {
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
   }
 }

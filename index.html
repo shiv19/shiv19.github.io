@@ -3,13 +3,14 @@ layout: default
 ---
 
 <div class="hero">
-  <h1 class="hero-title"><span class="hero-title-text">Hey, I'm Shiva</span> <span class="wave-emoji" aria-hidden="true">👋</span></h1>
+  <h1 class="hero-title" aria-label="Hey, I'm Shiva"><span class="hero-hello" aria-hidden="true"><span class="hero-hello-word is-active" lang="en"><span class="hero-title-text">Hey, I'm Shiva</span> <span class="wave-emoji">👋</span></span><span class="hero-hello-word" lang="mi"><span class="hero-title-text">Kia ora, I'm Shiva</span> <span class="wave-emoji">👋</span></span><span class="hero-hello-word" lang="kn"><span class="hero-title-text">ನಮಸ್ಕಾರ, I'm Shiva</span> <span class="wave-emoji">👋</span></span></span></h1>
   <p class="hero-text">
     This is my timeline: quick notes, links worth sharing, and sometimes a longer post about whatever I'm building or learning.
     <br>
     No feeds, no algorithms. Just things I want to remember.
   </p>
 </div>
+<script src="{{ site.baseurl }}/assets/js/hero-greeting.js?v={{ site.time | date: '%s' }}" defer></script>
 
 <div class="posts">
   <ul class="post-list-minimal">

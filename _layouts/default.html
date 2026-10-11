@@ -64,13 +64,25 @@
     <div class="container">
       <footer class="footer">
         {% include svg-icons.html %}
-        <br/> &copy; {{ 'now' | date: "%Y" }} Shiv19
+        <div class="footer-roots" id="js-footer-roots" hidden>
+          <svg class="footer-arc" viewBox="0 0 160 52" width="160" height="52" aria-hidden="true" focusable="false">
+            <path d="M24 30 Q80 -4 136 30" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-dasharray="2 3.5"/>
+            <circle cx="24" cy="30" r="3" fill="currentColor"/>
+            <circle cx="136" cy="30" r="3" fill="currentColor"/>
+            <text x="24" y="47" text-anchor="middle">Auckland</text>
+            <text x="136" y="47" text-anchor="middle">Kushalnagar</text>
+          </svg>
+          <p class="footer-clocks">It's <time id="js-clock-akl" data-tz="Pacific/Auckland"></time> in Auckland <span aria-hidden="true">&middot;</span> <time id="js-clock-blr" data-tz="Asia/Kolkata"></time> in Bengaluru</p>
+        </div>
+        &copy; {{ 'now' | date: "%Y" }} Shiv19
       </footer>
     </div>
   </div>
 
   <script src="{{ site.baseurl }}/assets/js/super-search.js?v={{ site.time | date: '%s' }}"></script>
   <script src="{{ site.baseurl }}/assets/js/holiday.js?v={{ site.time | date: '%s' }}"></script>
+  <script src="{{ site.baseurl }}/assets/js/wallpaper.js?v={{ site.time | date: '%s' }}"></script>
+  <script src="{{ site.baseurl }}/assets/js/footer-clocks.js?v={{ site.time | date: '%s' }}"></script>
   <script>superSearch({
       // Change to your own rss feed file path
       searchFile: '{{ site.baseurl }}/feed.xml',
