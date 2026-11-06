@@ -1,0 +1,27 @@
+{% assign course_line = "M0,62 C10.0,61.8 44.2,62.0 60,61 C75.8,60.0 84.2,60.8 95,56 C105.8,51.2 115.8,36.8 125,32 C134.2,27.2 141.2,23.7 150,27 C158.8,30.3 167.2,46.8 178,52 C188.8,57.2 201.3,57.7 215,58 C228.7,58.3 245.8,56.2 260,54 C274.2,51.8 287.5,45.7 300,45 C312.5,44.3 321.7,47.8 335,50 C348.3,52.2 362.5,56.0 380,58 C397.5,60.0 420.0,61.2 440,62 C460.0,62.8 480.0,63.2 500,63 C520.0,62.8 541.7,62.8 560,61 C578.3,59.2 595.0,54.8 610,52 C625.0,49.2 636.7,44.5 650,44 C663.3,43.5 675.0,46.7 690,49 C705.0,51.3 721.7,55.8 740,58 C758.3,60.2 780.0,61.2 800,62 C820.0,62.8 841.7,63.8 860,63 C878.3,62.2 895.0,57.5 910,57 C925.0,56.5 935.0,59.2 950,60 C965.0,60.8 991.7,61.7 1000,62" %}
+{% assign course_tail = course_line | remove_first: "M0,62 " %}
+<header class="page-hero{% if include.toc %} page-hero--toc{% endif %}{% if page.hero_class %} {{ page.hero_class }}{% endif %}">
+  <div class="page-hero-inner">
+    {% if include.kicker %}<p class="page-hero-kicker">{{ include.kicker }}</p>{% endif %}
+    <h1 class="page-hero-title">{{ include.title }}</h1>
+    {% if include.meta %}<div class="page-hero-meta">{{ include.meta }}</div>{% endif %}
+  </div>
+  <div class="page-hero-course"{% if include.runner %} data-runner{% endif %} aria-hidden="true">
+    <svg viewBox="0 0 1000 72" preserveAspectRatio="none" focusable="false">
+      <defs>
+        <clipPath id="course-done" clipPathUnits="userSpaceOnUse"><rect class="course-done-rect" width="0" height="72"/></clipPath>
+      </defs>
+      <path class="course-fill" d="M0,0 L0,62 {{ course_tail }} L1000,0 Z"/>
+      <path class="course-line" d="{{ course_line }}" vector-effect="non-scaling-stroke"/>
+      <path class="course-line course-line--done" d="{{ course_line }}" clip-path="url(#course-done)" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <ol class="course-km">
+      <li style="left: 0%">0 km</li>
+      <li style="left: 23.7%">10</li>
+      <li style="left: 50%">half</li>
+      <li style="left: 71.1%">30</li>
+      <li style="left: 100%">42.2 km</li>
+    </ol>
+    {% if include.runner %}<span class="course-runner"><span class="course-runner-km">km 0.0</span></span>{% endif %}
+  </div>
+</header>

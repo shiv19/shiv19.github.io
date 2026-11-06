@@ -2,33 +2,27 @@
 layout: default
 ---
 
+{% assign words = content | number_of_words %}
+{% if words < 360 %}{% assign read_mins = 1 %}{% else %}{% assign read_mins = words | divided_by: 180 %}{% endif %}
+{% assign first_category = page.categories | first %}
+{% capture hero_meta %}
+  <p>
+    {% if first_category %}Filed under <a href="{{ site.baseurl }}/category/{{ first_category }}">{{ first_category | capitalize }}</a> on{% else %}Posted on{% endif %}
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>.
+    <span class="page-hero-sep" aria-hidden="true">·</span> {{ read_mins }} min read
+  </p>
+  {% if page.tags.size > 0 %}
+  <div class="post-tags">
+    {% for tag in page.tags %}
+      <a href="{{ site.baseurl }}/category/{{ tag }}" class="tag-pill">#{{ tag }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endcapture %}
+{% include page-hero.html title=page.title meta=hero_meta toc=true runner=true %}
+
 <div class="post-wrapper">
   <article class="post-container">
-    <header class="post-header">
-      <h1 class="post-title">{{ page.title }}</h1>
-      <div class="post-meta">
-        <time datetime="{{ page.date | date_to_xmlschema }}">
-          {{ page.date | date: "%B %d, %Y" }}
-        </time>
-        <span class="separator">•</span>
-        <span class="reading-time">
-          {% assign words = content | number_of_words %}
-          {% if words < 360 %}
-            1 min read
-          {% else %}
-            {{ words | divided_by: 180 }} min read
-          {% endif %}
-        </span>
-      </div>
-
-      {% if page.tags.size > 0 %}
-      <div class="post-tags">
-        {% for tag in page.tags %}
-          <a href="{{ site.baseurl }}/category/{{ tag }}" class="tag-pill">#{{ tag }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </header>
 
     <div class="post-content entry">
       {{ content }}

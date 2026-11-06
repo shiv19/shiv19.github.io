@@ -2,14 +2,13 @@
 layout: default
 ---
 
+{% if page.published != false %}
+{% capture hero_meta %}<p>Micro post · <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></p>{% endcapture %}
+{% include page-hero.html title=page.title meta=hero_meta %}
+{% endif %}
 <div class="post-container micro-container">
   {% if page.published != false %}
   <article class="micro-article">
-    <header class="micro-page-header">
-      <p class="micro-date">{{ page.date | date: "%b %d, %Y" }}</p>
-      {% if page.title %}
-      <h1 class="micro-page-title">{{ page.title }}</h1>
-      {% endif %}
     <div class="micro-page-content">
       {{ content }}
     </div>

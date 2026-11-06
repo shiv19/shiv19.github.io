@@ -16,9 +16,10 @@ layout: default
     box-shadow: 0 4px 8px rgba(0,0,0,0.25), 0 1px 1px rgba(0,0,0,0.22);
 }
 </style>
+{% assign cat_title = '#' | append: page.category %}
+{% capture hero_meta %}<p>{{ site.categories[page.category] | size }} posts</p>{% endcapture %}
+{% include page-hero.html kicker="Filed under" title=cat_title meta=hero_meta %}
 <div class="blog list">
-    <h1 style="margin-bottom: 2em;">Filed Under <small>#{{ page.category }}</small></h1>
-
     <div class="posts">
       <ul class="post-list-minimal">
         {% for item in site.categories[page.category] %}
